@@ -12,5 +12,5 @@ CS 3203 Project Documentation
 - AG: Vs-code extenstion time, space complexity tracker. Copy a part of the code, right click for the complexity analysis, with some tips to improve the code.
 - Ibrahim: Language model creator; AI model exporter; give it speaking data, text messages, snap, ..., etc. Understands how the person talks and creates an A.I. model to export. 
 - Nawaz: Course Scheduling Assistant; give pre-requsites, major reqs, electives, avaliability, with proffessor rating. For example, we could give it a time-table of how to gradute fast (e.g., I want to graduate in 2.5 years - if plausible). Class Nav data-scarping?
-- Raza: if brand supports Israel.
+- Raza: if brand supports "Israel".
 - 
