@@ -1,4 +1,4 @@
-# CS3203Project
+# CS3203 Project
 CS 3203 Project Documentation 
 
 # Potential Ideas (1/22/2024)
