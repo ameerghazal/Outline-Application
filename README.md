@@ -16,12 +16,14 @@ CS 3203 Project Documentation
 - Ibrahim: OU Parking Reporting.
 - Nawaz: Lost and Found System.
 
-**- Nirwaan: Mini social media, with daily outline. Pre-set timings with reactions. This is similar to BeReal & Twitter. Location based, discover near you. University networking. Outline your day to your friends. Example analysis:
+**
+- Nirwaan: Mini social media, with daily outline. Pre-set timings with reactions. This is similar to BeReal & Twitter. Location based, discover near you. University networking. Outline your day to your friends. Example analysis:
     -  Once done, the user takes a picture of them completing their task - friends can comment on the posts, etc.
     -  Youtube videos help us.
     -  User verification.
     -  Challenges, user gaming.
     -  8:30 - 10:30: Eating and Chilling!
-    -  11:00 - 12:00: Class! Send notification to the user to tell them to complete their task.**
+    -  11:00 - 12:00: Class! Send notification to the user to tell them to complete their task.
+**
 
 
