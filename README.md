@@ -25,6 +25,7 @@ CS 3203 Project Documentation
     -  Challenges, user gaming.
     -  8:30 - 10:30: Eating and Chilling!
     -  11:00 - 12:00: Class! Send notification to the user to tell them to complete their task.
+    -  2:30 - 3:30: Ibrahim wrote this to be added to the repo
 
 
 
