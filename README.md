@@ -29,3 +29,16 @@ CS 3203 Project Documentation
 
 
 
+# Idea Chosen
+- Outline:
+- Features:
+- Languages and Frameworks: React Native, React.js, Outline Repo, 
+- Tasks:
+    -  AG:
+    -  Nirwaand:
+    -  Ibroheem:
+    -  Roger:
+    -  Nawaz:
+    -  Rizz Raza:
+    -  ArabBus: 
+ 
