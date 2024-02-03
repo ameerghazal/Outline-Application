@@ -30,8 +30,9 @@ CS 3203 Project Documentation
 
 
 # Idea Chosen
-- Outline:
-- Features:
+- Outline: Social media with primary posts being a daily outline.
+- Features: Notifications, For you page, Database, Check box for outline tasks, public and private, user authentication, search, follow, etc.
+- Pages: Login Page, Live-feed (home page, mutuals / discover based on what others do (A.I.), following tab), Add page, DM's page, Profile page (personal, comments, likes, etc.), Post page (upload), Open outline page (w/ comments), notifications page, 
 - Languages and Frameworks: React Native, React.js, Outline Repo, 
 - Tasks:
     -  AG:
