@@ -28,12 +28,13 @@ CS 3203 Project Documentation
     -  2:30 - 3:30: Ibrahim wrote this to be added to the repo
 
 
-
 # Idea Chosen
 - Outline: Social media with primary posts being a daily outline.
 - Features: Notifications, For you page, Database, Check box for outline tasks, public and private, user authentication, search, follow, etc.
 - Pages: Login Page, Live-feed (home page, mutuals / discover based on what others do (A.I.), following tab), Add page, DM's page, Profile page (personal, comments, likes, etc.), Post page (upload), Open outline page (w/ comments), notifications page, 
-- Languages and Frameworks: React Native, React.js, Outline Repo, 
+- Languages and Frameworks: React Native, React.js, Outline Repo
+- Components: Fonts, Colors, Icons, Logos, Images, etc.
+- Plan: Get the compoentns right with the team. From there, assign a page to each person, in which they build it in Figma. From there, agree with the team, and build it in React.Native. Finally, build the application functionality and call it wraps. 
 - Tasks:
     -  AG:
     -  Nirwaand:
