@@ -34,13 +34,21 @@ CS 3203 Project Documentation
 - Pages: Login Page, Live-feed (home page, mutuals / discover based on what others do (A.I.), following tab), Add page, DM's page, Profile page (personal, comments, likes, etc.), Post page (upload), Open outline page (w/ comments), notifications page, 
 - Languages and Frameworks: React Native, React.js, Outline Repo
 - Components: Fonts, Colors, Icons, Logos, Images, etc.
+    - Font: Monserrat, Poppins (backup), Google Fonts (find them online).
+    - Colors: Gray, Black, White
+    - Theme: Off-white, Dark Mode
+    - Icons: ionicons (hamburger, bullets, etc.), Font-Awesome.
+    - Logos: Need to make one. 
+    - Images: Uploading images.
 - Plan: Get the compoentns right with the team. From there, assign a page to each person, in which they build it in Figma. From there, agree with the team, and build it in React.Native. Finally, build the application functionality and call it wraps. 
 - Tasks:
-    -  AG:
-    -  Nirwaand:
-    -  Ibroheem:
-    -  Roger:
-    -  Nawaz:
-    -  Rizz Raza:
-    -  ArabBus: 
+    -  AG: Login Page
+    -  Nirwaand: Add Page
+    -  Ibroheem: Profile-page
+    -  Roger: DM's Page 
+    -  Nawaz: Settings Page
+    -  Rizz Raza: Notifications Page
+    -  ArabBus: Live-feed / Home-page
+- DUE DATE: 2/21/24 
+
  
