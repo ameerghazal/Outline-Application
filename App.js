@@ -1,10 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Image } from "react-native";
+
+function Layout() {
+  return (
+    <View>
+      <Text style={styles.text}>Feed</Text>
+    </View>
+  );
+}
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Layout />
+      {/* <Image
+        style={styles.icon}
+        source={require("./assets/outicon.png")}
+      ></Image> */}
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +25,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#1b1b1b",
+    alignItems: "center",
+    justifyContent: "center",
   },
+
+  icon: { width: 60, height: 60 },
+  text: { color: "#fffffa" },
 });
