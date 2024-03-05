@@ -1,35 +1,52 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
-function Layout() {
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#1B1B1B",
+    paddingHorizontal: 25,
+  },
+  text: { color: "#FFFAFA" },
+  image: { borderRadius: 100 },
+});
+
+const profilePic = require("./assets/goku-icon.png");
+const settingsIcon = require("./assets/settings-icon.png");
+
+function FeedTop() {
+  const insets = useSafeAreaInsets();
+  return (
+    <View
+      style={{
+        paddingTop: insets.top,
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+      }}
+    >
+      <Image source={profilePic} style={styles.image} />
+      <Text style={styles.text}>Outline</Text>
+      <Image source={settingsIcon} />
+    </View>
+  );
+}
+
+function Feed() {
   return (
     <View>
       <Text style={styles.text}>Feed</Text>
     </View>
   );
 }
-
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Layout />
-      {/* <Image
-        style={styles.icon}
-        source={require("./assets/outicon.png")}
-      ></Image> */}
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider style={styles.container}>
+      <FeedTop />
+      <Feed />
+    </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#1b1b1b",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  icon: { width: 60, height: 60 },
-  text: { color: "#fffffa" },
-});
