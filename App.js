@@ -16,21 +16,36 @@ const styles = StyleSheet.create({
 
 const profilePic = require("./assets/goku-icon.png");
 const settingsIcon = require("./assets/settings-icon.png");
+const outlineIcon = require("./assets/outline-icon.png");
 
 function FeedTop() {
   const insets = useSafeAreaInsets();
   return (
-    <View
-      style={{
-        paddingTop: insets.top,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-      }}
-    >
-      <Image source={profilePic} style={styles.image} />
-      <Text style={styles.text}>Outline</Text>
-      <Image source={settingsIcon} />
+    <View>
+      <View
+        style={{
+          paddingTop: insets.top,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <Image source={profilePic} style={styles.image} />
+        <Image source={outlineIcon} />
+        <Image source={settingsIcon} />
+      </View>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 10,
+          paddingHorizontal: 60,
+        }}
+      >
+        <Text style={styles.text}>For you</Text>
+        <Text style={styles.text}>Friends</Text>
+      </View>
     </View>
   );
 }
