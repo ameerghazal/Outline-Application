@@ -1,5 +1,7 @@
 # Outline Application
 
+Need to Add: Software, Cersion, Platform, Branch Startegy, Often, Code Review
+
 CS 3203 Project Documentation
 
 # Potential Ideas (1/22/2024)
