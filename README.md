@@ -4,11 +4,10 @@ Need to Add: Software, Cersion, Platform, Branch Startegy, How Often Code Review
 
 CS 3203 Project Documentation
 
-# OUTLINE APPLICATION
 Social media mobile application where friends post outlines of their days. 
 
 ## Software
-Built using React Native and Firebase
+Built using React Native, PostgreSQL, and Firebase
 
 ## Version
 0.1 (beta)
