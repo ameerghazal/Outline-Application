@@ -1,7 +1,4 @@
 # Outline Application
-
-Need to Add: Software, Cersion, Platform, Branch Startegy, How Often Code Review
-
 CS 3203 Project Documentation
 
 Social media mobile application where friends post outlines of their days. 
