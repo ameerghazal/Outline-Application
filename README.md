@@ -20,3 +20,11 @@ Essentially, we're gonna have a ticket for each feature and we branch based on t
 
 ## Code Review
 Code reviews will be done weekly discussing the features added. Review pull requests for the week and give feedback on what is good and what can be improved. Whenever a feature is finished the team member will write a description on what was added. 
+
+## Setup 
+- **Unit Test Folder** - Contains unit tests for the app features
+- **App.js** - Main script to run the app
+
+## Next Steps
+- Main script folder
+- Feature files
