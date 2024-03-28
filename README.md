@@ -4,13 +4,16 @@ CS 3203 Project Documentation
 Social media mobile application where friends post outlines of their days. 
 
 ## Software
-Built using React Native, PostgreSQL, and Firebase
+Built using React Native (v0.73), PostgreSQL (v16.2), and Firebase
 
 ## Version
 0.1 (beta)
 
 ## Platform
-iOS and Android (Mobile App)
+Publishing on iOS and Android (Mobile App)
+
+## Development Environment
+Developing on UNIX Systems
 
 ## Branch Strategy
 Essentially, we're gonna have a ticket for each feature and we branch based on that feature. Label them with ids. Work on the branch, make a pull request when finished, team will review it, then if approved it gets merged to main. NO ONE WORKS DIRECTLY ON MAIN, ONLY WORK ON THE FEATURE BRANCH.
