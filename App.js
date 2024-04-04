@@ -4,6 +4,7 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import SignUpScreen from "./User-Authentication/SignIn";
 
 const styles = StyleSheet.create({
   container: {
@@ -59,9 +60,14 @@ function Feed() {
 }
 export default function App() {
   return (
-    <SafeAreaProvider style={styles.container}>
-      <FeedTop />
-      <Feed />
+    <SafeAreaProvider>
+      <SignUpScreen></SignUpScreen>
     </SafeAreaProvider>
   );
+  // return (
+  //   <SafeAreaProvider style={styles.container}>
+  //     <FeedTop />
+  //     <Feed />
+  //   </SafeAreaProvider>
+  // );
 }
