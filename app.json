@@ -1,8 +1,8 @@
 {
   "expo": {
-    "scheme": "test-scheme",
-    "name": "test",
-    "slug": "test",
+    "name": "outline-application",
+    "slug": "outline-application",
+    "scheme": "outline-application",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -31,7 +31,8 @@
         {
           "fonts": ["./assets/fonts/Montserrat.otf"]
         }
-      ]
+      ],
+      "expo-router"
     ]
   }
 }

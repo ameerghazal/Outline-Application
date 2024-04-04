@@ -4,11 +4,11 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import BottomNav from "./components/BottomNav.js";
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1B1B1B",
-    paddingHorizontal: 25,
   },
   text: { color: "#FFFAFA" },
   image: { borderRadius: 100 },
@@ -28,6 +28,7 @@ function FeedTop() {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
+          paddingHorizontal: 25,
         }}
       >
         <Image source={profilePic} style={styles.image} />
@@ -52,16 +53,18 @@ function FeedTop() {
 
 function Feed() {
   return (
-    <View>
+    <View style={{ paddingHorizontal: 25 }}>
       <Text style={styles.text}>Feed</Text>
     </View>
   );
 }
+
 export default function App() {
   return (
     <SafeAreaProvider style={styles.container}>
       <FeedTop />
       <Feed />
+      <BottomNav />
     </SafeAreaProvider>
   );
 }
