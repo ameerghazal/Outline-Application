@@ -15,59 +15,41 @@ import {
   ButtonAuth,
   Redirection,
 } from "./Components.js";
-import { Link, router } from "expo-router";
 
 /**
- * Prompts the user with Google or Apple sign-in.
- * TODO: Implement and make it genric with sign-up.
+ * Handles the terms and conditions button being pressed.
  * @author Ameer G.
  */
-function platformSignIn() {}
+function handleTerms() {}
 
 /**
- * Redirect the user to the forgot password page.
- * @author Ameer G
- */
-function handleForgotPassword() {}
-
-/**
- * Handles the user sign-up by moving them to the sign up page.
- * Uses the built in react navigator.
- * @author Ameer G
- */
-function handleSignUp() {
-  return router.push("../SignUp");
-}
-
-/**
- * Handles the user login by sending data to firebase auth and prompts the screen to the main feed if correct; otheriwise, makes the box red.
+ * Handles the user login by moving them to the login page.
  * @author Ameer G
  */
 function handleLogin() {}
 
 /**
- * Puts together the sign-in.-screen based on the components we created below.
- * @returns the sign-in-screen.
+ * Puts together the sign-up-screen based on the components we created below.
+ * @returns the sign-up-screen.
  * @author Ameer G
  */
-const SignInScreen = () => {
+const ResetPasswordScreen = () => {
   return (
     <View style={frames.outer_frame}>
       <BackBar></BackBar>
       <MiddleData></MiddleData>
       <Redirection
-        labelText={"New to Outline? "}
-        buttonText={"Sign up."}
-        onPress={handleSignUp}
+        labelText={"Back to "}
+        buttonText={"Login."}
+        onPress={handleLogin}
       ></Redirection>
     </View>
   );
 };
 
 /**
- * Creates the markup for the login portion of the sign-in page.
- * Featuring inputs, forgot password, login button, sepearte login, and more.
- * @returns returns the login portion of the sign-in page.
+ * Creates the markup for the sign up portion of the sign-up page.
+ * @returns returns the portion of the sign-in page.
  * @author Ameer G
  */
 const MiddleData = () => {
@@ -76,32 +58,31 @@ const MiddleData = () => {
       <View style={frames.logo_sign_in}>
         <Text style={aesthetics.text_logo_auth}>OUT | LINE</Text>
       </View>
+      <Text style={aesthetics.text_inspire_sign_up} numberOfLines={3}>
+        Enter the email address linked with your account, and we will reach out
+        to you.
+      </Text>
       <UserInput></UserInput>
-      <ButtonAuth buttonText={"Login"} onPress={handleLogin}></ButtonAuth>
-      <Text style={aesthetics.alterante_sign_in}>Or sign in with</Text>
-      <AlternateAuth onPress={platformSignIn}></AlternateAuth>
+      <View style={frames.terms_and_polices}>
+        <Text style={aesthetics.text_terms_and_polices}>Can't reset your </Text>
+        <TouchableOpacity onPress={handleTerms}>
+          <Text style={aesthetics.btn_text_terms_and_polices}>password?</Text>
+        </TouchableOpacity>
+      </View>
+      <ButtonAuth buttonText={"Send link"}></ButtonAuth>
     </View>
   );
 };
 
 /**
- * Creates the user-sign-in logic.
+ * Creates the user-sign-up logic.
  * @returns user input box, reused across sign-up pages.
  * @author Ameer Ghazal
  */
 const UserInput = () => {
   return (
     <View style={frames.user_input_frame}>
-      <InputBox placeholder="Email or Username"></InputBox>
-      <View style={frames.user_password_frame}>
-        <InputBox placeholder="Password" secureTextEntry={true}></InputBox>
-        <TouchableOpacity
-          style={aesthetics.btn_forgot_password}
-          onPress={handleForgotPassword}
-        >
-          <Text style={aesthetics.forgot_password_text}>Forgot Password?</Text>
-        </TouchableOpacity>
-      </View>
+      <InputBox placeholder="Email Address"></InputBox>
     </View>
   );
 };
@@ -116,10 +97,10 @@ const UserInput = () => {
 const frames = StyleSheet.create({
   outer_frame: {
     padding: 10,
-    paddingTop: 50,
+    paddingTop: 100,
     backgroundColor: "#1B1B1B",
     flex: 1,
-    gap: 100,
+    gap: 60,
   },
 
   outer_frame_login: {
@@ -141,11 +122,19 @@ const frames = StyleSheet.create({
     flexDirection: "column",
   },
 
+  // Used for the sign-in page.
   user_password_frame: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-end",
     gap: 10,
+  },
+
+  terms_and_polices: {
+    fontFamily: "Montserrat",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   },
 });
 
@@ -157,23 +146,34 @@ const aesthetics = StyleSheet.create({
     color: "white",
   },
 
-  btn_forgot_password: {
-    alignSelf: "flex-end",
-  },
-
-  forgot_password_text: {
-    color: "#8dac83",
-    fontWeight: "bold",
-    fontFamily: "Montserrat",
-    fontSize: 12,
-  },
-
-  alterante_sign_in: {
+  text_inspire_sign_up: {
+    color: "#ffffff",
+    fontWeight: "500",
     textAlign: "center",
-    fontSize: 16,
+    width: 270,
+  },
+
+  text_terms_and_polices: {
+    textAlign: "center",
+    fontSize: 14,
     color: "#ffffff",
   },
+
+  btn_text_terms_and_polices: {
+    color: "#8dac83",
+  },
+
+  // btn_forgot_password: {
+  //   alignSelf: "flex-end",
+  // },
+
+  // forgot_password_text: {
+  //   color: "#8dac83",
+  //   fontWeight: "bold",
+  //   fontFamily: "Montserrat",
+  //   fontSize: 12,
+  // },
 });
 
 // Export the sign-up-screen to other pages.
-export default SignInScreen;
+export default ResetPasswordScreen;

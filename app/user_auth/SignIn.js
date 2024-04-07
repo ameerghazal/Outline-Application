@@ -16,34 +16,12 @@ import {
   Redirection,
 } from "./Components.js";
 import { Link, router } from "expo-router";
-
-/**
- * Prompts the user with Google or Apple sign-in.
- * TODO: Implement and make it genric with sign-up.
- * @author Ameer G.
- */
-function platformSignIn() {}
-
-/**
- * Redirect the user to the forgot password page.
- * @author Ameer G
- */
-function handleForgotPassword() {}
-
-/**
- * Handles the user sign-up by moving them to the sign up page.
- * Uses the built in react navigator.
- * @author Ameer G
- */
-function handleSignUp() {
-  return router.push("../SignUp");
-}
-
-/**
- * Handles the user login by sending data to firebase auth and prompts the screen to the main feed if correct; otheriwise, makes the box red.
- * @author Ameer G
- */
-function handleLogin() {}
+import {
+  handleForgotPassword,
+  handleSignUpSmall,
+  handleUserAuth,
+  platformSignIn,
+} from "./Functions.js";
 
 /**
  * Puts together the sign-in.-screen based on the components we created below.
@@ -58,7 +36,7 @@ const SignInScreen = () => {
       <Redirection
         labelText={"New to Outline? "}
         buttonText={"Sign up."}
-        onPress={handleSignUp}
+        onPress={handleSignUpSmall}
       ></Redirection>
     </View>
   );
@@ -77,7 +55,7 @@ const MiddleData = () => {
         <Text style={aesthetics.text_logo_auth}>OUT | LINE</Text>
       </View>
       <UserInput></UserInput>
-      <ButtonAuth buttonText={"Login"} onPress={handleLogin}></ButtonAuth>
+      <ButtonAuth buttonText={"Login"} onPress={handleUserAuth}></ButtonAuth>
       <Text style={aesthetics.alterante_sign_in}>Or sign in with</Text>
       <AlternateAuth onPress={platformSignIn}></AlternateAuth>
     </View>
