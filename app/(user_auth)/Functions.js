@@ -20,7 +20,7 @@ export function handleTerms() {}
  * @author Ameer G
  */
 export function handleLoginSmall() {
-  return router.push("./SignIn");
+  return router.push("SignIn");
 }
 
 /**

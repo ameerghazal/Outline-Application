@@ -1,32 +1,34 @@
+import React from "react";
 import { Stack } from "expo-router";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 const UserAuthLayout = () => {
   return (
     <Stack>
       <Stack.Screen
-        name="user_auth/SignIn"
+        name="SignIn"
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: "red",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
         options={{
           headerShown: false,
           // headerStyle: {},
         }}
       />
       <Stack.Screen
-        name="user_auth/SignUp"
+        name="SignUpExt"
         options={{
           headerShown: false,
           // headerStyle: {},
         }}
       />
       <Stack.Screen
-        name="user_auth/SignUpExt"
-        options={{
-          headerShown: false,
-          // headerStyle: {},
-        }}
-      />
-      <Stack.Screen
-        name="user_auth/ResetPass"
+        name="ResetPass"
         options={{
           headerShown: false,
           // headerStyle: {},

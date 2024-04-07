@@ -6,7 +6,7 @@ export default function Page() {
     <View>
       <View>
         {/* <Link href="/user_auth/ResetPass">Go to </Link> */}
-        <Pressable onPress={() => router.push("/user_auth/SignIn")}>
+        <Pressable onPress={() => router.push("SignIn")}>
           <Text>Go to</Text>
         </Pressable>
         <Text>Hello World</Text>

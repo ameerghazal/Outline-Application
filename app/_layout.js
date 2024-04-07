@@ -1,11 +1,16 @@
 import { Stack } from "expo-router";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import React from "react";
 
 const RootLayout = () => {
   return (
     <Stack>
       <Stack.Screen name="index" />
-      <Stack.Screen name="user_auth" />
+      <Stack.Screen
+        name="(user_auth)"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };
