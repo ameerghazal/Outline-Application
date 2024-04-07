@@ -4,6 +4,13 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import SignInScreen from "./User-Authentication/SignIn";
+import SignUpScreen from "./User-Authentication/SignUp";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SignUpScreenExt from "./User-Authentication/SignUpExt";
+import ResetPasswordScreen from "./User-Authentication/ResetPass";
 
 const styles = StyleSheet.create({
   container: {
@@ -57,11 +64,28 @@ function Feed() {
     </View>
   );
 }
+const Stack = createNativeStackNavigator();
+
 export default function App() {
   return (
-    <SafeAreaProvider style={styles.container}>
-      <FeedTop />
-      <Feed />
+    // Component will allow use to navigate between pages.
+    <SafeAreaProvider>
+      {/* <SignInScreen></SignInScreen> */}
+      {/* <SignUpScreen></SignUpScreen> */}
+      {/* <SignUpScreenExt></SignUpScreenExt> */}
+      <ResetPasswordScreen></ResetPasswordScreen>
     </SafeAreaProvider>
+    // <NavigationContainer>
+    //   <Stack.Navigator initialRouteName="SignIn">
+    //     <Stack.Screen name="SignIn" component={SignInScreen}></Stack.Screen>
+    //     <Stack.Screen name="SignUp" component={SignUpScreen}></Stack.Screen>
+    //   </Stack.Navigator>
+    // </NavigationContainer>
   );
+  // return (
+  //   <SafeAreaProvider style={styles.container}>
+  //     <FeedTop />
+  //     <Feed />
+  //   </SafeAreaProvider>
+  // );
 }
