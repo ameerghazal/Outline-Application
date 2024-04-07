@@ -1,0 +1,44 @@
+const storeConvo = (convoId, messages) => {
+  const storedConvo = {
+    convoId,
+    messages,
+    createdAt: new Date(),
+    participants: [],
+    // Add more properties as needed
+  };
+
+  // Simulate storing the conversation in a database or any other persistence mechanism
+  // For the sake of the example, just log the stored conversation
+  console.log('Stored Conversation:', storedConvo);
+
+  return storedConvo;
+};
+
+const testStoreConvo = () => {
+  const convoId = 'exampleConvoId';
+  const messages = [
+    { sender: 'user1', text: 'Hello!' },
+    { sender: 'user2', text: 'Hi there!' },
+    // Add more messages as needed
+  ];
+
+  const expectedStoredConvo = {
+    convoId,
+    messages,
+    createdAt: expect.any(Date),
+    participants: [],
+    // Add more properties as needed
+  };
+
+  const storedConvo = storeConvo(convoId, messages);
+
+  if (
+    JSON.stringify(storedConvo) === JSON.stringify(expectedStoredConvo)
+  ) {
+    console.log('testStoreConvo PASSED');
+  } else {
+    console.error('testStoreConvo FAILED');
+  }
+};
+
+testStoreConvo();

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Task List with Checkmarks</title>
+    <style>
+      .task-list {
+        list-style: none;
+        padding: 0;
+      }
+      .task-item {
+        cursor: pointer;
+        padding: 8px;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+      }
+      .task-item.completed {
+        text-decoration: line-through;
+        color: #888;
+      }
+      .checkmark {
+        width: 20px;
+        height: 20px;
+        border: 1px solid #000;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .checkmark.completed {
+        background-color: #4caf50;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Task List</h2>
+    <ul id="taskList" class="task-list">
+      <!-- Tasks will be inserted here dynamically -->
+    </ul>
+
+    <button onclick="testToggleCheckmark()">Test Toggle Checkmark</button>
+
+    <script>
+      // Sample tasks
+      const tasks = [
+        { id: "1", title: "Task 1", completed: false },
+        { id: "2", title: "Task 2", completed: false },
+        { id: "3", title: "Task 3", completed: false },
+      ];
+
+      // Function to toggle the completion status of a task
+      function toggleCheckmark(id) {
+        // Finds the task by its ID
+        const task = tasks.find((task) => task.id === id);
+        // If the task exists, toggle its 'completed' status
+        if (task) {
+          task.completed = !task.completed;
+          renderTasks(); // Re-render tasks to reflect the change in the UI
+        }
+      }
+
+      // Function to render tasks in the UI
+      function renderTasks() {
+        // Gets the container element where tasks will be displayed
+        const taskListElement = document.getElementById("taskList");
+        taskListElement.innerHTML = ""; // Clears the container before re-rendering tasks
+
+        // Iterates over each task to create and append its HTML representation to the container
+        tasks.forEach((task) => {
+          const taskItemElement = document.createElement("li"); // Creates a list item for the task
+          taskItemElement.className = `task-item ${
+            task.completed ? "completed" : ""
+          }`; // Adds a 'completed' class if the task is completed
+          // Sets the inner HTML of the task item, including a checkmark and the task title. The checkmark is clickable to toggle the task's completion status.
+          taskItemElement.innerHTML = `
+<div class="checkmark ${
+            task.completed ? "completed" : ""
+          }" onclick="toggleCheckmark('${task.id}')">✓</div>
+<span>${task.title}</span>
+`;
+          taskListElement.appendChild(taskItemElement); // Adds the task item to the container
+        });
+      }
+
+      // Test function to verify toggleCheckmark functionality
+      function testToggleCheckmark() {
+        // Simulate toggling the completion status of the first task
+        const taskId = "1";
+        const originalStatus = tasks.find(
+          (task) => task.id === taskId
+        ).completed; // Stores the original completion status
+        toggleCheckmark(taskId); // Toggles the task's completion status
+
+        // Retrieves the updated status and checks if it has been toggled
+        const updatedStatus = tasks.find(
+          (task) => task.id === taskId
+        ).completed;
+        if (originalStatus !== updatedStatus) {
+          // If the status has changed, the test passed
+          console.log(
+            `Test PASSED: Task ${taskId} status was toggled successfully.`
+          );
+        } else {
+          // If the status hasn't changed, the test failed
+          console.error(`Test FAILED: Task ${taskId} status was not toggled.`);
+        }
+      }
+
+      // Initial rendering of tasks
+      renderTasks(); // Calls renderTasks to display the tasks in the UI when the script loads
+    </script>
+  </body>
+</html>
