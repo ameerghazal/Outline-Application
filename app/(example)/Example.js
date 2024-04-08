@@ -1,10 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
+import ExampleText from "./Components";
 
-const ExampleScreen = () => {
+// Main function
+const Screen = () => {
   return (
     <View style={frames.outer_frame}>
-      <Text style={frames.chucker}>This is an example screen</Text>
+      <ExampleText></ExampleText>
     </View>
   );
 };
@@ -14,10 +16,7 @@ const frames = StyleSheet.create({
     backgroundColor: "#1B1B1B",
     flex: 1,
   },
-  chucker: {
-    color: "white",
-  },
 });
 
 // Export the sign-up-screen to other pages.
-export default ExampleScreen;
+export default Screen;

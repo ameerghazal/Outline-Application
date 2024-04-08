@@ -10,6 +10,9 @@ export default function Page() {
         <Pressable onPress={() => router.push("Example")}>
           <Text>Click for Example</Text>
         </Pressable>
+        <Pressable onPress={() => router.push("Example")}>
+          <Text>Click for Profile Page</Text>
+        </Pressable>
         <Pressable onPress={() => router.push("SignIn")}>
           <Text>Push for Ameer</Text>
         </Pressable>
