@@ -6,13 +6,13 @@ const RootLayout = () => {
     <Stack>
       <Stack.Screen name="index" />
       <Stack.Screen
-        name="(user_auth)"
+        name="(example)"
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="(example)"
+        name="(user_auth)"
         options={{
           headerShown: false,
         }}

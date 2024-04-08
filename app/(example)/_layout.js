@@ -8,6 +8,7 @@ const ExampleLayout = () => {
         name="Example"
         options={
           {
+            // hella featuers, hit up ameerG
             // headerShown: true,
             // headerStyle: {},
           }
