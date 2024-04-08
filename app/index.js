@@ -6,8 +6,12 @@ export default function Page() {
     <View>
       <View>
         {/* <Link href="/user_auth/ResetPass">Go to </Link> */}
+        {/* Gay comment explaining pressable and how to route big page */}
+        <Pressable onPress={() => router.push("Example")}>
+          <Text>Click for Example</Text>
+        </Pressable>
         <Pressable onPress={() => router.push("SignIn")}>
-          <Text>Go to</Text>
+          <Text>Push for Ameer</Text>
         </Pressable>
         <Text>Hello World</Text>
         <Text>This is the first page of your app.</Text>
