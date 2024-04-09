@@ -15,9 +15,7 @@ export const ProfileTabNavs = () => {
 };
 
 export const ProfileTabContent = () => {
-  return (
-    <Text style={frames.ProfileText}>This is the profile tab content</Text>
-  );
+  return <Text style={frames.ProfileText}>Gah Dam IT Im Cheesed</Text>;
 };
 
 const frames = StyleSheet.create({
