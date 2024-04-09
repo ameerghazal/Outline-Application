@@ -28,7 +28,6 @@ const App = () => {
 
 const styles = StyleSheet.create({
   outer_frame: {
-    padding: 10,
     paddingTop: 50,
     backgroundColor: "#1B1B1B",
     flex: 1,

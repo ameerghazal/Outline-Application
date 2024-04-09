@@ -30,7 +30,7 @@ const OutlinePost = ({ itemList }) => {
             />
           </View>
           <Text style={{ color: "#FFFAFA", marginLeft: 10, fontSize: 12 }}>
-            @NerdWaan
+            @Goku
           </Text>
         </View>
       </View>

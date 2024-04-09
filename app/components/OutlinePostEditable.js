@@ -26,7 +26,7 @@ const OutlinePost = ({ itemList }) => {
           <View style={styles.postPicture}>
             <Image
               style={{ height: 45, width: 45 }}
-              source={require("../../assets/goku-icon.png")}
+              source={require("../../assets/rintwit.jpg")}
             />
           </View>
           <Text style={{ color: "#FFFAFA", marginLeft: 10, fontSize: 12 }}>
