@@ -11,11 +11,13 @@ export const ProfileContents = () => {
 };
 
 export const ProfileTabNavs = () => {
-  return <Text style={frames.ProfileText}>This is the profile tabnavs</Text>;
+  return <Text style={frames.ProfileText}>This is the profile tab navs</Text>;
 };
 
 export const ProfileTabContent = () => {
-  return <Text style={frames.ProfileText}>This is the profile tabcontent</Text>;
+  return (
+    <Text style={frames.ProfileText}>This is the profile tab content</Text>
+  );
 };
 
 const frames = StyleSheet.create({
