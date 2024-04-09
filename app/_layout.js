@@ -23,6 +23,12 @@ const RootLayout = () => {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="(new_post)"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };

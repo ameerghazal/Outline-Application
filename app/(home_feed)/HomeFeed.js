@@ -16,7 +16,11 @@ const App = () => {
   return (
     <SafeAreaProvider style={styles.outer_frame}>
       <GeneralHeader></GeneralHeader>
-      <ScrollView style={styles.scrollView}>
+      <ScrollView
+        style={styles.scrollView}
+        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
+      >
         <OutlinePost itemList={list}></OutlinePost>
         <OutlinePostEditable itemList={list}></OutlinePostEditable>
         <OutlinePost itemList={list}></OutlinePost>
