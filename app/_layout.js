@@ -17,6 +17,12 @@ const RootLayout = () => {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="(home_feed)"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };

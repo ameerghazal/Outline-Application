@@ -16,6 +16,9 @@ export default function Page() {
         <Pressable onPress={() => router.push("SignIn")}>
           <Text>Push for Ameer</Text>
         </Pressable>
+        <Pressable onPress={() => router.push("HomeFeed")}>
+          <Text>Click for Home Feed</Text>
+        </Pressable>
         <Text>Hello World</Text>
         <Text>This is the first page of your app.</Text>
       </View>
