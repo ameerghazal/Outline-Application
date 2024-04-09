@@ -11,7 +11,11 @@ export const ProfileContents = () => {
 };
 
 export const ProfileTabNavs = () => {
-  return <Text style={frames.ProfileText}>This is the profile tab navs</Text>;
+  return (
+    <Text style={frames.ProfileText}>
+      Bro it keeps pushing on my uflip account idk why bruh
+    </Text>
+  );
 };
 
 export const ProfileTabContent = () => {
