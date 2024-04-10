@@ -17,6 +17,12 @@ const RootLayout = () => {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="(direct_message)"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 };

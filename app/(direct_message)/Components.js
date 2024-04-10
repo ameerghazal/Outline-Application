@@ -13,7 +13,7 @@ export const DMHeader = (pfp) => (
   <View style={headerStyles.mainContainer}>
     <View style={headerStyles.container}>
       <Image
-        style={styles.avatar}
+        style={headerStyles.avatar}
         source={require("../../assets/zekePfp.png")}
       />
       <Text style={headerStyles.text}>Messages</Text>
@@ -48,6 +48,8 @@ const headerStyles = StyleSheet.create({
     flexDirection: "column",
     paddingLeft: 5,
     paddingRight: 5,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   container: {
     flexDirection: "row",
@@ -66,7 +68,19 @@ const headerStyles = StyleSheet.create({
     borderRadius: 10,
     margin: 15,
     marginTop: -5,
+    textAlign: "center",
+    borderColor: "#4B4B4B",
+    borderWidth: 1,
+    borderRadius: 40,
+    height: 28,
+    marginTop: 0,
     // Adjust other styling as needed
+  },
+  avatar: {
+    width: 27,
+    height: 27,
+    borderRadius: 20, // Circular avatars
+    marginRight: 10,
   },
 });
 

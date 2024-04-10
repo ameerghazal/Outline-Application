@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  SafeAreaView,
 } from "react-native";
 import { MessageItem, DMHeader } from "./Components";
 
@@ -17,7 +18,7 @@ const messages = [
 
 const DMListScreen = () => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <DMHeader />
       <ScrollView style={styles.messagesContainer}>
         {messages.map((msg) => (
@@ -29,7 +30,7 @@ const DMListScreen = () => {
           />
         ))}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
