@@ -1,11 +1,11 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import ProfileText from "./Components";
 import {
+  ProfileText,
   ProfileContents,
   ProfileTabNavs,
   ProfileTabContent,
-} from "./Components";
+} from "./Components/Components";
 
 // Main function
 const Screen = () => {
