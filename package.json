@@ -21,17 +21,10 @@
     "react-dom": "18.2.0",
     "react-native": "^0.73.6",
     "react-native-safe-area-context": "4.8.2",
-<<<<<<< HEAD
-    "react-native-svg": "^15.1.0",
-    "react-native-web": "~0.19.6",
-    "expo-router": "~3.4.8",
-    "react-native-screens": "~3.29.0",
-=======
     "react-native-screens": "~3.29.0",
     "react-native-web": "~0.19.6",
     "start": "^5.1.0",
     "expo-router": "~3.4.8",
->>>>>>> 4e358f173e52f5d50ae47bb0c1b6830d5f4befd8
     "expo-linking": "~6.2.2",
     "expo-constants": "~15.4.5"
   },

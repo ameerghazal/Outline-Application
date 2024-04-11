@@ -1,27 +1,3 @@
-<<<<<<< HEAD
-import { Link } from "expo-router";
-import { StyleSheet, Text, View } from "react-native";
-import BottomNav from "../components/BottomNav.js";
-
-export const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "#1B1B1B",
-    height: "100%",
-  },
-  text: { color: "#FFFAFA" },
-  image: { borderRadius: 100 },
-});
-
-export default function Page() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Home page</Text>
-
-      <BottomNav />
-    </View>
-  );
-}
-=======
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Link, router } from "expo-router";
 
@@ -39,6 +15,9 @@ export default function Page() {
         </Pressable>
         <Pressable onPress={() => router.push("SignIn")}>
           <Text>Push for Ameer</Text>
+        </Pressable>
+        <Pressable onPress={() => router.push("Settings")}>
+          <Text>Push for Settings</Text>
         </Pressable>
         <Text>Hello World</Text>
         <Text>This is the first page of your app.</Text>
@@ -68,4 +47,3 @@ export default function Page() {
 //     color: "#38434D",
 //   },
 // });
->>>>>>> 4e358f173e52f5d50ae47bb0c1b6830d5f4befd8
