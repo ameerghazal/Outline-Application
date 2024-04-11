@@ -1,8 +1,14 @@
 {
   "expo": {
+<<<<<<< HEAD
     "name": "outline-application",
     "slug": "outline-application",
     "scheme": "outline-application",
+=======
+    "scheme": "outline",
+    "name": "outline",
+    "slug": "outline",
+>>>>>>> 4e358f173e52f5d50ae47bb0c1b6830d5f4befd8
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
