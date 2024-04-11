@@ -11,7 +11,6 @@ import {
 const Screen = () => {
   return (
     <View style={frames.outer_frame}>
-      <ProfileText></ProfileText>
       <ProfileContents></ProfileContents>
       <ProfileTabNavs></ProfileTabNavs>
       <ProfileTabContent></ProfileTabContent>
