@@ -1,11 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, ScrollView, View, Pressable } from "react-native";
 import { router } from "expo-router";
+import { BackBar } from "../(user_auth)/Components";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1B1B1B",
+    paddingTop: 50,
   },
   text: {
     color: "#FFFAFA",
@@ -65,6 +67,7 @@ function Settings({ router }) {
 
   return (
     <ScrollView style={styles.container}>
+      <BackBar></BackBar>
       {/* Contact Details Section */}
       <Text style={styles.sectionTitle}>Contact Details</Text>
       <View style={styles.section}>{renderItems(contactDetails)}</View>

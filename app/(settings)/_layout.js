@@ -13,6 +13,15 @@ const SettingsLayout = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="ProfileSettingsPage"
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen name="PasswordResetPage" options={{ headerShown: false }} />
+      <Stack.Screen name="FaceIdAndPinPage" options={{ headerShown: false }} />
+      <Stack.Screen name="NotificationsPage" options={{ headerShown: false }} />
+      <Stack.Screen name="AppearancePage" options={{ headerShown: false }} />
+      <Stack.Screen name="PreferencesPage" options={{ headerShown: false }} />
     </Stack>
   );
 };
