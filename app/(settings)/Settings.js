@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, ScrollView, View, Pressable } from "react-native";
 import { router } from "expo-router";
 import { BackBar } from "../(user_auth)/Components";
+import globalStyles from "./globalStyles";
 
 const styles = StyleSheet.create({
   container: {
@@ -11,6 +12,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#FFFAFA",
+  },
+  marginLeft: {
     marginLeft: 15,
   },
   section: {
@@ -46,7 +49,7 @@ const renderItems = (items) =>
         index !== items.length - 1 && styles.marginBottom, // Apply marginBottom style conditionally
       ]}
     >
-      <Text style={styles.text}>{item.name}</Text>
+      <Text style={[globalStyles.text, styles.marginLeft]}>{item.name}</Text>
     </Pressable>
   ));
 
@@ -66,7 +69,7 @@ function Settings({ router }) {
   ];
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={globalStyles.container}>
       <BackBar></BackBar>
       {/* Contact Details Section */}
       <Text style={styles.sectionTitle}>Contact Details</Text>
