@@ -5,26 +5,16 @@ import { BackBar } from "../(user_auth)/Components";
 import globalStyles from "./globalStyles";
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#1B1B1B",
-    paddingTop: 50,
-  },
-  text: {
-    color: "#FFFAFA",
-  },
   marginLeft: {
     marginLeft: 15,
   },
   section: {
-    marginHorizontal: 10,
     marginBottom: 10,
     backgroundColor: "#4B4B4B",
     borderRadius: 10,
   },
   sectionTitle: {
     color: "#FFFAFA",
-    marginHorizontal: 10,
     marginBottom: 10,
   },
   sectionItem: {

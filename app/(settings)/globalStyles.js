@@ -5,6 +5,7 @@ const globalStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#1B1B1B",
     paddingTop: 50,
+    paddingHorizontal: 10,
   },
   text: {
     color: "#FFFAFA",
