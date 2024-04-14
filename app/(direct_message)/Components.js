@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   View,
@@ -9,23 +9,37 @@ import {
   TextInput,
 } from "react-native";
 
-export const DMHeader = (pfp) => (
-  <View style={headerStyles.mainContainer}>
-    <View style={headerStyles.container}>
-      <Image
-        style={headerStyles.avatar}
-        source={require("../../assets/zekePfp.png")}
+export const DMHeader = (pfp) => {
+  const [isFocused, setIsFocused] = useState(false); // State to track focus
+
+  const searchBarStyle = {
+    ...headerStyles.searchBar,
+    textAlign: isFocused ? "left" : "center", // Align text based on focus
+    color: isFocused ? "#606060" : "#606060", // Change text color based on focus
+    borderColor: isFocused ? "#606060" : "#606060", // Optionally change border color
+  };
+
+  return (
+    <View style={headerStyles.mainContainer}>
+      <View style={headerStyles.container}>
+        <Image
+          style={headerStyles.avatar}
+          source={require("../../assets/zekePfp.png")}
+        />
+        <Text style={headerStyles.text}>Messages</Text>
+        <Text style={headerStyles.text}>placeholder</Text>
+      </View>
+      <TextInput
+        style={headerStyles.searchBar}
+        placeholder="Search Direct Messages"
+        placeholderTextColor={isFocused ? "#606060" : "#606060"} // Light gray placeholder
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        // Include other props as necessary, like onChangeText for handling input
       />
-      <Text style={headerStyles.text}>Messages</Text>
-      <Text style={headerStyles.text}>placeholder</Text>
     </View>
-    <TextInput
-      style={headerStyles.searchBar}
-      placeholder="Search Direct Messages"
-      // Include other props as necessary, like onChangeText for handling input
-    />
-  </View>
-);
+  );
+};
 
 export const MessageItem = ({ name, message, time }) => (
   <TouchableOpacity style={styles.messageItem}>
@@ -63,6 +77,24 @@ const headerStyles = StyleSheet.create({
   searchBar: {
     alignItems: "center",
     marginTop: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    backgroundColor: "#252525",
+    borderRadius: 10,
+    margin: 15,
+    marginTop: -5,
+    textAlign: "center",
+    borderColor: "#4B4B4B",
+    borderWidth: 1,
+    borderRadius: 40,
+    height: 30,
+    marginTop: 0,
+    color: "#fff",
+    // Adjust other styling as needed
+  },
+  searchBarFocused: {
+    alignItems: "center",
+    marginTop: 8,
     padding: 8,
     backgroundColor: "#252525",
     borderRadius: 10,
@@ -72,13 +104,13 @@ const headerStyles = StyleSheet.create({
     borderColor: "#4B4B4B",
     borderWidth: 1,
     borderRadius: 40,
-    height: 28,
+    height: 30,
     marginTop: 0,
-    // Adjust other styling as needed
+    fontSize: 14,
   },
   avatar: {
-    width: 27,
-    height: 27,
+    width: 30,
+    height: 30,
     borderRadius: 20, // Circular avatars
     marginRight: 10,
   },
