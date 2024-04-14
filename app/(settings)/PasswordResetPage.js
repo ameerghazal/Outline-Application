@@ -1,12 +1,16 @@
-import { Text, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { BackBar } from "../(user_auth)/Components";
 import globalStyles from "./globalStyles";
+import SettingsInputBox from "../components/SettingsInputBox";
 
 function PasswordResetPage() {
   return (
     <View style={globalStyles.container}>
       <BackBar></BackBar>
-      <Text style={globalStyles.text}>PasswordResetPage</Text>
+      <SettingsInputBox
+        placeholder="Old Password"
+        hidden={true}
+      ></SettingsInputBox>
     </View>
   );
 }

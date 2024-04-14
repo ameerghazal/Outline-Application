@@ -1,8 +1,8 @@
-import { View, Text } from "react-native";
+import { ScrollView } from "react-native";
 import { BackBar } from "../(user_auth)/Components";
+import { useState } from "react";
 import globalStyles from "./globalStyles";
 import SettingsInputBox from "../components/SettingsInputBox";
-import { useState } from "react";
 
 function ProfileSettingsPage() {
   const [phone, setPhone] = useState("");
@@ -10,8 +10,13 @@ function ProfileSettingsPage() {
   const [address, setAddress] = useState("");
   const [campus, setCampus] = useState("");
 
+  // console.log(phone);
+  // console.log(email);
+  // console.log(address);
+  // console.log(campus);
+
   return (
-    <View style={globalStyles.container}>
+    <ScrollView style={globalStyles.container}>
       <BackBar></BackBar>
       <SettingsInputBox
         onChangeText={setPhone}
@@ -29,7 +34,7 @@ function ProfileSettingsPage() {
         onChangeText={setCampus}
         placeholder="Campus"
       ></SettingsInputBox>
-    </View>
+    </ScrollView>
   );
 }
 

@@ -9,6 +9,7 @@ const globalStyles = StyleSheet.create({
   },
   text: {
     color: "#FFFAFA",
+    fontSize: 16,
   },
 });
 

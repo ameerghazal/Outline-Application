@@ -1,11 +1,16 @@
 import { View, TextInput, StyleSheet, Text } from "react-native";
 import globalStyles from "../(settings)/globalStyles";
 
-function SettingsInputBox({ placeholder, ...props }) {
+function SettingsInputBox({ placeholder, hidden, ...props }) {
   return (
     <View>
       <Text style={globalStyles.text}>{placeholder}</Text>
-      <TextInput style={styles.input} placeholder={placeholder} {...props} />
+      <TextInput
+        secureTextEntry={hidden} // make input hidden based on hidden prop
+        style={styles.input}
+        placeholder={placeholder}
+        {...props}
+      />
     </View>
   );
 }
