@@ -1,9 +1,11 @@
 import React from "react";
+import globalStyles from "./globalStyles";
+import BottomNav from "../components/BottomNav";
+
 import { StyleSheet, Text, ScrollView, View, Pressable } from "react-native";
 import { router } from "expo-router";
 import { BackBar } from "../(user_auth)/Components";
 import { Feather } from "@expo/vector-icons";
-import globalStyles from "./globalStyles";
 
 const styles = StyleSheet.create({
   marginLeft: {
@@ -73,24 +75,29 @@ function Settings() {
   ];
 
   return (
-    <ScrollView style={globalStyles.container}>
-      <BackBar></BackBar>
-      {/* Contact Details Section */}
-      <Text style={[styles.sectionTitle, globalStyles.text]}>
-        Contact Details
-      </Text>
-      <View style={styles.section}>{renderItems(contactDetails)}</View>
+    <>
+      <ScrollView style={globalStyles.container}>
+        <BackBar></BackBar>
+        {/* Contact Details Section */}
+        <Text style={[styles.sectionTitle, globalStyles.text]}>
+          Contact Details
+        </Text>
+        <View style={styles.section}>{renderItems(contactDetails)}</View>
 
-      {/* Security Settings Section */}
-      <Text style={[styles.sectionTitle, globalStyles.text]}>
-        Security Settings
-      </Text>
-      <View style={styles.section}>{renderItems(securitySettings)}</View>
+        {/* Security Settings Section */}
+        <Text style={[styles.sectionTitle, globalStyles.text]}>
+          Security Settings
+        </Text>
+        <View style={styles.section}>{renderItems(securitySettings)}</View>
 
-      {/* App Settings Section */}
-      <Text style={[styles.sectionTitle, globalStyles.text]}>App Settings</Text>
-      <View style={styles.section}>{renderItems(appSettings)}</View>
-    </ScrollView>
+        {/* App Settings Section */}
+        <Text style={[styles.sectionTitle, globalStyles.text]}>
+          App Settings
+        </Text>
+        <View style={styles.section}>{renderItems(appSettings)}</View>
+      </ScrollView>
+      <BottomNav />
+    </>
   );
 }
 

@@ -1,44 +1,48 @@
-import { View, Text } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View, Text, Pressable } from "react-native";
+import {
+  SafeAreaView,
+  SafeAreaProvider,
+  SafeAreaInsetsContext,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
 function BottomNav() {
   const insets = useSafeAreaInsets();
   return (
     <View
       style={{
-        backgroundColor: "#1B1B1B ",
+        backgroundColor: "#1B1B1B",
         width: "100%",
-        position: "absolute",
-        bottom: 0,
         borderTopWidth: 2,
         borderTopColor: "#4B4B4B",
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        padding: 10,
+        padding: 40,
+        paddingTop: 20,
       }}
     >
-      <Link href="/">
+      <Pressable onPress={() => router.push("HomeFeed")}>
         <Feather name="home" size={24} color="#FFFAFA" />
-      </Link>
+      </Pressable>
 
-      <Link href="/search">
+      <Pressable onPress={() => router.push("SignUp")}>
         <Feather name="search" size={24} color="#FFFAFA" />
-      </Link>
+      </Pressable>
 
-      <Link href="/create">
+      <Pressable href="/create">
         <Feather name="plus-square" size={24} color="#FFFAFA" />
-      </Link>
+      </Pressable>
 
-      <Link href="/messages">
+      <Pressable href="/messages">
         <Feather name="message-square" size={24} color="#FFFAFA" />
-      </Link>
+      </Pressable>
 
-      <Link href="/settings">
+      <Pressable href="/settings">
         <Feather name="bell" size={24} color="#FFFAFA" />
-      </Link>
+      </Pressable>
     </View>
   );
 }
