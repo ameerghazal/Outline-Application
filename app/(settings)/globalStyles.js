@@ -11,6 +11,9 @@ const globalStyles = StyleSheet.create({
     color: "#FFFAFA",
     fontSize: 16,
   },
+  alertText: {
+    color: "red",
+  },
 });
 
 export default globalStyles;
