@@ -146,10 +146,11 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   messageTime: {
-    color: "white",
-    paddingLeft: 10,
+    color: "gray",
+    paddingLeft: 7,
   },
   messageBox: {
     flexDirection: "row",
+    paddingVertical: 5,
   },
 });

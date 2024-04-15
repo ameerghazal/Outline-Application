@@ -9,9 +9,10 @@ import {
   SafeAreaView,
 } from "react-native";
 import { MessageItem, DMHeader } from "./Components";
+import { openChat } from "./Functions";
 
 const messages = [
-  { id: "1", name: "NerdWaan", message: "i like persona5...", time: "1h" },
+  { id: "1", name: "NerdWaan", message: "i like kids...", time: "1h" },
   { id: "2", name: "AG", message: "2024! MUSIC.", time: "3h" },
   // ... Add the rest of your messages here
 ];
@@ -27,6 +28,7 @@ const DMListScreen = () => {
             name={msg.name}
             message={msg.message}
             time={msg.time}
+            onPress={openChat}
           />
         ))}
       </ScrollView>
