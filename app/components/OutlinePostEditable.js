@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Button,
-  Touchable,
+  TouchableHighlight,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -52,7 +52,7 @@ const OutlinePost = ({ itemList }) => {
                 <MaterialCommunityIcons
                   name={"checkbox-marked-outline"}
                   size={24}
-                  color="#fffafa"
+                  color="#8DAC83"
                 />
               }
             ></ToggleSVG>
