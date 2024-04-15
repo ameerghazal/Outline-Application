@@ -57,7 +57,7 @@ const renderItems = (items) =>
     </Pressable>
   ));
 
-function Settings({ router }) {
+function Settings() {
   // Array of items for each section with their corresponding routes
   const contactDetails = [
     { name: "Profile Settings", route: "./ProfileSettingsPage", icon: "user" },

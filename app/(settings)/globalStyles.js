@@ -14,6 +14,20 @@ const globalStyles = StyleSheet.create({
   alertText: {
     color: "red",
   },
+  section: {
+    marginBottom: 10,
+    backgroundColor: "#4B4B4B",
+    borderRadius: 10,
+  },
+  sectionItem: {
+    paddingVertical: 10,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  marginBottom: {
+    marginBottom: 10,
+  },
 });
 
 export default globalStyles;
