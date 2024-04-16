@@ -32,11 +32,7 @@ function BottomNav() {
         <Feather name="search" size={24} color="#FFFAFA" />
       </Pressable>
 
-<<<<<<< HEAD
-      <Pressable onPress={() => router.push("NewPost")}>
-=======
       <Pressable href="/create">
->>>>>>> b65a6942134b9eed85baf2e50e2b61201d139864
         <Feather name="plus-square" size={24} color="#FFFAFA" />
       </Pressable>
 
