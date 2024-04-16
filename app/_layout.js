@@ -32,7 +32,7 @@ const RootLayout = () => {
         }}
       />
       <Stack.Screen
-        name="(home_feed)"
+        name="(direct_message)"
         options={{
           headerShown: false,
         }}
@@ -43,6 +43,13 @@ const RootLayout = () => {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="(home_feed)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      
     </Stack>
   );
 };
