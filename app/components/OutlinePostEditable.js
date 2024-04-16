@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5,FontAwesome } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
@@ -72,7 +72,14 @@ const OutlinePost = ({ itemList }) => {
       </View>
       <View style={styles.postFooter}>
         <TouchableOpacity activeOpacity={0.7}>
-          <Feather name="heart" size={18} color="#fffafa" />
+        <ToggleSVG
+              el1={
+                <Feather name="heart" size={18} color="#fffafa" />
+              }
+              el2={
+                <FontAwesome name="heart" size={18} color="#8DAC83" bordercolor />
+              }
+            ></ToggleSVG>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.7}>
           <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
