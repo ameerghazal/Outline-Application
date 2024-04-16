@@ -9,6 +9,7 @@ const globalStyles = StyleSheet.create({
   },
   text: {
     color: "#FFFAFA",
+    fontFamily: "Montserrat",
     fontSize: 16,
   },
   alertText: {

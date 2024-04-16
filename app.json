@@ -29,7 +29,12 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/Montserrat.otf"]
+          "fonts": [
+            {
+              "family": "Montserrat",
+              "source": "./assets/fonts"
+            }
+          ]
         }
       ],
       "expo-router"
