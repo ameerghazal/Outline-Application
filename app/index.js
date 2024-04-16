@@ -11,22 +11,20 @@ export default function Page() {
     <View style={styles.container}>
       <View style={styles.innerContainer}>
         <Pressable onPress={() => router.push("Example")}>
-          <Text style={styles.textStyle}>Click for Example</Text>
+          <Text style={styles.textStyle}>Example Page</Text>
         </Pressable>
         <Pressable onPress={() => router.push("Profile")}>
-          <Text style={styles.textStyle}>Click for Profile Page</Text>
+          <Text style={styles.textStyle}>Profile </Text>
         </Pressable>
         <Pressable onPress={() => router.push("SignIn")}>
-          <Text style={styles.textStyle}>Push for Ameer</Text>
+          <Text style={styles.textStyle}>SignIn / SignUp</Text>
         </Pressable>
         <Pressable onPress={() => router.push("Settings")}>
-          <Text style={styles.textStyle}>Push for Settings</Text>
+          <Text style={styles.textStyle}>Settings</Text>
         </Pressable>
         <Pressable onPress={() => router.push("HomeFeed")}>
-          <Text>Click for Home Feed</Text>
+          <Text style={styles.textStyle}>Home Feed</Text>
         </Pressable>
-        <Text>Hello World</Text>
-        <Text>This is the first page of your app.</Text>
       </View>
       <BottomNav></BottomNav>
     </View>
@@ -41,6 +39,7 @@ const styles = StyleSheet.create({
   innerContainer: {
     flex: 1,
     color: "white",
+    justifyContent: "center",
   },
   textStyle: {
     alignSelf: "center",
