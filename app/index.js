@@ -22,14 +22,11 @@ export default function Page() {
         <Pressable onPress={() => router.push("Settings")}>
           <Text style={styles.textStyle}>Push for Settings</Text>
         </Pressable>
-<<<<<<< HEAD
         <Pressable onPress={() => router.push("HomeFeed")}>
           <Text>Click for Home Feed</Text>
         </Pressable>
         <Text>Hello World</Text>
         <Text>This is the first page of your app.</Text>
-=======
->>>>>>> b65a6942134b9eed85baf2e50e2b61201d139864
       </View>
       <BottomNav></BottomNav>
     </View>
