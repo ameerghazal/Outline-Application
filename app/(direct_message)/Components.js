@@ -9,6 +9,8 @@ import {
   TextInput,
 } from "react-native";
 
+import { openChat } from "./Functions";
+
 export const DMHeader = (pfp) => {
   const [isFocused, setIsFocused] = useState(false); // State to track focus
 
@@ -41,8 +43,11 @@ export const DMHeader = (pfp) => {
   );
 };
 
-export const MessageItem = ({ name, message, time }) => (
-  <TouchableOpacity style={styles.messageItem}>
+export const MessageItem = ({ name, message, time, id }) => (
+  <TouchableOpacity
+    onPress={() => openChat(name, id)}
+    style={styles.messageItem}
+  >
     <Image
       style={styles.avatar}
       source={require("../../assets/goku-icon.png")}
@@ -133,7 +138,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 20, // Circular avatars
-    marginRight: 10,
+    marginRight: 20,
   },
   messageText: {
     flex: 1,
