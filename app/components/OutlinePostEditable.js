@@ -29,9 +29,12 @@ const OutlinePost = ({ itemList }) => {
               source={require("../../assets/rintwit.jpg")}
             />
           </View>
-          <Text style={{ color: "#FFFAFA", marginLeft: 10, fontSize: 12 }}>
-            @NerdWaan
-          </Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between', marginLeft: 10 }}>
+            <Text style={{ color: "#FFFAFA"}}>Nerd-Waan</Text>
+            <Text style={{ color: "#606060",marginLeft: 5}}>@NerdWaan</Text>
+            <Text style={{ color: "#606060",marginLeft: 5}}>•</Text>
+            <Text style={{ color: "#606060",marginLeft: 5}}>2h</Text>
+          </View>
         </View>
         <TouchableOpacity activeOpacity={0.7}>
           <Entypo name="dots-three-horizontal" size={18} color="#fffafa" />
