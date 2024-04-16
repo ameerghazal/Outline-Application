@@ -24,7 +24,6 @@ const OutlinePost = ({ itemList }) => {
             source={require("../assets/image.png")}
             style={styles.postPicture}
           />
-          <Text style={{ color: "#FFFAFA", marginLeft: 10 }}>@NerdWaan</Text>
         </View>
         <TouchableOpacity activeOpacity={0.7}>
           <Entypo name="dots-three-horizontal" size={24} color="#fffafa" />

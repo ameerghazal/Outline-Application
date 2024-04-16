@@ -4,6 +4,7 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import OutlinePost from "./components/OutlinePost";
 
 const styles = StyleSheet.create({
   container: {
@@ -53,7 +54,7 @@ function FeedTop() {
 function Feed() {
   return (
     <View>
-      <Text style={styles.text}>Feed</Text>
+      <OutlinePost itemList={['item','item']}></OutlinePost>
     </View>
   );
 }
