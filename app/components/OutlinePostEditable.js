@@ -52,7 +52,7 @@ const OutlinePost = ({ itemList }) => {
                 <MaterialCommunityIcons
                   name={"checkbox-marked-outline"}
                   size={24}
-                  color="#fffafa"
+                  color="#8DAC83"
                 />
               }
             ></ToggleSVG>

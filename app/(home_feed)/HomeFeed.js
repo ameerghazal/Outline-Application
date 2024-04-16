@@ -10,12 +10,13 @@ import {
 } from "react-native-safe-area-context";
 
 const list = ["Item 1", "poop", "pOOP"];
+const outlineTitle = "OUT | LINE"
 
 const App = () => {
   const insets = useSafeAreaInsets();
   return (
     <SafeAreaProvider style={styles.outer_frame}>
-      <GeneralHeader></GeneralHeader>
+      <GeneralHeader ></GeneralHeader>
       <ScrollView
         style={styles.scrollView}
         showsHorizontalScrollIndicator={false}
