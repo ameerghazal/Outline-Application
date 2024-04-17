@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { Link, router } from "expo-router";
+import { router } from "expo-router";
 import BottomNav from "./components/BottomNav";
 import { useFonts } from "expo-font";
 
@@ -11,7 +11,10 @@ export default function Page() {
   let [fontsLoaded] = useFonts({
     MontserratBold: require("../assets/fonts/Montserrat-Bold.ttf"),
     Montserrat: require("../assets/fonts/Montserrat-Regular.ttf"),
+    MontserratMedium: require("../assets/fonts/Montserrat-Medium.ttf"),
+    MontserratMediumItalic: require("../assets/fonts/Montserrat-MediumItalic.ttf"),
   });
+
   if (!fontsLoaded) {
     return (
       <View>
