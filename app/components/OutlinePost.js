@@ -46,10 +46,14 @@ const OutlinePost = ({ itemList }) => {
           </View>
         ))}
         {items.length > 2 && (
-          <TouchableOpacity>
-            <TextInput editable={false} style={styles.showMoreButton}>
-              Show all
-            </TextInput>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              width: 46,
+              flexDirection: "row",
+            }}
+          >
+            <Text style={styles.showMoreButton}>Show all</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -124,7 +128,6 @@ const styles = StyleSheet.create({
     color: "#FFFAFA",
     borderBottomColor: "#FFFAFA",
     borderBottomWidth: 1,
-    margin: 10,
     fontSize: 12,
   },
 });
