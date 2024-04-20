@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -16,6 +16,9 @@ import {
   Redirection,
 } from "./Components.js";
 import { handleLoginSmall, handleSendLink, handleTerms } from "./Functions.js";
+import { FIREBASE_AUTH } from "../../firebase.js";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { useEffect } from "react";
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -23,10 +26,94 @@ import { handleLoginSmall, handleSendLink, handleTerms } from "./Functions.js";
  * @author Ameer G
  */
 const ResetPasswordScreen = () => {
+  // Store the email and the sent status button.
+  const [email, setEmail] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
+  const [resendTimer, setResendTimer] = useState(30);
+
+  // Timer effect for allowing the button to be used.
+  useEffect(() => {
+    let timer;
+    if (emailSent && resendTimer > 0) {
+      timer = setInterval(() => {
+        setResendTimer((prevCount) => prevCount - 1);
+      }, 1000);
+    } else if (resendTimer === 0) {
+      clearInterval(timer);
+      setEmailSent(false);
+    }
+    return () => clearInterval(timer);
+  }, [emailSent, resendTimer]);
+
+  // Handle reset password.
+  async function handleSendLink() {
+    // Check if the email contains an "@".
+    console.log(email);
+    if (!email.includes("@")) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // If we make it here, login to the account.
+    try {
+      const auth = FIREBASE_AUTH;
+      console.log("made it");
+      await sendPasswordResetEmail(auth, email);
+      setResendTimer(30); // set the resend timer.
+      setEmailSent(true); // set to true.
+    } catch (error) {
+      alert(
+        "There is not an account with this combination of email and password."
+      );
+      console.log(error.message);
+    }
+  }
+
   return (
     <View style={frames.outer_frame}>
       <BackBar></BackBar>
-      <MiddleData></MiddleData>
+      <View style={frames.outer_frame_login}>
+        <View style={frames.logo_sign_in}>
+          <Text style={aesthetics.text_logo_auth}>OUT | LINE</Text>
+        </View>
+        <Text style={aesthetics.text_inspire_sign_up} numberOfLines={3}>
+          Enter the email address linked with your account, and we will reach
+          out to you.
+        </Text>
+        <View style={frames.user_input_frame}>
+          <InputBox
+            placeholder="Email Address"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          ></InputBox>
+        </View>{" "}
+        <View style={frames.terms_and_polices}>
+          <Text style={aesthetics.text_terms_and_polices}>
+            Can't reset your
+          </Text>
+          <TouchableOpacity onPress={handleTerms}>
+            <Text style={aesthetics.btn_text_terms_and_polices}>
+              {" "}
+              password?
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <ButtonAuth
+          buttonText={"Send link"}
+          onPress={handleSendLink}
+          disabled={emailSent}
+        ></ButtonAuth>
+      </View>
+      {emailSent ? (
+        <Text style={aesthetics.text_countdown}>
+          Email sent. Didn't receive?{" "}
+          <Text style={aesthetics.text_countdown_timer}>
+            Resend in {resendTimer}s.
+          </Text>
+        </Text>
+      ) : (
+        ""
+      )}
       <Redirection
         labelText={"Back to "}
         buttonText={"Login."}
@@ -152,6 +239,17 @@ const aesthetics = StyleSheet.create({
   },
 
   btn_text_terms_and_polices: {
+    color: "#8dac83",
+  },
+
+  text_countdown: {
+    textAlign: "center",
+    color: "#ffffff",
+    width: 220,
+    alignSelf: "center",
+  },
+
+  text_countdown_timer: {
     color: "#8dac83",
   },
 

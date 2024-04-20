@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -17,6 +17,13 @@ import {
 } from "./Components.js";
 import { Link, router } from "expo-router";
 import { handleLoginSmall, platformSignUp, handleNext } from "./Functions.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "@firebase/auth";
+import { FIREBASE_AUTH } from "../../firebase.js";
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -24,10 +31,85 @@ import { handleLoginSmall, platformSignUp, handleNext } from "./Functions.js";
  * @author Ameer G
  */
 const SignUpScreen = () => {
+  // Store the email and the password.
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const auth = FIREBASE_AUTH;
+
+  // Create an account.
+  async function handleSignUpFirebase() {
+    // Check if the email contains an "@".
+    console.log(email);
+    if (!email.includes("@")) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // Ensure the password contains a character, letter, and special character.
+    const passwordRegex =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      alert(
+        "Password must contain at least one letter, one number, one special character, and be at least 8 characters long."
+      );
+      return;
+    }
+
+    // Ensure the password is the same as the confirm password.
+    if (password !== confirmPass) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    console.log("loe");
+    // If we make it here, create the account.
+    try {
+      const auth = FIREBASE_AUTH;
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.push("./SignUpExt");
+    } catch (error) {
+      console.log("here");
+      console.log(error.message);
+    }
+  }
+
   return (
     <View style={frames.outer_frame}>
       <BackBar></BackBar>
-      <MiddleData></MiddleData>
+      <View style={frames.outer_frame_login}>
+        <View style={frames.logo_sign_in}>
+          <Text style={aesthetics.text_logo_auth}>OUT | LINE</Text>
+        </View>
+        <Text style={aesthetics.text_inspire_sign_up} numberOfLines={2}>
+          Create an account and publish your daily outline to your friends.
+        </Text>
+        <View style={frames.user_input_frame}>
+          <InputBox
+            placeholder="Email Address"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          ></InputBox>
+          <InputBox
+            placeholder="Password"
+            secureTextEntry={true}
+            value={password}
+            onChangeText={(text) => setPassword(text)}
+          ></InputBox>
+          <InputBox
+            placeholder="Confirm Password"
+            secureTextEntry={true}
+            value={confirmPass}
+            onChangeText={(text) => setConfirmPass(text)}
+          ></InputBox>
+        </View>
+        <ButtonAuth
+          buttonText={"Next"}
+          onPress={handleSignUpFirebase}
+        ></ButtonAuth>
+        <Text style={aesthetics.alterante_sign_in}>Or sign up with</Text>
+        <AlternateAuth onPress={platformSignUp}></AlternateAuth>
+      </View>
       <Redirection
         labelText={"Already have an account? "}
         buttonText={"Login."}
@@ -42,7 +124,14 @@ const SignUpScreen = () => {
  * @returns returns the portion of the sign-in page.
  * @author Ameer G
  */
-const MiddleData = () => {
+const MiddleData = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  confirmPass,
+  setConfirmPass,
+}) => {
   return (
     <View style={frames.outer_frame_login}>
       <View style={frames.logo_sign_in}>
@@ -51,8 +140,18 @@ const MiddleData = () => {
       <Text style={aesthetics.text_inspire_sign_up} numberOfLines={2}>
         Create an account and publish your daily outline to your friends.
       </Text>
-      <UserInput></UserInput>
-      <ButtonAuth buttonText={"Next"} onPress={handleNext}></ButtonAuth>
+      <UserInput
+        email={email}
+        password={password}
+        confirmPass={confirmPass}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        setConfirmPass={setConfirmPass}
+      ></UserInput>
+      <ButtonAuth
+        buttonText={"Next"}
+        onPress={handleSignUpFirebase}
+      ></ButtonAuth>
       <Text style={aesthetics.alterante_sign_in}>Or sign up with</Text>
       <AlternateAuth onPress={platformSignUp}></AlternateAuth>
     </View>
@@ -64,14 +163,33 @@ const MiddleData = () => {
  * @returns user input box, reused across sign-up pages.
  * @author Ameer Ghazal
  */
-const UserInput = () => {
+const UserInput = ({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  confirmPass,
+  setConfirmPass,
+}) => {
+  console.log(email);
   return (
     <View style={frames.user_input_frame}>
-      <InputBox placeholder="Email Address"></InputBox>
-      <InputBox placeholder="Password" secureTextEntry={true}></InputBox>
+      <InputBox
+        placeholder="Email Address"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      ></InputBox>
+      <InputBox
+        placeholder="Password"
+        secureTextEntry={true}
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+      ></InputBox>
       <InputBox
         placeholder="Confirm Password"
         secureTextEntry={true}
+        value={confirmPass}
+        onChangeText={(text) => setConfirmPass(text)}
       ></InputBox>
     </View>
   );
