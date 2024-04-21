@@ -28,7 +28,7 @@ export function handleLoginSmall() {
  * @author Ameer G
  */
 export function handleNext() {
-  return router.push("./SignUpExt");
+  return router.push("SignUpExt");
 }
 
 /**
@@ -36,7 +36,7 @@ export function handleNext() {
  * @author Ameer G
  */
 export function handleForgotPassword() {
-  return router.push("./ResetPass");
+  return router.push("ResetPass");
 }
 
 /**
@@ -45,7 +45,7 @@ export function handleForgotPassword() {
  * @author Ameer G
  */
 export function handleSignUpSmall() {
-  return router.push("./SignUp");
+  return router.push("SignUp");
 }
 
 /**

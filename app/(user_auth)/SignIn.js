@@ -45,7 +45,7 @@ const SignInScreen = () => {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        router.push("SignUpExt"); // switch to homepage.
+        router.push("HomeFeed"); // switch to homepage.
       }
     });
 
@@ -65,7 +65,7 @@ const SignInScreen = () => {
     try {
       const auth = FIREBASE_AUTH;
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("ResetPass");
+      router.push("HomeFeed");
     } catch (error) {
       alert(
         "There is not an account with this combination of email and password."
