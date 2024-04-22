@@ -36,7 +36,6 @@ const SignUpScreenExt = () => {
   const [birthdate, setBirthdate] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [incorrectFormat, setIncorrectForm] = useState(false);
-  const auth = FIREBASE_AUTH;
 
   const formatPhoneNumber = (input) => {
     // Remove non-numeric characters
@@ -86,19 +85,20 @@ const SignUpScreenExt = () => {
     }
 
     // Convert all the inputs to their respective types.
-    setFirstName(firstName.toLowerCase);
-    setLastName(lastName.toLowerCase);
-    setUsername(username.toLowerCase);
+    setFirstName(firstName.toLowerCase());
+    setLastName(lastName.toLowerCase());
+    setUsername(username.toLowerCase());
     setBirthdate(birthdate);
     setPhoneNumber(phoneNumber);
     setIncorrectForm(false);
 
     // Store the data in the database.
     try {
-      // Database call.
+      //TODO: Database call.
+      const auth = FIREBASE_AUTH;
+      console.log("Hello");
       router.push("HomeFeed");
     } catch (error) {
-      console.log("here");
       console.log(error.message);
     }
   }

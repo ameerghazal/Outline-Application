@@ -1,4 +1,17 @@
 import { Link, router } from "expo-router";
+import {
+  onAuthStateChanged,
+  signInWithRedirect,
+  getRedirectResult,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "@firebase/auth";
+import { FIREBASE_AUTH } from "../../firebase.js";
+import React, { useState, useEffect } from "react";
+import {
+  GoogleSignin,
+  statusCodes,
+} from "@react-native-google-signin/google-signin";
 
 /**
  * Goes back to the previous page.
@@ -50,10 +63,40 @@ export function handleSignUpSmall() {
 
 /**
  * Prompts the user with Google or Apple sign-up.
- * TODO: Implement and make it genric with sign-in.
+ * Async function that must run first.
  * @author Ameer G.
  */
-export function platformSignUp() {}
+export async function platformSignUp() {
+  // Initalize google sign-up.
+  GoogleSignin.configure({
+    webClientId:
+      "486928393801-n4sqbf4c3lcjsor85q4ovpftm9uvcpti.apps.googleusercontent.com",
+    offlineAccess: true,
+    forceCodeForRefreshToken: true,
+  });
+
+  try {
+    // Await till the services are avaliable, then prompt the sign in.
+    await GoogleSignin.hasPlayServices();
+    const userInfo = await GoogleSignin.signIn();
+    console.log(userInfo);
+    return result;
+  } catch (error) {
+    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+      // user cancelled the login flow
+      console.log("Sign in cancelled");
+    } else if (error.code === statusCodes.IN_PROGRESS) {
+      // operation (e.g. sign in) is in progress already
+      console.log("Sign in in progress");
+    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+      // play services not available or outdated
+      console.log("Play services not available");
+    } else {
+      // some other error happened
+      console.error(error);
+    }
+  }
+}
 
 /**
  * Prompts the user with Google or Apple sign-in.
