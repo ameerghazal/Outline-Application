@@ -31,6 +31,7 @@ const RootLayout = () => {
           headerShown: false,
         }}
       />
+      {/* Ahmed DMs page */}
       <Stack.Screen
         name="(direct_message)"
         options={{
@@ -49,7 +50,6 @@ const RootLayout = () => {
           headerShown: false,
         }}
       />
-      
     </Stack>
   );
 };

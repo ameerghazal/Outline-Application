@@ -36,7 +36,7 @@ function BottomNav() {
         <Feather name="plus-square" size={24} color="#FFFAFA" />
       </Pressable>
 
-      <Pressable href="/messages">
+      <Pressable onPress={() => router.push("DMList")}>
         <Feather name="message-square" size={24} color="#FFFAFA" />
       </Pressable>
 
