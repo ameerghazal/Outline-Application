@@ -2,32 +2,30 @@ import React from "react";
 import { StyleSheet } from "react-native-web";
 
 export const profileContents = StyleSheet.create({
-  ProfileText: {
-    color: "#FFFAFA",
+  profileContents: {
+    // flex: 1,
   },
-  ProfileContents: {
-    color: "#FFFAFA",
-  },
-  IconContainer: {
+  profileMainContainer: {},
+  iconContainer: {
     alignSelf: "center",
     borderRadius: 50,
   },
-  ProfileIcon: {
+  profileIcon: {
     width: 150,
     height: 150,
     borderRadius: 999,
   },
-  ProfileNameContainer: {
+  profileNameContainer: {
     alignSelf: "center",
   },
-  DisplayName: {
+  displayName: {
     color: "#FFFAFA",
     fontSize: 28,
     fontWeight: 500,
     letterSpacing: 2,
     padding: 5,
   },
-  DisplayHandle: {
+  displayHandle: {
     color: "#FFFAFA",
     fontSize: 16,
     fontWeight: 400,
@@ -35,8 +33,8 @@ export const profileContents = StyleSheet.create({
     letterSpacing: 2,
     padding: 5,
   },
-  ProfileStatsContainer: {
-    flex: 1,
+  profileDetailContainer: {},
+  profileStatsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
@@ -44,15 +42,15 @@ export const profileContents = StyleSheet.create({
     paddingTop: 0,
     padding: 10,
   },
-  StatTextStyle: { color: "#8dac83" },
-  DisplayStats: {
+  statTextStyle: { color: "#8dac83" },
+  displayStats: {
     color: "#FFFAFA",
     fontSize: 12,
     fontWeight: 400,
     textAlign: "center",
     letterSpacing: 1,
   },
-  BtnEditProfile: {
+  btnEditProfile: {
     letterSpacing: 1,
     fontWeight: "400",
     paddingLeft: 30,
@@ -64,16 +62,19 @@ export const profileContents = StyleSheet.create({
     borderColor: "#FFFAFA",
     borderRadius: 50,
   },
-  ProfileBioContainer: {
+  btnEditProfileText: {
+    color: "white",
+  },
+  profileBioContainer: {
     // backgroundColor: "red",
     paddingLeft: 15,
     paddingRight: 15,
   },
-  BioText: { color: "#777", textAlign: "center" },
+  bioText: { color: "#777", textAlign: "center" },
 });
 
 export const profileTabNavs = StyleSheet.create({
-  ProfileTabNavs: {
+  profileTabNavs: {
     height: 42,
     flexDirection: "row",
   },
