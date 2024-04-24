@@ -1,5 +1,7 @@
 import React from "react";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
+import { Button } from "react-native-web";
+import { Feather } from "@expo/vector-icons";
 
 const Profile = () => {
   return (
@@ -20,6 +22,12 @@ const header = {
     borderBottomWidth: 0, // Removes the bottom border line
   },
   headerTintColor: "#fff", // Sets the color of the back button and title
+  headerRight: () => (
+    <Button
+      onPress={() => router.push("/Settings")}
+      title={<Feather name="settings" size={24} color="#FFFAFA" />}
+    />
+  ),
 };
 
 export default Profile;

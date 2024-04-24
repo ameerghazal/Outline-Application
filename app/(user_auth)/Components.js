@@ -47,43 +47,37 @@ export function BackBar() {
  * @returns user input box, reused across sign-up pages.
  * @author Ameer Ghazal
  */
-export function InputBox({
-  placeholder,
-  secureTextEntry = false,
-  number = false,
-}) {
-  // If phone number is true, format the input box.
-  if (number) {
-    // Store the format of the number.
-    const phoneRegex = /^(\d{3})[- ]?(\d{3})[- ]?(\d{4})$/;
-    const [phoneNumber, setPhoneNumber] = useState("");
-
-    const handlePhoneNumberChange = (input) => {
-      if (phoneRegex.test(input)) {
-        setPhoneNumber(input);
-      }
-    };
-
-    return (
-      <TextInput
-        style={inputs.user_input_fields}
-        placeholder={placeholder}
-        placeholderTextColor={"#4b4b4b"}
-        value={number}
-        onChangeText={handlePhoneNumberChange}
-        keyboardType="phone-pad"
-      />
-    );
-  }
-
+export function InputBox({ placeholder, secureTextEntry = false, ...props }) {
   return (
     <TextInput
       style={inputs.user_input_fields}
       placeholder={placeholder}
       placeholderTextColor={"#4b4b4b"}
       secureTextEntry={secureTextEntry}
+      {...props}
     ></TextInput>
   );
+  // If phone number is true, format the input box.
+  // if (number) {
+  //   // Store the format of the number.
+  //   const phoneRegex = /^(\d{3})[- ]?(\d{3})[- ]?(\d{4})$/;
+  //   const [phoneNumber, setPhoneNumber] = useState("");
+  //   const handlePhoneNumberChange = (input) => {
+  //     if (phoneRegex.test(input)) {
+  //       setPhoneNumber(input);
+  //     }
+  //   };
+  //   return (
+  //     <TextInput
+  //       style={inputs.user_input_fields}
+  //       placeholder={placeholder}
+  //       placeholderTextColor={"#4b4b4b"}
+  //       value={value}
+  //       onChangeText={handlePhoneNumberChange}
+  //       keyboardType="phone-pad"
+  //     />
+  //   );
+  // }
 }
 
 /**
@@ -118,9 +112,13 @@ export function AlternateAuth({ onPress }) {
  * @returns returns a generic button.
  * @author Ameer G
  */
-export function ButtonAuth({ buttonText, onPress }) {
+export function ButtonAuth({ buttonText, onPress, disabled = false }) {
   return (
-    <TouchableOpacity style={aesthetics.btn_login} onPress={onPress}>
+    <TouchableOpacity
+      style={[aesthetics.btn_login, disabled && aesthetics.disabled_button]}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <Text style={aesthetics.btn_login_text}>{buttonText}</Text>
     </TouchableOpacity>
   );
@@ -302,5 +300,9 @@ const aesthetics = StyleSheet.create({
   new_sign_up: {
     color: "#8dac83",
     fontWeight: "bold",
+  },
+
+  disabled_button: {
+    opacity: 0.5,
   },
 });

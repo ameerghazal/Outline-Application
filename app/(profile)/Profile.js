@@ -1,9 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { View, StyleSheet, Button } from "react-native";
-import { ProfileTabNavs, ProfileTabContent } from "./Components/Components";
-
+import { ProfileTabNavs } from "./Components/ProfileTabNavs";
 import { ProfileContents } from "./Components/ProfileContents";
+import { ProfileTabContents } from "./Components/ProfileTabContents";
 
 const mockUserData = [
   {
@@ -35,14 +35,15 @@ const mockUserData = [
   },
 ];
 
-// Main function
+/**
+ * Highest Level of Component tree, calls backend for data and passes throughout the page
+ * @author: Ibrahim Mohammad
+ * @returns Default Page to be displayed
+ */
 const Screen = () => {
   const [userData, setUserData] = useState(mockUserData[0]); // Initialize with the first user
 
-  useEffect(() => {
-    // Here you could fetch initial data if needed
-  }, []);
-
+  // Random Number for the page swap
   const handleRandomUser = () => {
     const randomIndex = Math.floor(Math.random() * mockUserData.length);
     setUserData(mockUserData[randomIndex]);
@@ -50,10 +51,10 @@ const Screen = () => {
 
   return (
     <View style={frames.outerFrame}>
-      <Button title="Random User" onPress={handleRandomUser} />
+      {/* <Button title="Random User" onPress={handleRandomUser} /> */}
       <ProfileContents userData={userData} />
       <ProfileTabNavs />
-      <ProfileTabContent />
+      <ProfileTabContents />
     </View>
   );
 };

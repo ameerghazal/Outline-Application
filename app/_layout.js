@@ -32,7 +32,13 @@ const RootLayout = () => {
         }}
       />
       <Stack.Screen
-        name="(settings)"
+        name="(home_feed)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(new_post)"
         options={{
           headerShown: false,
         }}
