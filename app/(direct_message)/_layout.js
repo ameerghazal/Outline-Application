@@ -8,9 +8,12 @@ const DMListLayout = () => {
         name="DMList"
         options={{
           headerShown: false,
-          // headerStyle: {
-          //   backgroundColor: "red",
-          // },
+        }}
+      />
+      <Stack.Screen
+        name="DMChat"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>
