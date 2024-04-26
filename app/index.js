@@ -22,6 +22,9 @@ export default function Page() {
         <Pressable onPress={() => router.push("Settings")}>
           <Text style={styles.textStyle}>Push for Settings</Text>
         </Pressable>
+        <Pressable onPress={() => router.push("Notifications")}>
+          <Text style={styles.textStyle}>Push for Notifications</Text>
+        </Pressable>
       </View>
       <BottomNav></BottomNav>
     </View>
