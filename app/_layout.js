@@ -1,4 +1,5 @@
 import { Stack } from "expo-router";
+import DMChat from "./(direct_message)/DMChat";
 import React from "react";
 
 const RootLayout = () => {
