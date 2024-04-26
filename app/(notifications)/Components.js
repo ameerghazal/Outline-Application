@@ -18,7 +18,7 @@ const NotificationItem = ({ image, primaryText, secondaryText }) => {
 // Mock data for all notifications
 const mockNotifications = [
   {
-    image: "https://placekitten.com/200/200",
+    image: "https://gravatar.com/avatar/9893f1ffceee8138df12b2447b805ed9?s=200&d=robohash&r=x",
     primaryText: "Your contact MoTren is now on Outline.",
     secondaryText: "Check his page out.",
   },
@@ -45,6 +45,11 @@ const mockNotifications = [
   {
     image: "https://placekitten.com/200/200",
     primaryText: "Nerd-Waan has requested to follow you.",
+    secondaryText: "",
+  },
+  {
+    image: "https://placekitten.com/200/200",
+    primaryText: "Nerd-waan mentioned you in Cactus's Outline.",
     secondaryText: "",
   },
 ];
