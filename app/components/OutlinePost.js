@@ -14,10 +14,13 @@ import { Feather } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
 
 const OutlinePost = ({ itemList }) => {
   const [items, setItems] = useState(itemList);
+  const [isLiked] = useState(false);
+  const [isChecked] = useState(false);
 
   return (
     <View style={styles.postContainer}>
@@ -29,9 +32,18 @@ const OutlinePost = ({ itemList }) => {
               source={require("../../assets/goku-icon.png")}
             />
           </View>
-          <Text style={{ color: "#FFFAFA", marginLeft: 10, fontSize: 12 }}>
-            @Goku
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginLeft: 10,
+            }}
+          >
+            <Text style={{ color: "#FFFAFA" }}>Son Goku</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>@kakarot</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>1h</Text>
+          </View>
         </View>
       </View>
       <View style={styles.listContainer}>
@@ -59,7 +71,13 @@ const OutlinePost = ({ itemList }) => {
       </View>
       <View style={styles.postFooter}>
         <TouchableOpacity activeOpacity={0.7}>
-          <Feather name="heart" size={18} color="#fffafa" />
+          <ToggleSVG
+            el1={<Feather name="heart" size={18} color="#fffafa" />}
+            el2={
+              <FontAwesome name="heart" size={18} color="#8DAC83" bordercolor />
+            }
+            toggled={isLiked}
+          ></ToggleSVG>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.7}>
           <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
