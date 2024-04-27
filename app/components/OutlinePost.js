@@ -16,8 +16,9 @@ import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
+import getTimeDifference from "./GetTimeDifference";
 
-const OutlinePost = ({ itemList }) => {
+const OutlinePost = ({ itemList, username, createdTime, userHandle }) => {
   const [items, setItems] = useState(itemList);
   const [isLiked] = useState(false);
   const [isChecked] = useState(false);
@@ -39,22 +40,34 @@ const OutlinePost = ({ itemList }) => {
               marginLeft: 10,
             }}
           >
-            <Text style={{ color: "#FFFAFA" }}>Son Goku</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>@kakarot</Text>
+            <Text style={{ color: "#FFFAFA" }}>{username}</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>
+              {userHandle}
+            </Text>
             <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>1h</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>
+              {getTimeDifference(createdTime)} ago
+            </Text>
           </View>
         </View>
       </View>
       <View style={styles.listContainer}>
-        {items.slice(0, 2).map((item, index) => (
+        {items.slice(0, 2).map((task, index) => (
           <View style={styles.itemContainer} key={index}>
-            <MaterialCommunityIcons
-              name={"checkbox-blank-outline"}
-              size={24}
-              color="#fffafa"
-            />
-            <Text style={styles.input}>{item}</Text>
+            {task.is_checked ? (
+              <MaterialCommunityIcons
+                name="checkbox-marked-outline"
+                size={24}
+                color="#8DAC83"
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="checkbox-blank-outline"
+                size={24}
+                color="#fffafa"
+              />
+            )}
+            <Text style={styles.input}>{task.body}</Text>
           </View>
         ))}
         {items.length > 2 && (
@@ -96,7 +109,6 @@ const OutlinePost = ({ itemList }) => {
 const styles = StyleSheet.create({
   postContainer: {
     padding: 10,
-    height: "35%",
     backgroundColor: "#1B1B1B",
     alignItems: "left",
     borderBottomColor: "#4B4B4B",
