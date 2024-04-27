@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.route('/pullUserData')
-def get_posts_with_tasks():
+def get_posts_with_tasks(curr_user_id):
     # Establish a database connection
     conn = psycopg2.connect(database="postgres",
                             host="localhost",
@@ -18,11 +18,8 @@ def get_posts_with_tasks():
     # Create a cursor with dictionary cursor factory
     cursor = conn.cursor(cursor_factory=RealDictCursor)
 
-    # Define the current user ID
-    curr_user_id = 1
-
     # Query the user ids that the current user is following
-    cursor.execute("SELECT username, bio, picture FROM users id = %s", (curr_user_id,))
+    cursor.execute("SELECT username, user_handle, bio, picture FROM users id = %s", (curr_user_id,))
     users = cursor.fetchall()
     
     # Close cursor and connection

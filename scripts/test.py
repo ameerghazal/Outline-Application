@@ -1,10 +1,7 @@
-from flask import Flask, jsonify
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import datetime
 import json
-
-app = Flask(__name__)
 
 # Define a custom function to serialize datetime objects 
 def serialize_datetime(obj): 
@@ -12,10 +9,9 @@ def serialize_datetime(obj):
         return obj.isoformat() 
     raise TypeError("Type not serializable") 
 
-@app.route('/pullPostsFollowing')
-def get_posts_with_tasks():
-    print("here")
-    curr_user_id = 1
+
+
+def get_posts_with_tasks(curr_user_id):
     # Establish a database connection
     conn = psycopg2.connect(database="postgres",
                             host="localhost",
@@ -45,9 +41,10 @@ def get_posts_with_tasks():
         
         # Store the list of user_posts in the dictionary with user ID as key
         posts[user["followed_user_id"]] = user_posts
-
+    
     # Initialize a dictionary to store posts and their tasks
     posts_with_tasks = {}
+    print(posts.items())
     # Iterate over the fetched posts
     for user_id, user_posts in posts.items():
         for post in user_posts:
@@ -68,8 +65,10 @@ def get_posts_with_tasks():
     cursor.close()
     conn.close()
 
-    # Return JSON response using jsonify
-    return jsonify(posts_with_tasks)
+    # Convert the dictionary to JSON
+    json_data = json.dumps(posts_with_tasks, indent=4, default=serialize_datetime)
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port = 80, debug=True)
+    # Return JSON response
+    print(json_data)
+
+get_posts_with_tasks(1)

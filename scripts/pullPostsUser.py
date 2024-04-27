@@ -13,7 +13,7 @@ def serialize_datetime(obj):
     raise TypeError("Type not serializable") 
 
 @app.route('/pullPostsUser')
-def get_posts():
+def get_posts(curr_user_id):
     # Establish a database connection
     conn = psycopg2.connect(database="postgres",
                             host="localhost",
@@ -23,9 +23,6 @@ def get_posts():
 
     # Create a cursor with dictionary cursor factory
     cursor = conn.cursor(cursor_factory=RealDictCursor)
-
-    # Define the current user ID
-    curr_user_id = 1
 
     # Query the posts for the current user
     cursor.execute("SELECT * FROM posts WHERE user_id = %s", (curr_user_id,))
@@ -41,7 +38,7 @@ def get_posts():
         post_tasks = cursor.fetchall()
         
         # Extract the "body" property values into an array of strings
-        post_bodies = [task["body"] for task in post_tasks]
+        post_bodies = [{task["body"], task["isChecked"]} for task in post_tasks]
         
         # Store the array of body values in the current post dictionary
         post["post_tasks_bodies"] = post_bodies
