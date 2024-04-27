@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, ScrollView, StyleSheet } from "react-native";
 import OutlinePost from "../components/OutlinePost.js";
 import OutlinePostEditable from "../components/OutlinePostEditable.js";
@@ -10,9 +10,26 @@ import {
 } from "react-native-safe-area-context";
 
 const list = ["Item 1", "poop", "pOOP"];
+curr_user_id = 1;
 
 const App = () => {
   const insets = useSafeAreaInsets();
+  const [postData, setPostData] = useState([]);
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    fetch(`http://192.168.1.101:80/pullPostsFollowing`)
+      .then((response) => response.json())
+      .then((data) => setPostData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+  console.log(postData);
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/pullUserData?curr_user_id=${curr_user_id}`)
+  //     .then((response) => response.json())
+  //     .then((data) => setUserData(data))
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, []);
   return (
     <SafeAreaProvider style={styles.outer_frame}>
       <GeneralHeader></GeneralHeader>
@@ -21,9 +38,15 @@ const App = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        <OutlinePost itemList={list}></OutlinePost>
-        <OutlinePostEditable itemList={list}></OutlinePostEditable>
-        <OutlinePost itemList={list}></OutlinePost>
+        {Object.values(postData).map((post) => (
+          <OutlinePost
+            key={post.id}
+            itemList={post.post_tasks_bodies}
+            username={`User ${post.user_id}`}
+            createdTime={post.created_at}
+            userHandle={`@user${post.user_id}`}
+          ></OutlinePost>
+        ))}
       </ScrollView>
       <BottomNav></BottomNav>
     </SafeAreaProvider>
