@@ -10,10 +10,5 @@ const list = ["Item 1", "poop", "pOOP"];
  * @returns Content displayed (ie. user outlines, replies, tagged, likes)
  */
 export const ProfileTabContents = () => {
-  return (
-    <View>
-      {/* Attempted to use Nirwaan's Component. Dude needs to comment */}
-      {/* <OutlinePost itemList={list}></OutlinePost> */}
-    </View>
-  );
+  return <View></View>;
 };
