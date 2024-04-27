@@ -1,6 +1,14 @@
 import { Ionicons, Feather } from "@expo/vector-icons";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { traverseBack } from "../(home_feed)/Functions";
+import { router } from "expo-router";
+
 const GeneralHeader = () => {
   return (
     <View style={styles.header_container}>

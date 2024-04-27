@@ -28,7 +28,7 @@ function BottomNav() {
         <Feather name="home" size={24} color="#FFFAFA" />
       </Pressable>
 
-      <Pressable onPress={() => router.push("SignUpExt")}>
+      <Pressable onPress={() => router.push("SignIn")}>
         <Feather name="search" size={24} color="#FFFAFA" />
       </Pressable>
 

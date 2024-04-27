@@ -65,7 +65,7 @@ function Settings() {
     { name: "Profile Settings", route: "./ProfileSettingsPage", icon: "user" },
   ];
   const securitySettings = [
-    { name: "Password Reset", route: "./PasswordResetPage", icon: "lock" },
+    { name: "Password Reset", route: "./ResetConformation", icon: "lock" },
     { name: "Face ID and PIN", route: "./FaceIdAndPinPage", icon: "eye" },
   ];
   const appSettings = [

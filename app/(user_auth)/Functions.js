@@ -8,10 +8,10 @@ import {
 } from "@firebase/auth";
 import { FIREBASE_AUTH } from "../../firebase.js";
 import React, { useState, useEffect } from "react";
-import {
-  GoogleSignin,
-  statusCodes,
-} from "@react-native-google-signin/google-signin";
+// import {
+//   GoogleSignin,
+//   statusCodes,
+// } from "@react-native-google-signin/google-signin";
 
 /**
  * Goes back to the previous page.
@@ -67,35 +67,39 @@ export function handleSignUpSmall() {
  * @author Ameer G.
  */
 export async function platformSignUp() {
-  // Initalize google sign-up.
-  GoogleSignin.configure({
-    webClientId:
-      "486928393801-n4sqbf4c3lcjsor85q4ovpftm9uvcpti.apps.googleusercontent.com",
-    offlineAccess: true,
-    forceCodeForRefreshToken: true,
-  });
+  // Initalize the provider.
+  const provider = new GoogleAuthProvider();
+  const auth = FIREBASE_AUTH;
+  console.log("helo");
 
-  try {
-    // Await till the services are avaliable, then prompt the sign in.
-    await GoogleSignin.hasPlayServices();
-    const userInfo = await GoogleSignin.signIn();
-    console.log(userInfo);
-    return result;
-  } catch (error) {
-    if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-      // user cancelled the login flow
-      console.log("Sign in cancelled");
-    } else if (error.code === statusCodes.IN_PROGRESS) {
-      // operation (e.g. sign in) is in progress already
-      console.log("Sign in in progress");
-    } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-      // play services not available or outdated
-      console.log("Play services not available");
-    } else {
-      // some other error happened
-      console.error(error);
-    }
-  }
+  // Sign in with a pop-up.
+  return signInWithPopup(auth, provider)
+    .then((result) => {
+      // Get the user credential.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+
+      // Grab the token.
+      const token = credential.accessToken;
+
+      // Signed in user.
+      const user = result.user;
+
+      console.log(user);
+    })
+    .catch((error) => {
+      // Credential.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+
+      // Print out.
+      console.log(
+        "Error signing in with Google",
+        error.code,
+        error.message,
+        error.customData.email
+      );
+
+      return { message: error.message };
+    });
 }
 
 /**

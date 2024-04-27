@@ -14,20 +14,13 @@ import {
   AlternateAuth,
   ButtonAuth,
   Redirection,
-} from "./Components.js";
-import { Link, router } from "expo-router";
+} from "../(user_auth)/Components.js";
+import { router } from "expo-router";
 import {
   handleForgotPassword,
-  handleSignUpSmall,
-  handleUserAuth,
   platformSignIn,
-} from "./Functions.js";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "@firebase/auth";
+} from "../(user_auth)/Functions.js";
+import { signInWithEmailAndPassword } from "@firebase/auth";
 import { FIREBASE_AUTH } from "../../firebase.js";
 
 /**
@@ -35,23 +28,10 @@ import { FIREBASE_AUTH } from "../../firebase.js";
  * @returns the sign-in-screen.
  * @author Ameer G
  */
-const SignInScreen = () => {
+const ResetConformation = () => {
   // Store the email and the password.
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const auth = FIREBASE_AUTH;
-
-  // If we already have a user, we go to homepage.
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      console.log(user);
-      if (user) {
-        router.push("HomeFeed"); // switch to homepage.
-      }
-    });
-
-    return unsub; // so we don't have multiple listeners.
-  }, []);
 
   // Login into the account.
   async function handleSignInFirebase() {
@@ -66,7 +46,7 @@ const SignInScreen = () => {
     try {
       const auth = FIREBASE_AUTH;
       await signInWithEmailAndPassword(auth, email, password);
-      router.push("HomeFeed");
+      router.push("PasswordResetPage");
     } catch (error) {
       alert(
         "There is not an account with this combination of email and password."
@@ -109,55 +89,6 @@ const SignInScreen = () => {
           buttonText={"Login"}
           onPress={handleSignInFirebase}
         ></ButtonAuth>
-        <Text style={aesthetics.alterante_sign_in}>Or sign in with</Text>
-        <AlternateAuth onPress={platformSignIn}></AlternateAuth>
-      </View>
-      <Redirection
-        labelText={"New to Outline? "}
-        buttonText={"Sign up."}
-        onPress={handleSignUpSmall}
-      ></Redirection>
-    </View>
-  );
-};
-
-/**
- * Creates the markup for the login portion of the sign-in page.
- * Featuring inputs, forgot password, login button, sepearte login, and more.
- * @returns returns the login portion of the sign-in page.
- * @author Ameer G
- */
-const MiddleData = () => {
-  return (
-    <View style={frames.outer_frame_login}>
-      <View style={frames.logo_sign_in}>
-        <Text style={aesthetics.text_logo_auth}>OUT | LINE</Text>
-      </View>
-      <UserInput></UserInput>
-      <ButtonAuth buttonText={"Login"} onPress={handleUserAuth}></ButtonAuth>
-      <Text style={aesthetics.alterante_sign_in}>Or sign in with</Text>
-      <AlternateAuth onPress={platformSignIn}></AlternateAuth>
-    </View>
-  );
-};
-
-/**
- * Creates the user-sign-in logic.
- * @returns user input box, reused across sign-up pages.
- * @author Ameer Ghazal
- */
-const UserInput = () => {
-  return (
-    <View style={frames.user_input_frame}>
-      <InputBox placeholder="Email or Username"></InputBox>
-      <View style={frames.user_password_frame}>
-        <InputBox placeholder="Password" secureTextEntry={true}></InputBox>
-        <TouchableOpacity
-          style={aesthetics.btn_forgot_password}
-          onPress={handleForgotPassword}
-        >
-          <Text style={aesthetics.forgot_password_text}>Forgot Password?</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -232,5 +163,5 @@ const aesthetics = StyleSheet.create({
   },
 });
 
-// Export the sign-up-screen to other pages.
-export default SignInScreen;
+// Export the reset conformation screen to other pages.
+export default ResetConformation;
