@@ -7,7 +7,7 @@ import { traverseBack } from "./Functions";
 
 export default function NewPost() {
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <AppButton
           title="Cancel"
@@ -24,11 +24,11 @@ export default function NewPost() {
           color="FFFAFA"
         ></AppButton>
       </View>
-      <KeyboardAvoidingView style={styles.post}>
+      <View style={styles.post}>
         <OutlineEditList />
-      </KeyboardAvoidingView>
+      </View>
       <StatusBar style="light" />
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
