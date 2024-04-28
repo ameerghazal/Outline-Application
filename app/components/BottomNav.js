@@ -72,6 +72,7 @@ function BottomNav() {
           size={24}
           color={currentPage === "/Settings" ? "#8dac83" : "#FFFAFA"}
         />
+      </Pressable>
     </View>
   );
 }
