@@ -7,6 +7,7 @@ import {
 } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
+import { handleRoute } from "../functions/generalFunctions";
 import { usePathname } from "expo-router";
 
 function BottomNav() {
@@ -33,7 +34,7 @@ function BottomNav() {
         paddingTop: 20,
       }}
     >
-      <Pressable onPress={() => navigate("HomeFeed")}>
+      <Pressable onPress={() => router.navigate("HomeFeed")}>
         <Feather
           name="home"
           size={24}
@@ -41,7 +42,7 @@ function BottomNav() {
         />
       </Pressable>
 
-      <Pressable onPress={() => navigate("SignUp")}>
+      <Pressable onPress={() => router.navigate("Search")}>
         <Feather
           name="search"
           size={24}
@@ -49,7 +50,7 @@ function BottomNav() {
         />
       </Pressable>
 
-      <Pressable onPress={() => navigate("Create")}>
+      <Pressable onPress={() => router.navigate("NewPost")}>
         <Feather
           name="plus-square"
           size={24}
@@ -57,7 +58,7 @@ function BottomNav() {
         />
       </Pressable>
 
-      <Pressable onPress={() => navigate("DMList")}>
+      <Pressable onPress={() => router.navigate("DMList")}>
         <Feather
           name="message-square"
           size={24}
@@ -65,13 +66,12 @@ function BottomNav() {
         />
       </Pressable>
 
-      <Pressable onPress={() => navigate("Settings")}>
+      <Pressable onPress={() => router.navigate("Settings")}>
         <Feather
           name="bell"
           size={24}
           color={currentPage === "/Settings" ? "#8dac83" : "#FFFAFA"}
         />
-      </Pressable>
     </View>
   );
 }

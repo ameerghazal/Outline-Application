@@ -35,7 +35,6 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPass, setConfirmPass] = useState("");
-  const auth = FIREBASE_AUTH;
 
   // Create an account.
   async function handleSignUpFirebase() {
@@ -67,7 +66,7 @@ const SignUpScreen = () => {
     try {
       const auth = FIREBASE_AUTH;
       await createUserWithEmailAndPassword(auth, email, password);
-      router.push("./SignUpExt");
+      router.push("SignUpExt");
     } catch (error) {
       console.log("here");
       console.log(error.message);

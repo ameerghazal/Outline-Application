@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { Link, router } from "expo-router";
 import { traverseBack } from "./Functions";
+import MaskedInput from "react-native-masked-text";
 
 /**
  * Handles the phone-number OR date formatting, for input boxes.
@@ -57,6 +58,7 @@ export function InputBox({ placeholder, secureTextEntry = false, ...props }) {
       {...props}
     ></TextInput>
   );
+
   // If phone number is true, format the input box.
   // if (number) {
   //   // Store the format of the number.
