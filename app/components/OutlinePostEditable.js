@@ -11,13 +11,15 @@ import {
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
 
 const OutlinePost = ({ itemList }) => {
   const [items, setItems] = useState(itemList);
+  const [isLiked] = useState(false);
+  const [isChecked] = useState(false);
 
   return (
     <View style={styles.postContainer}>
@@ -29,9 +31,18 @@ const OutlinePost = ({ itemList }) => {
               source={require("../../assets/rintwit.jpg")}
             />
           </View>
-          <Text style={{ color: "#FFFAFA", marginLeft: 10, fontSize: 12 }}>
-            @NerdWaan
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginLeft: 10,
+            }}
+          >
+            <Text style={{ color: "#FFFAFA" }}>Nerd-Waan</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>@NerdWaan</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>2h</Text>
+          </View>
         </View>
         <TouchableOpacity activeOpacity={0.7}>
           <Entypo name="dots-three-horizontal" size={18} color="#fffafa" />
@@ -55,21 +66,32 @@ const OutlinePost = ({ itemList }) => {
                   color="#8DAC83"
                 />
               }
+              toggled={isChecked}
             ></ToggleSVG>
             <Text style={styles.input}>{item}</Text>
           </View>
         ))}
         {items.length > 2 && (
-          <TouchableOpacity>
-            <TextInput editable={false} style={styles.showMoreButton}>
-              Show all
-            </TextInput>
+          <TouchableOpacity
+            style={{
+              flex: 1,
+              width: 46,
+              flexDirection: "row",
+            }}
+          >
+            <Text style={styles.showMoreButton}>Show all</Text>
           </TouchableOpacity>
         )}
       </View>
       <View style={styles.postFooter}>
         <TouchableOpacity activeOpacity={0.7}>
-          <Feather name="heart" size={18} color="#fffafa" />
+          <ToggleSVG
+            el1={<Feather name="heart" size={18} color="#fffafa" />}
+            el2={
+              <FontAwesome name="heart" size={18} color="#8DAC83" bordercolor />
+            }
+            toggled={isLiked}
+          ></ToggleSVG>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.7}>
           <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
@@ -138,7 +160,6 @@ const styles = StyleSheet.create({
     color: "#FFFAFA",
     borderBottomColor: "#FFFAFA",
     borderBottomWidth: 1,
-    margin: 10,
     fontSize: 12,
   },
 });

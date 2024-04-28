@@ -1,19 +1,21 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
-const ToggleSVG = ({ callback, el1, el2 }) => {
-  const [liked, setLiked] = useState(false);
+
+const ToggleSVG = ({ callback, el1, el2, toggled }) => {
+  const [isToggled, setToggled] = useState(toggled);
 
   return (
     <TouchableOpacity
       style={{ flexDirection: "row" }}
       onPress={() => {
-        setLiked(!liked);
+        setToggled(!isToggled);
         if (callback) {
           callback();
         }
       }}
     >
-      {liked ? el1 : el2}
+      {/* el2 is the element you want when toggled (ex: check box is checked) */}
+      {isToggled ? el2 : el1}
     </TouchableOpacity>
   );
 };

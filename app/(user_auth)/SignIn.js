@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -22,6 +22,13 @@ import {
   handleUserAuth,
   platformSignIn,
 } from "./Functions.js";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "@firebase/auth";
+import { FIREBASE_AUTH } from "../../firebase.js";
 
 /**
  * Puts together the sign-in.-screen based on the components we created below.
@@ -29,10 +36,81 @@ import {
  * @author Ameer G
  */
 const SignInScreen = () => {
+  // Store the email and the password.
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const auth = FIREBASE_AUTH;
+
+  // If we already have a user, we go to homepage.
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        router.push("SignUpExt"); // switch to homepage.
+      }
+    });
+
+    return unsub; // so we don't have multiple listeners.
+  }, []);
+
+  // Login into the account.
+  async function handleSignInFirebase() {
+    // Check if the email contains an "@".
+    console.log(email);
+    if (!email.includes("@")) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
+    // If we make it here, login to the account.
+    try {
+      const auth = FIREBASE_AUTH;
+      await signInWithEmailAndPassword(auth, email, password);
+      router.push("ResetPass");
+    } catch (error) {
+      alert(
+        "There is not an account with this combination of email and password."
+      );
+      console.log(error.message);
+    }
+  }
+
   return (
     <View style={frames.outer_frame}>
       <BackBar></BackBar>
-      <MiddleData></MiddleData>
+      <View style={frames.outer_frame_login}>
+        <View style={frames.logo_sign_in}>
+          <Text style={aesthetics.text_logo_auth}>OUT | LINE</Text>
+        </View>
+        <View style={frames.user_input_frame}>
+          <InputBox
+            placeholder="Email or Username"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
+          ></InputBox>
+          <View style={frames.user_password_frame}>
+            <InputBox
+              placeholder="Password"
+              secureTextEntry={true}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            ></InputBox>
+            <TouchableOpacity
+              style={aesthetics.btn_forgot_password}
+              onPress={handleForgotPassword}
+            >
+              <Text style={aesthetics.forgot_password_text}>
+                Forgot Password?
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <ButtonAuth
+          buttonText={"Login"}
+          onPress={handleSignInFirebase}
+        ></ButtonAuth>
+        <Text style={aesthetics.alterante_sign_in}>Or sign in with</Text>
+        <AlternateAuth onPress={platformSignIn}></AlternateAuth>
+      </View>
       <Redirection
         labelText={"New to Outline? "}
         buttonText={"Sign up."}
