@@ -9,14 +9,22 @@ import {
 import { traverseBack } from "../(home_feed)/Functions";
 import { router } from "expo-router";
 
-const GeneralHeader = () => {
+const GeneralHeader = (is) => {
   return (
     <View style={styles.header_container}>
-      <TouchableOpacity accessibilityLabel="Go back." onPress={traverseBack}>
-        <Ionicons name="chevron-back" size={24} color={"#ffffff"}></Ionicons>
+      <TouchableOpacity
+        accessibilityLabel="Go back."
+        onPress={() => router.navigate("Profile")}
+      >
+        <Ionicons name="person" size={24} color={"#ffffff"}></Ionicons>
       </TouchableOpacity>
       <Text style={styles.header_title}>OUT | LINE</Text>
-      <Feather name="settings" size={24} color="#FFFAFA" />
+      <Feather
+        name="settings"
+        size={24}
+        color="#FFFAFA"
+        onPress={() => router.push("Settings")}
+      />
     </View>
   );
 };

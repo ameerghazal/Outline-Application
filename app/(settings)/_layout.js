@@ -18,6 +18,7 @@ const SettingsLayout = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="PasswordResetPage" options={{ headerShown: false }} />
+      <Stack.Screen name="ResetConformation" options={{ headerShown: false }} />
       <Stack.Screen name="FaceIdAndPinPage" options={{ headerShown: false }} />
       <Stack.Screen name="NotificationsPage" options={{ headerShown: false }} />
       <Stack.Screen name="AppearancePage" options={{ headerShown: false }} />

@@ -7,9 +7,11 @@ import {
 } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
+import { handleRoute } from "../functions/generalFunctions";
 
 function BottomNav() {
   const insets = useSafeAreaInsets();
+  console.log("Here");
   return (
     <View
       style={{
@@ -24,23 +26,23 @@ function BottomNav() {
         paddingTop: 20,
       }}
     >
-      <Pressable onPress={() => router.push("HomeFeed")}>
+      <Pressable onPress={() => router.navigate("HomeFeed")}>
         <Feather name="home" size={24} color="#FFFAFA" />
       </Pressable>
 
-      <Pressable onPress={() => router.push("SignIn")}>
+      <Pressable onPress={() => router.navigate("Search")}>
         <Feather name="search" size={24} color="#FFFAFA" />
       </Pressable>
 
-      <Pressable href="/create">
+      <Pressable onPress={() => router.navigate("NewPost")}>
         <Feather name="plus-square" size={24} color="#FFFAFA" />
       </Pressable>
 
-      <Pressable href="/messages">
+      <Pressable onPress={() => router.navigate("Messages")}>
         <Feather name="message-square" size={24} color="#FFFAFA" />
       </Pressable>
 
-      <Pressable href="/settings">
+      <Pressable onPress={() => router.navigate("Notifications")}>
         <Feather name="bell" size={24} color="#FFFAFA" />
       </Pressable>
     </View>
