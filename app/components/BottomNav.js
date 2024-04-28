@@ -8,10 +8,18 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
 import { handleRoute } from "../functions/generalFunctions";
+import { usePathname } from "expo-router";
 
 function BottomNav() {
   const insets = useSafeAreaInsets();
-  console.log("Here");
+  const currentPage = usePathname();
+
+  const navigate = (path) => {
+    if (currentPage !== `/${path}`) {
+      router.push(path);
+    }
+  };
+
   return (
     <View
       style={{
@@ -27,24 +35,43 @@ function BottomNav() {
       }}
     >
       <Pressable onPress={() => router.navigate("HomeFeed")}>
-        <Feather name="home" size={24} color="#FFFAFA" />
+        <Feather
+          name="home"
+          size={24}
+          color={currentPage === "/HomeFeed" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
 
       <Pressable onPress={() => router.navigate("Search")}>
-        <Feather name="search" size={24} color="#FFFAFA" />
+        <Feather
+          name="search"
+          size={24}
+          color={currentPage === "/SignUp" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
 
       <Pressable onPress={() => router.navigate("NewPost")}>
-        <Feather name="plus-square" size={24} color="#FFFAFA" />
+        <Feather
+          name="plus-square"
+          size={24}
+          color={currentPage === "/Create" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
 
-      <Pressable onPress={() => router.navigate("Messages")}>
-        <Feather name="message-square" size={24} color="#FFFAFA" />
+      <Pressable onPress={() => router.navigate("DMList")}>
+        <Feather
+          name="message-square"
+          size={24}
+          color={currentPage === "/Messages" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
 
-      <Pressable onPress={() => router.navigate("Notifications")}>
-        <Feather name="bell" size={24} color="#FFFAFA" />
-      </Pressable>
+      <Pressable onPress={() => router.navigate("Settings")}>
+        <Feather
+          name="bell"
+          size={24}
+          color={currentPage === "/Settings" ? "#8dac83" : "#FFFAFA"}
+        />
     </View>
   );
 }
