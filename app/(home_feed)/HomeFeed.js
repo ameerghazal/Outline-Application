@@ -17,7 +17,7 @@ const App = () => {
   const [postData, setPostData] = useState([]);
   const [userData, setUserData] = useState([]);
   useEffect(() => {
-    fetch(`http://192.168.1.101:80/pullPostsFollowing`)
+    fetch(`http://localhost:80/pullPostsFollowing`)
       .then((response) => response.json())
       .then((data) => setPostData(data))
       .catch((error) => console.error("Error fetching data:", error));

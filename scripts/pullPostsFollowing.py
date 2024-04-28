@@ -1,10 +1,12 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 import psycopg2
 from psycopg2.extras import RealDictCursor
 import datetime
 import json
 
 app = Flask(__name__)
+CORS(app)
 
 # Define a custom function to serialize datetime objects 
 def serialize_datetime(obj): 
