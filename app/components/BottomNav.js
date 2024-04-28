@@ -7,9 +7,18 @@ import {
 } from "react-native-safe-area-context";
 import { Feather } from "@expo/vector-icons";
 import { Link, router } from "expo-router";
+import { usePathname } from "expo-router";
 
 function BottomNav() {
   const insets = useSafeAreaInsets();
+  const currentPage = usePathname();
+
+  const navigate = (path) => {
+    if (currentPage !== `/${path}`) {
+      router.push(path);
+    }
+  };
+
   return (
     <View
       style={{
@@ -24,24 +33,44 @@ function BottomNav() {
         paddingTop: 20,
       }}
     >
-      <Pressable onPress={() => router.push("HomeFeed")}>
-        <Feather name="home" size={24} color="#FFFAFA" />
+      <Pressable onPress={() => navigate("HomeFeed")}>
+        <Feather
+          name="home"
+          size={24}
+          color={currentPage === "/HomeFeed" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
 
-      <Pressable onPress={() => router.push("SignUp")}>
-        <Feather name="search" size={24} color="#FFFAFA" />
+      <Pressable onPress={() => navigate("SignUp")}>
+        <Feather
+          name="search"
+          size={24}
+          color={currentPage === "/SignUp" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
 
-      <Pressable href="/create">
-        <Feather name="plus-square" size={24} color="#FFFAFA" />
+      <Pressable onPress={() => navigate("Create")}>
+        <Feather
+          name="plus-square"
+          size={24}
+          color={currentPage === "/Create" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
 
-      <Pressable href="/messages">
-        <Feather name="message-square" size={24} color="#FFFAFA" />
+      <Pressable onPress={() => navigate("DMList")}>
+        <Feather
+          name="message-square"
+          size={24}
+          color={currentPage === "/Messages" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
 
-      <Pressable href="/settings">
-        <Feather name="bell" size={24} color="#FFFAFA" />
+      <Pressable onPress={() => navigate("Settings")}>
+        <Feather
+          name="bell"
+          size={24}
+          color={currentPage === "/Settings" ? "#8dac83" : "#FFFAFA"}
+        />
       </Pressable>
     </View>
   );
