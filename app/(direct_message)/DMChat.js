@@ -12,10 +12,12 @@ import { useRoute } from "expo-router";
 
 import { useState, useCallback, useEffect } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
+import { FIREBASE_AUTH } from "../../firebase";
 
 const DMChat = () => {
   const [messages, setMessages] = useState([]);
-  const
+  const currentUser = FIREBASE_AUTH.currentUser;
+  console.log(currentUser);
 
   useEffect(() => {
     setMessages([
@@ -37,6 +39,7 @@ const DMChat = () => {
     // console.log(myMsg);
     const myMsg = {
       msg,
+      sentBy: currentUser,
     };
     // setMessages((previousMessages) =>
     //   GiftedChat.append(previousMessages, messages)
