@@ -15,6 +15,7 @@ import { GiftedChat } from "react-native-gifted-chat";
 
 const DMChat = () => {
   const [messages, setMessages] = useState([]);
+  const
 
   useEffect(() => {
     setMessages([
@@ -25,22 +26,27 @@ const DMChat = () => {
         user: {
           _id: 2,
           name: "React Native",
-          avatar: "../../../assets/rintwt.jpg",
+          avatar: "../../assets/rintwt.jpg",
         },
       },
     ]);
   }, []);
 
-  const onSend = useCallback((messages = []) => {
-    setMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
-    );
+  const onSend = useCallback((messagesArray) => {
+    const msg = messagesArray[0];
+    // console.log(myMsg);
+    const myMsg = {
+      msg,
+    };
+    // setMessages((previousMessages) =>
+    //   GiftedChat.append(previousMessages, messages)
+    // );
   }, []);
 
   return (
     <GiftedChat
       messages={messages}
-      onSend={(messages) => onSend(messages)}
+      onSend={(text) => onSend(text)}
       user={{
         _id: 1,
       }}

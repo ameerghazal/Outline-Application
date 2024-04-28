@@ -57,7 +57,7 @@ function BottomNav() {
         />
       </Pressable>
 
-      <Pressable onPress={() => navigate("Messages")}>
+      <Pressable onPress={() => navigate("DMList")}>
         <Feather
           name="message-square"
           size={24}
