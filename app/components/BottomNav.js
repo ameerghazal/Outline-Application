@@ -49,7 +49,6 @@ function BottomNav() {
           color={currentPage === "/SignUp" ? "#8dac83" : "#FFFAFA"}
         />
       </Pressable>
-
       <Pressable onPress={() => router.navigate("NewPost")}>
         <Feather
           name="plus-square"
