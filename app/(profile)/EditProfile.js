@@ -1,9 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { View, StyleSheet, Button } from "react-native";
-import { ProfileTabNavs } from "./Components/ProfileTabNavs";
-import { ProfileContents } from "./Components/ProfileContents";
-import { ProfileTabContents } from "./Components/ProfileTabContents";
 import { BackBar } from "../(user_auth)/Components";
 import BottomNav from "../components/BottomNav";
 
