@@ -1,13 +1,15 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+from flask_cors import CORS
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
-
+CORS(app)
 
 
 @app.route('/pullUserData')
-def get_posts_with_tasks(curr_user_id):
+def get_posts_with_tasks():
+    print("here")
     # Establish a database connection
     conn = psycopg2.connect(database="postgres",
                             host="localhost",
@@ -18,9 +20,10 @@ def get_posts_with_tasks(curr_user_id):
     # Create a cursor with dictionary cursor factory
     cursor = conn.cursor(cursor_factory=RealDictCursor)
 
+    user_id = request.args.get('userID')
     # Query the user ids that the current user is following
-    cursor.execute("SELECT username, user_handle, bio, picture FROM users id = %s", (curr_user_id,))
-    users = cursor.fetchall()
+    cursor.execute("SELECT username, user_handle, bio, picture FROM users WHERE id = %s", (user_id,))
+    users = cursor.fetchone()
     
     # Close cursor and connection
     cursor.close()
@@ -30,4 +33,4 @@ def get_posts_with_tasks(curr_user_id):
     return jsonify(users)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port = 81, debug=True)

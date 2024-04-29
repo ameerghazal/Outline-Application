@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -18,10 +18,17 @@ import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
 import getTimeDifference from "./GetTimeDifference";
 
-const OutlinePost = ({ itemList, username, createdTime, userHandle }) => {
+const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
   const [items, setItems] = useState(itemList);
-  const [isLiked] = useState(false);
-  const [isChecked] = useState(false);
+  const [userData, setUserData] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:81/pullUserData?userID=${userID}`)
+      .then((response) => response.json())
+      .then((data) => setUserData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+  console.log(userData);
 
   return (
     <View style={styles.postContainer}>
@@ -40,9 +47,9 @@ const OutlinePost = ({ itemList, username, createdTime, userHandle }) => {
               marginLeft: 10,
             }}
           >
-            <Text style={{ color: "#FFFAFA" }}>{username}</Text>
+            <Text style={{ color: "#FFFAFA" }}>{userData.username}</Text>
             <Text style={{ color: "#606060", marginLeft: 5 }}>
-              {userHandle}
+              {userData.user_handle}
             </Text>
             <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
             <Text style={{ color: "#606060", marginLeft: 5 }}>

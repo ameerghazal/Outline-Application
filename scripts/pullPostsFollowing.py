@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_cors import CORS
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -16,8 +16,7 @@ def serialize_datetime(obj):
 
 @app.route('/pullPostsFollowing')
 def get_posts_with_tasks():
-    print("here")
-    curr_user_id = 1
+    curr_user_id = request.args.get('userID')
     # Establish a database connection
     conn = psycopg2.connect(database="postgres",
                             host="localhost",
@@ -60,8 +59,19 @@ def get_posts_with_tasks():
             # Extract the "body" property values into an array of strings
             post_bodies = [{"body": task["body"], "is_checked": task["is_checked"]} for task in post_tasks]
 
+            # Fetch if liked associated with the current post
+            print(user_id)
+            cursor.execute("SELECT COUNT(id) FROM post_likes WHERE (post_id = %s) AND (user_id = %s)", (post["id"],curr_user_id))
+            post_like = cursor.fetchone()
+            is_liked = False
+            if (post_like["count"] > 0):
+                is_liked = True
+
+
             # Store the array of body values in the current post dictionary
             post["post_tasks_bodies"] = post_bodies
+            # Store if its liked
+            post["is_liked"] = is_liked
 
             # Add the post to the dictionary using its ID as the key
             posts_with_tasks[post["id"]] = post
