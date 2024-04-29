@@ -6,6 +6,7 @@ import { StyleSheet, Text, ScrollView, View, Pressable } from "react-native";
 import { router } from "expo-router";
 import { BackBar } from "../(user_auth)/Components";
 import { Feather } from "@expo/vector-icons";
+import { usePathname } from "expo-router";
 
 const styles = StyleSheet.create({
   marginLeft: {
@@ -65,7 +66,7 @@ function Settings() {
     { name: "Profile Settings", route: "./ProfileSettingsPage", icon: "user" },
   ];
   const securitySettings = [
-    { name: "Password Reset", route: "./PasswordResetPage", icon: "lock" },
+    { name: "Password Reset", route: "./ResetConformation", icon: "lock" },
     { name: "Face ID and PIN", route: "./FaceIdAndPinPage", icon: "eye" },
   ];
   const appSettings = [

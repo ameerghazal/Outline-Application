@@ -1,14 +1,30 @@
 import { Ionicons, Feather } from "@expo/vector-icons";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from "react-native";
 import { traverseBack } from "../(home_feed)/Functions";
-const GeneralHeader = () => {
+import { router } from "expo-router";
+
+const GeneralHeader = (is) => {
   return (
     <View style={styles.header_container}>
-      <TouchableOpacity accessibilityLabel="Go back." onPress={traverseBack}>
-        <Ionicons name="chevron-back" size={24} color={"#ffffff"}></Ionicons>
+      <TouchableOpacity
+        accessibilityLabel="Go back."
+        onPress={() => router.navigate("Profile")}
+      >
+        <Ionicons name="person" size={24} color={"#ffffff"}></Ionicons>
       </TouchableOpacity>
       <Text style={styles.header_title}>OUT | LINE</Text>
-      <Feather name="settings" size={24} color="#FFFAFA" />
+      <Feather
+        name="settings"
+        size={24}
+        color="#FFFAFA"
+        onPress={() => router.push("Settings")}
+      />
     </View>
   );
 };

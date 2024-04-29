@@ -1,4 +1,17 @@
 import { Link, router } from "expo-router";
+import {
+  onAuthStateChanged,
+  signInWithRedirect,
+  getRedirectResult,
+  signInWithPopup,
+  GoogleAuthProvider,
+} from "@firebase/auth";
+import { FIREBASE_AUTH } from "../../firebase.js";
+import React, { useState, useEffect } from "react";
+// import {
+//   GoogleSignin,
+//   statusCodes,
+// } from "@react-native-google-signin/google-signin";
 
 /**
  * Goes back to the previous page.
@@ -28,7 +41,7 @@ export function handleLoginSmall() {
  * @author Ameer G
  */
 export function handleNext() {
-  return router.push("./SignUpExt");
+  return router.push("SignUpExt");
 }
 
 /**
@@ -36,7 +49,7 @@ export function handleNext() {
  * @author Ameer G
  */
 export function handleForgotPassword() {
-  return router.push("./ResetPass");
+  return router.push("ResetPass");
 }
 
 /**
@@ -45,15 +58,49 @@ export function handleForgotPassword() {
  * @author Ameer G
  */
 export function handleSignUpSmall() {
-  return router.push("./SignUp");
+  return router.push("SignUp");
 }
 
 /**
  * Prompts the user with Google or Apple sign-up.
- * TODO: Implement and make it genric with sign-in.
+ * Async function that must run first.
  * @author Ameer G.
  */
-export function platformSignUp() {}
+export async function platformSignUp() {
+  // Initalize the provider.
+  const provider = new GoogleAuthProvider();
+  const auth = FIREBASE_AUTH;
+  console.log("helo");
+
+  // Sign in with a pop-up.
+  return signInWithPopup(auth, provider)
+    .then((result) => {
+      // Get the user credential.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+
+      // Grab the token.
+      const token = credential.accessToken;
+
+      // Signed in user.
+      const user = result.user;
+
+      console.log(user);
+    })
+    .catch((error) => {
+      // Credential.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+
+      // Print out.
+      console.log(
+        "Error signing in with Google",
+        error.code,
+        error.message,
+        error.customData.email
+      );
+
+      return { message: error.message };
+    });
+}
 
 /**
  * Prompts the user with Google or Apple sign-in.

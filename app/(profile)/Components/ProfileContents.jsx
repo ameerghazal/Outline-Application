@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { profileContents } from "../styles";
+import { handleEditProfile } from "../Functions";
+import { router } from "expo-router";
 
 /**
  * Component for the top page of the Profile Page.
@@ -10,14 +12,18 @@ import { profileContents } from "../styles";
  */
 export const ProfileContents = ({ userData }) => {
   return (
-    <View style={profileContents.ProfileContents}>
-      <ProfileImage imageURL={userData.imageURL}></ProfileImage>
-      <ProfileName
-        displayName={userData.displayName}
-        displayHandle={userData.displayHandle}
-      ></ProfileName>
+    <View style={profileContents.profileContents}>
+      {/* Username and image */}
+      <View style={profileContents.profileMainContainer}>
+        <ProfileImage imageURL={userData.imageURL}></ProfileImage>
+        <ProfileName
+          displayName={userData.displayName}
+          displayHandle={userData.displayHandle}
+        ></ProfileName>
+      </View>
 
-      <View style={profileContents.ProfileDetailContainer}>
+      {/* Following and Edit Btn */}
+      <View style={profileContents.profileDetailContainer}>
         <ProfileStatsBar
           outlineCt={userData.outlineCt}
           followerCt={userData.followerCt}
@@ -29,17 +35,30 @@ export const ProfileContents = ({ userData }) => {
   );
 };
 
-const ProfileBio = ({ children }) => {
+export const ProfileImage = ({ imageURL }) => {
   return (
-    <View style={profileContents.ProfileBioContainer}>
-      <Text style={profileContents.BioText}>{children}</Text>
+    <TouchableOpacity style={profileContents.iconContainer}>
+      <Image
+        source={require("../../../assets/ichigo-icon.png")}
+        style={profileContents.profileIcon}
+      ></Image>
+      {/* <Image source={imageURL} style={profileContents.ProfileIcon}></Image> */}
+    </TouchableOpacity>
+  );
+};
+
+const ProfileName = ({ displayName, displayHandle }) => {
+  return (
+    <View style={profileContents.profileNameContainer}>
+      <Text style={profileContents.displayName}>{displayName}</Text>
+      <Text style={profileContents.displayHandle}>@{displayHandle}</Text>
     </View>
   );
 };
 
 const ProfileStatsBar = ({ outlineCt, followerCt, followingCt }) => {
   return (
-    <View style={profileContents.ProfileStatsContainer}>
+    <View style={profileContents.profileStatsContainer}>
       <ProfileStat label="outlines">
         <Text>{`${outlineCt}k`}</Text>
       </ProfileStat>
@@ -54,32 +73,30 @@ const ProfileStatsBar = ({ outlineCt, followerCt, followingCt }) => {
   );
 };
 
-const EditProfileBtn = () => {
-  return (
-    <Pressable style={profileContents.BtnEditProfile}>Edit Profile</Pressable>
-  );
-};
-
 const ProfileStat = ({ children, label }) => (
-  <Text style={profileContents.DisplayStats}>
+  <Text style={profileContents.displayStats}>
     {children}
-    <Text style={profileContents.StatTextStyle}> {label}</Text>
+    <Text style={profileContents.statTextStyle}> {label}</Text>
   </Text>
 );
 
-const ProfileName = ({ displayName, displayHandle }) => {
+const EditProfileBtn = () => {
   return (
-    <View style={profileContents.ProfileNameContainer}>
-      <Text style={profileContents.DisplayName}>{displayName}</Text>
-      <Text style={profileContents.DisplayHandle}>@{displayHandle}</Text>
-    </View>
+    <Pressable
+      style={profileContents.btnEditProfile}
+      onPress={() => {
+        router.push("./EditProfile");
+      }}
+    >
+      <Text style={[profileContents.btnEditProfileText]}>Edit Profile</Text>
+    </Pressable>
   );
 };
 
-export const ProfileImage = ({ imageURL }) => {
+const ProfileBio = ({ children }) => {
   return (
-    <TouchableOpacity style={profileContents.IconContainer}>
-      <Image source={imageURL} style={profileContents.ProfileIcon}></Image>
-    </TouchableOpacity>
+    <View style={profileContents.profileBioContainer}>
+      <Text style={profileContents.bioText}>{children}</Text>
+    </View>
   );
 };
