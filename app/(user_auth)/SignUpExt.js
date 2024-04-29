@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   TextInput,
@@ -21,6 +21,7 @@ import {
   handleTerms,
   handleUserCreate,
 } from "./Functions.js";
+import { FIREBASE_AUTH } from "../../firebase.js";
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -28,10 +29,140 @@ import {
  * @author Ameer G
  */
 const SignUpScreenExt = () => {
+  // Store the user data.
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [birthdate, setBirthdate] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [incorrectFormat, setIncorrectForm] = useState(false);
+
+  const formatPhoneNumber = (input) => {
+    // Remove non-numeric characters
+    const cleaned = ("" + input).replace(/\D/g, "");
+
+    // Apply formatting
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return match[1] + "-" + match[2] + "-" + match[3];
+    }
+
+    return input;
+  };
+
+  // Check the data to ensure all fields are filled.
+  async function handleUserCreate() {
+    // Check if any of the fields are empty; if not, set them to lower case.
+    console.log(
+      firstName,
+      lastName,
+      username,
+      birthdate,
+      phoneNumber,
+      incorrectFormat
+    );
+    if (
+      firstName.length == 0 ||
+      lastName.length == 0 ||
+      username.length == 0 ||
+      birthdate.length == 0 ||
+      phoneNumber.length == 0
+    ) {
+      setIncorrectForm(true);
+      return;
+    }
+
+    // Validate birthdate format (mm/dd/yyyy)
+    if (!/^(\d{2})\/(\d{2})\/(\d{4})$/.test(birthdate)) {
+      alert("Please enter a valid birthdate (mm/dd/yyyy).");
+      return;
+    }
+
+    // Validate phone number input.
+    if (phoneNumber.length !== 10) {
+      alert("Please enter a valid phone number (xxx-xxx-xxxx).");
+      return;
+    }
+
+    // Convert all the inputs to their respective types.
+    setFirstName(firstName.toLowerCase());
+    setLastName(lastName.toLowerCase());
+    setUsername(username.toLowerCase());
+    setBirthdate(birthdate);
+    setPhoneNumber(phoneNumber);
+    setIncorrectForm(false);
+
+    // Store the data in the database.
+    try {
+      //TODO: Database call.
+      const auth = FIREBASE_AUTH;
+      console.log("Hello");
+      router.push("HomeFeed");
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   return (
     <View style={frames.outer_frame}>
       <BackBar></BackBar>
-      <MiddleData></MiddleData>
+      <View style={frames.outer_frame_login}>
+        <View style={frames.logo_sign_in}>
+          <Text style={aesthetics.text_logo_auth}>OUT | LINE</Text>
+        </View>
+        <Text style={aesthetics.text_inspire_sign_up} numberOfLines={2}>
+          Create an account and publish your daily outline to your friends.
+        </Text>
+        <View style={frames.user_input_frame}>
+          <InputBox
+            placeholder="First Name"
+            value={firstName}
+            onChangeText={(text) => setFirstName(text)}
+          ></InputBox>
+          <InputBox
+            placeholder="Last Name"
+            value={lastName}
+            onChangeText={(text) => setLastName(text)}
+          ></InputBox>
+          <InputBox
+            placeholder="Username"
+            value={username}
+            onChangeText={(text) => setUsername(text)}
+          ></InputBox>
+          <InputBox
+            placeholder="Date of Birth"
+            value={birthdate}
+            onChangeText={(text) => setBirthdate(text)}
+          ></InputBox>
+          <InputBox
+            placeholder="Phone Number"
+            keyboardType="numeric"
+            value={phoneNumber}
+            onChangeText={(text) => setPhoneNumber(text)}
+          ></InputBox>
+        </View>
+        {incorrectFormat ? (
+          <Text style={aesthetics.error_message}>
+            All fields must be filled.
+          </Text>
+        ) : (
+          ""
+        )}
+        <View style={frames.terms_and_polices}>
+          <Text style={aesthetics.text_terms_and_polices}>
+            By signing up, you agree to our
+          </Text>
+          <TouchableOpacity onPress={handleTerms}>
+            <Text style={aesthetics.btn_text_terms_and_polices}>
+              Terms and Privacy Policy.
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <ButtonAuth
+          buttonText={"Sign Up"}
+          onPress={handleUserCreate}
+        ></ButtonAuth>
+      </View>
       <Redirection
         labelText={"Already have an account? "}
         buttonText={"Login."}
@@ -161,6 +292,10 @@ const aesthetics = StyleSheet.create({
 
   btn_text_terms_and_polices: {
     color: "#8dac83",
+  },
+
+  error_message: {
+    color: "red",
   },
 
   // btn_forgot_password: {

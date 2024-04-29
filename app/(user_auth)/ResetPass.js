@@ -17,8 +17,13 @@ import {
 } from "./Components.js";
 import { handleLoginSmall, handleSendLink, handleTerms } from "./Functions.js";
 import { FIREBASE_AUTH } from "../../firebase.js";
-import { sendPasswordResetEmail } from "firebase/auth";
+import {
+  sendPasswordResetEmail,
+  confirmPasswordReset,
+  sendEmailVerification,
+} from "firebase/auth";
 import { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -28,7 +33,10 @@ import { useEffect } from "react";
 const ResetPasswordScreen = () => {
   // Store the email and the sent status button.
   const [email, setEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [emailSent, setEmailSent] = useState(false);
+  const [resetCode, setResetCode] = useState("");
+  const [passwordReset, setPasswordReset] = useState(false);
   const [resendTimer, setResendTimer] = useState(30);
 
   // Timer effect for allowing the button to be used.
@@ -45,7 +53,7 @@ const ResetPasswordScreen = () => {
     return () => clearInterval(timer);
   }, [emailSent, resendTimer]);
 
-  // Handle reset password.
+  // Handle sending the user a link.
   async function handleSendLink() {
     // Check if the email contains an "@".
     console.log(email);
@@ -57,7 +65,6 @@ const ResetPasswordScreen = () => {
     // If we make it here, login to the account.
     try {
       const auth = FIREBASE_AUTH;
-      console.log("made it");
       await sendPasswordResetEmail(auth, email);
       setResendTimer(30); // set the resend timer.
       setEmailSent(true); // set to true.
@@ -86,15 +93,14 @@ const ResetPasswordScreen = () => {
             value={email}
             onChangeText={(text) => setEmail(text)}
           ></InputBox>
-        </View>{" "}
+        </View>
         <View style={frames.terms_and_polices}>
           <Text style={aesthetics.text_terms_and_polices}>
             Can't reset your
           </Text>
           <TouchableOpacity onPress={handleTerms}>
             <Text style={aesthetics.btn_text_terms_and_polices}>
-              {" "}
-              password?
+              {" password?"}
             </Text>
           </TouchableOpacity>
         </View>

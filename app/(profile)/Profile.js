@@ -4,6 +4,8 @@ import { View, StyleSheet, Button } from "react-native";
 import { ProfileTabNavs } from "./Components/ProfileTabNavs";
 import { ProfileContents } from "./Components/ProfileContents";
 import { ProfileTabContents } from "./Components/ProfileTabContents";
+import { BackBar } from "../(user_auth)/Components";
+import BottomNav from "../components/BottomNav";
 
 const mockUserData = [
   {
@@ -40,7 +42,7 @@ const mockUserData = [
  * @author: Ibrahim Mohammad
  * @returns Default Page to be displayed
  */
-const Screen = () => {
+const ProfileScreen = () => {
   const [userData, setUserData] = useState(mockUserData[0]); // Initialize with the first user
 
   // Random Number for the page swap
@@ -52,9 +54,11 @@ const Screen = () => {
   return (
     <View style={frames.outerFrame}>
       {/* <Button title="Random User" onPress={handleRandomUser} /> */}
+      <BackBar></BackBar>
       <ProfileContents userData={userData} />
       <ProfileTabNavs />
       <ProfileTabContents />
+      <BottomNav></BottomNav>
     </View>
   );
 };
@@ -67,4 +71,4 @@ const frames = StyleSheet.create({
 });
 
 // Export the sign-up-screen to other pages.
-export default Screen;
+export default ProfileScreen;

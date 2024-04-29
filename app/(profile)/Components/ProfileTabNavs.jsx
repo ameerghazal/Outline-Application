@@ -12,38 +12,38 @@ export const ProfileTabNavs = () => {
   const [activeTab, setActiveTab] = useState("Outlines"); // Default active tab
 
   return (
-    <View style={profileTabNavs.ProfileTabNavs}>
+    <View style={profileTabNavs.profileTabNavs}>
       <ProfileTab
         tab={"Outlines"}
         isActive={activeTab === "Outlines"}
-        onPress={() => setActiveTab("Outlines")}
+        handleSetActive={() => setActiveTab("Outlines")}
       />
       <ProfileTab
         tab={"Replies"}
         isActive={activeTab === "Replies"}
-        onPress={() => setActiveTab("Replies")}
+        handleSetActive={() => setActiveTab("Replies")}
       />
       <ProfileTab
         tab={"Tagged"}
         isActive={activeTab === "Tagged"}
-        onPress={() => setActiveTab("Tagged")}
+        handleSetActive={() => setActiveTab("Tagged")}
       />
       <ProfileTab
         tab={"Likes"}
         isActive={activeTab === "Likes"}
-        onPress={() => setActiveTab("Likes")}
+        handleSetActive={() => setActiveTab("Likes")}
       />
     </View>
   );
 };
 
-const ProfileTab = ({ tab, isActive, onPress }) => {
+const ProfileTab = ({ tab, isActive, handleSetActive }) => {
   const tabStyle = isActive
     ? [profileTabNavs.TabTextContainer, profileTabNavs.active]
     : profileTabNavs.TabTextContainer;
 
   return (
-    <Pressable onPress={onPress} style={tabStyle}>
+    <Pressable onPress={handleSetActive} style={tabStyle}>
       <Text style={profileTabNavs.TabText}>{tab}</Text>
     </Pressable>
   );
