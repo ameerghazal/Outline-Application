@@ -96,7 +96,7 @@ const ProfileScreen = () => {
 
   return (
     <View style={frames.outerFrame}>
-      <BackBar></BackBar>
+      <BackBar />
       <View style={frames.buttonCase}>
         <Button title="phang" onPress={() => handleUserChange(0)} />
         <Button title="moaz" onPress={() => handleUserChange(1)} />
