@@ -1,102 +1,106 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
-import { profileContents } from "../styles";
-import { handleEditProfile } from "../Functions";
-import { router } from "expo-router";
+import { View, Text, Pressable } from "react-native";
+import { profileTabNavs } from "../styles";
+import { profileTabContents } from "../styles";
+import IbrahimOutlinePost from "./IbrahimOutlinePost";
+import { StyleSheet } from "react-native";
+
+const list = [
+  ["Item 1", "poop", "pOOP"],
+  ["wake up", "create post time", "delete android folder"],
+  [
+    "delete ios folder",
+    "create a better method for getting outline content",
+    "too much text",
+  ],
+];
 
 /**
- * Component for the top page of the Profile Page.
- * Functionality: Clicking pfp or edit button pops modal allowing you to edit your account information
- * @author: Ibrahim Mohammad
- * @returns Top of page containing pfp, name, stats(num posts/following), bio
+ * just a combined version of the 2 functions below. Previously was in 2 separate files, is now together so the tabbed functionality actually works.
+ * @param {userData} param0, userData is passed in and accepted by ProfileTabContents, which uses the data to display the account name and information.
+ * @returns Navigation Bar and Tabbed Component under it
  */
-export const ProfileContents = ({ userData }) => {
+export const ProfileContents = ({ userData, postsData }) => {
   return (
-    <View style={profileContents.profileContents}>
-      {/* Username and image */}
-      <View style={profileContents.profileMainContainer}>
-        <ProfileImage imageURL={userData.imageURL}></ProfileImage>
-        <ProfileName
-          displayName={userData.displayName}
-          displayHandle={userData.displayHandle}
-        ></ProfileName>
-      </View>
-
-      {/* Following and Edit Btn */}
-      <View style={profileContents.profileDetailContainer}>
-        <ProfileStatsBar
-          outlineCt={userData.outlineCt}
-          followerCt={userData.followerCt}
-          followingCt={userData.followingCt}
-        ></ProfileStatsBar>
-        <ProfileBio>{userData.bio}</ProfileBio>
-      </View>
+    <View>
+      <ProfileTabNavs />
+      <ProfileTabContents userData={userData} postsData={postsData} />
     </View>
   );
 };
 
-export const ProfileImage = ({ imageURL }) => {
-  return (
-    <TouchableOpacity style={profileContents.iconContainer}>
-      <Image
-        source={require("../../../assets/ichigo-icon.png")}
-        style={profileContents.profileIcon}
-      ></Image>
-      {/* <Image source={imageURL} style={profileContents.ProfileIcon}></Image> */}
-    </TouchableOpacity>
-  );
-};
+/**
+ * This is the middle part of the page, containing the navigation between content.
+ * Functionality: Clicking between the tabs will change what content is displayed.
+ * @author: Ibrahim Mohammad
+ * @returns Navigation bar that moves between contents of the profile page
+ */
+export const ProfileTabNavs = () => {
+  const [activeTab, setActiveTab] = useState("Outlines"); // Default active tab
 
-const ProfileName = ({ displayName, displayHandle }) => {
   return (
-    <View style={profileContents.profileNameContainer}>
-      <Text style={profileContents.displayName}>{displayName}</Text>
-      <Text style={profileContents.displayHandle}>@{displayHandle}</Text>
+    <View style={profileTabNavs.profileTabNavs}>
+      <ProfileTab
+        tab={"Outlines"}
+        isActive={activeTab === "Outlines"}
+        handleSetActive={() => setActiveTab("Outlines")}
+      />
+      <ProfileTab
+        tab={"Replies"}
+        isActive={activeTab === "Replies"}
+        handleSetActive={() => setActiveTab("Replies")}
+      />
+      <ProfileTab
+        tab={"Tagged"}
+        isActive={activeTab === "Tagged"}
+        handleSetActive={() => setActiveTab("Tagged")}
+      />
+      <ProfileTab
+        tab={"Likes"}
+        isActive={activeTab === "Likes"}
+        handleSetActive={() => setActiveTab("Likes")}
+      />
     </View>
   );
 };
 
-const ProfileStatsBar = ({ outlineCt, followerCt, followingCt }) => {
-  return (
-    <View style={profileContents.profileStatsContainer}>
-      <ProfileStat label="outlines">
-        <Text>{`${outlineCt}k`}</Text>
-      </ProfileStat>
-      <ProfileStat label="followers">
-        <Text>{`${followerCt}k`}</Text>
-      </ProfileStat>
-      <ProfileStat label="following">
-        <Text>{`${followingCt}k`}</Text>
-      </ProfileStat>
-      <EditProfileBtn></EditProfileBtn>
-    </View>
-  );
-};
+const ProfileTab = ({ tab, isActive, handleSetActive }) => {
+  const tabStyle = isActive
+    ? [profileTabNavs.TabTextContainer, profileTabNavs.active]
+    : profileTabNavs.TabTextContainer;
 
-const ProfileStat = ({ children, label }) => (
-  <Text style={profileContents.displayStats}>
-    {children}
-    <Text style={profileContents.statTextStyle}> {label}</Text>
-  </Text>
-);
-
-const EditProfileBtn = () => {
   return (
-    <Pressable
-      style={profileContents.btnEditProfile}
-      onPress={() => {
-        router.push("./EditProfile");
-      }}
-    >
-      <Text style={[profileContents.btnEditProfileText]}>Edit Profile</Text>
+    <Pressable onPress={handleSetActive} style={tabStyle}>
+      <Text style={profileTabNavs.TabText}>{tab}</Text>
     </Pressable>
   );
 };
 
-const ProfileBio = ({ children }) => {
+/**
+ * MockData needs:
+ * Current Time + Time of Post
+ * list containing outline bullets
+ */
+
+/**
+ * //TODO: fix nirwaan's fraudlent component.
+ * @returns Content displayed (ie. user outlines, replies, tagged, likes)
+ */
+export const ProfileTabContents = ({ userData, postsData }) => {
   return (
-    <View style={profileContents.profileBioContainer}>
-      <Text style={profileContents.bioText}>{children}</Text>
+    <View style={profileTabContents.container}>
+      <IbrahimOutlinePost
+        itemList={list[0]}
+        userData={userData}
+      ></IbrahimOutlinePost>
+      <IbrahimOutlinePost
+        itemList={list[1]}
+        userData={userData}
+      ></IbrahimOutlinePost>
+      <IbrahimOutlinePost
+        itemList={list[2]}
+        userData={userData}
+      ></IbrahimOutlinePost>
     </View>
   );
 };
