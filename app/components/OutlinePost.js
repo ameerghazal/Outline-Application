@@ -22,13 +22,19 @@ const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
   const [items, setItems] = useState(itemList);
   const [userData, setUserData] = useState([]);
 
-  useEffect(() => {
-    fetch(`http://localhost:81/pullUserData?userID=${userID}`)
-      .then((response) => response.json())
-      .then((data) => setUserData(data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-  console.log(userData);
+  // useEffect(() => {
+  //   fetch(`http://localhost:81/pullUserData?userID=${userID}`)
+  //     .then((response) => response.json())
+  //     .then((data) => setUserData(data))
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, []);
+  const jsonData = {
+    bio: "Bio for user2",
+    picture: "user2.jpg",
+    user_handle: "@utwo",
+    username: "loop",
+  };
+  if (userData.length === 0) setUserData(() => jsonData);
 
   return (
     <View style={styles.postContainer}>
