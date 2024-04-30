@@ -27,8 +27,6 @@ const EditProfileScreen = () => {
   const [displayHandle, setDisplayHandle] = useState(userInfo.displayHandle);
   const [bio, setBio] = useState(userInfo.bio);
 
-  console.log(bio);
-
   return (
     <>
       <ScrollView style={frames.outerFrame}>
@@ -63,5 +61,4 @@ const frames = StyleSheet.create({
   },
 });
 
-// Export the sign-up-screen to other pages.
 export default EditProfileScreen;
