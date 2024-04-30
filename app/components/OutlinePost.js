@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -16,11 +16,25 @@ import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
+import getTimeDifference from "./GetTimeDifference";
 
-const OutlinePost = ({ itemList }) => {
+const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
   const [items, setItems] = useState(itemList);
-  const [isLiked] = useState(false);
-  const [isChecked] = useState(false);
+  const [userData, setUserData] = useState([]);
+
+  // useEffect(() => {
+  //   fetch(`http://localhost:81/pullUserData?userID=${userID}`)
+  //     .then((response) => response.json())
+  //     .then((data) => setUserData(data))
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, []);
+  const jsonData = {
+    bio: "Bio for user2",
+    picture: "user2.jpg",
+    user_handle: "@utwo",
+    username: "loop",
+  };
+  if (userData.length === 0) setUserData(() => jsonData);
 
   return (
     <View style={styles.postContainer}>
@@ -39,22 +53,34 @@ const OutlinePost = ({ itemList }) => {
               marginLeft: 10,
             }}
           >
-            <Text style={{ color: "#FFFAFA" }}>Son Goku</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>@kakarot</Text>
+            <Text style={{ color: "#FFFAFA" }}>{userData.username}</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>
+              {userData.user_handle}
+            </Text>
             <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>1h</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>
+              {getTimeDifference(createdTime)} ago
+            </Text>
           </View>
         </View>
       </View>
       <View style={styles.listContainer}>
-        {items.slice(0, 2).map((item, index) => (
+        {items.slice(0, 2).map((task, index) => (
           <View style={styles.itemContainer} key={index}>
-            <MaterialCommunityIcons
-              name={"checkbox-blank-outline"}
-              size={24}
-              color="#fffafa"
-            />
-            <Text style={styles.input}>{item}</Text>
+            {task.is_checked ? (
+              <MaterialCommunityIcons
+                name="checkbox-marked-outline"
+                size={24}
+                color="#8DAC83"
+              />
+            ) : (
+              <MaterialCommunityIcons
+                name="checkbox-blank-outline"
+                size={24}
+                color="#fffafa"
+              />
+            )}
+            <Text style={styles.input}>{task.body}</Text>
           </View>
         ))}
         {items.length > 2 && (
@@ -96,7 +122,6 @@ const OutlinePost = ({ itemList }) => {
 const styles = StyleSheet.create({
   postContainer: {
     padding: 10,
-    height: "35%",
     backgroundColor: "#1B1B1B",
     alignItems: "left",
     borderBottomColor: "#4B4B4B",
