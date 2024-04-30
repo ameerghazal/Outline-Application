@@ -14,9 +14,10 @@ import { useState, useCallback, useEffect } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 import { FIREBASE_AUTH } from "../../firebase";
 
-const DMChat = () => {
+const DMChat = (route) => {
+  // const uid = route.params.uid;
   const [messages, setMessages] = useState([]);
-  const currentUser = FIREBASE_AUTH.currentUser;
+  const currentUser = FIREBASE_AUTH.currentUser.uid;
   console.log(currentUser);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const DMChat = () => {
     const myMsg = {
       msg,
       sentBy: currentUser,
+      sentTo: uid,
     };
     // setMessages((previousMessages) =>
     //   GiftedChat.append(previousMessages, messages)
@@ -51,7 +53,7 @@ const DMChat = () => {
       messages={messages}
       onSend={(text) => onSend(text)}
       user={{
-        _id: 1,
+        _id: currentUser,
       }}
     />
   );

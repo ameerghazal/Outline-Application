@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { Link, router } from "expo-router";
 
 export function openChat(userId, userName) {
@@ -5,3 +6,7 @@ export function openChat(userId, userName) {
   console.log("Navigating to chat with:", userId, userName);
   router.push("DMChat", { userId, userName });
 }
+
+export const getUsers = async () => {
+  const docRef = collection(db);
+};
