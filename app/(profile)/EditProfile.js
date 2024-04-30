@@ -31,7 +31,6 @@ const EditProfileScreen = () => {
     <>
       <ScrollView style={frames.outerFrame}>
         {/* <Button title="Random User" onPress={handleRandomUser} /> */}
-        <BackBar></BackBar>
         <SettingsInputBox
           placeholder={"Display Name"}
           onChangeText={setDisplayName}
@@ -58,6 +57,7 @@ const frames = StyleSheet.create({
     flex: 1,
     backgroundColor: "#1B1B1B",
     paddingHorizontal: 10,
+    paddingTop: 20,
   },
 });
 
