@@ -30,7 +30,6 @@ const EditProfileScreen = () => {
   return (
     <>
       <ScrollView style={frames.outerFrame}>
-        {/* <Button title="Random User" onPress={handleRandomUser} /> */}
         <SettingsInputBox
           placeholder={"Display Name"}
           onChangeText={setDisplayName}
