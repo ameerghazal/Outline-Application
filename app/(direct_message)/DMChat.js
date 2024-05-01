@@ -8,58 +8,87 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
-import { useRoute } from "expo-router";
-
 import { useState, useCallback, useEffect } from "react";
+
+import { useRoute } from "expo-router";
 import { GiftedChat } from "react-native-gifted-chat";
 import { FIREBASE_AUTH } from "../../firebase";
+import { StreamChat } from "stream-chat";
 
-const DMChat = (route) => {
-  // const uid = route.params.uid;
-  const [messages, setMessages] = useState([]);
-  const currentUser = FIREBASE_AUTH.currentUser.uid;
-  console.log(currentUser);
+const API_KEY = "g4b87ea9prkh";
+const client = StreamChat.getInstance(API_KEY);
+const currentUser = FIREBASE_AUTH?.currentUser?.uid;
 
+const DMChat = () => {
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "../../assets/rintwt.jpg",
+    const connectUser = async () => {
+      await client.connectUser(
+        {
+          id: "Rajie",
+          name: "Ahmed Raja",
+          image: "../../assets/zekePfp.png",
         },
-      },
-    ]);
-  }, []);
-
-  const onSend = useCallback((messagesArray) => {
-    const msg = messagesArray[0];
-    // console.log(myMsg);
-    const myMsg = {
-      msg,
-      sentBy: currentUser,
-      sentTo: uid,
+        client.devToken(currentUser)
+      );
+      console.log("User Connected");
     };
-    // setMessages((previousMessages) =>
-    //   GiftedChat.append(previousMessages, messages)
-    // );
+
+    connectUser();
   }, []);
 
-  return (
-    <GiftedChat
-      messages={messages}
-      onSend={(text) => onSend(text)}
-      user={{
-        _id: currentUser,
-      }}
-    />
-  );
+  return <Text>Placeholder</Text>;
 };
 
 export default DMChat;
+
+// Gifted Chat
+//const DMChat = (route) => {
+//   // const uid = route.params.uid;
+//   const [messages, setMessages] = useState([]);
+//   const currentUser = FIREBASE_AUTH?.currentUser?.uid;
+//   console.log(currentUser);
+
+//   useEffect(() => {
+//     setMessages([
+//       {
+//         _id: 1,
+//         text: "Hello developer",
+//         createdAt: new Date(),
+//         user: {
+//           _id: 2,
+//           name: "React Native",
+//           avatar: "../../assets/rintwt.jpg",
+//         },
+//       },
+//     ]);
+//   }, []);
+
+//   const onSend = useCallback((messagesArray) => {
+//     const msg = messagesArray[0];
+//     // console.log(myMsg);
+//     const myMsg = {
+//       msg,
+//       sentBy: currentUser,
+//       sentTo: uid,
+//     };
+//     // setMessages((previousMessages) =>
+//     //   GiftedChat.append(previousMessages, messages)
+//     // );
+//   }, []);
+
+//   return (
+//     <GiftedChat
+//       messages={messages}
+//       onSend={(text) => onSend(text)}
+//       user={{
+//         _id: currentUser,
+//       }}
+//       containerStyle={{
+//         backgroundColor: "#ffff00", // Set the background color here
+//       }}
+//     />
+//   );
+// };
 
 // // dummy data
 // const messages = [
