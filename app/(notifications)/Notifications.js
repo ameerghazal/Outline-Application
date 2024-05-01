@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  ScrollView,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
+import { Ionicons, MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { BackBar } from "../(user_auth)/Components";
 import {
@@ -25,7 +31,7 @@ const NotificationsPage = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {/* Navigation Header */}
       <View style={styles.header}>
         <BackBar></BackBar>
@@ -83,7 +89,7 @@ const NotificationsPage = () => {
 
       {/* Content */}
       {renderContent()}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -92,7 +98,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#1B1B1B",
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 50,
   },
   header: {
     flexDirection: "row",
