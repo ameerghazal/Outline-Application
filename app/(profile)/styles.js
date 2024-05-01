@@ -1,42 +1,41 @@
 import React from "react";
 import { StyleSheet } from "react-native-web";
+import { ProfileTabContents } from "./Components/ProfileTabContents";
 
-export const frames = StyleSheet.create({
-  ProfileText: {
-    color: "white",
+export const profileInfo = StyleSheet.create({
+  profileInfo: {
+    // flex: 1,
   },
-  ProfileContents: {
-    color: "#fff",
-  },
-  IconContainer: {
+  profileMainContainer: {},
+  iconContainer: {
     alignSelf: "center",
     borderRadius: 50,
   },
-  ProfileIcon: {
+  profileIcon: {
     width: 150,
     height: 150,
     borderRadius: 999,
   },
-  ProfileNameContainer: {
+  profileNameContainer: {
     alignSelf: "center",
   },
-  DisplayName: {
-    color: "white",
+  displayName: {
+    color: "#FFFAFA",
     fontSize: 28,
     fontWeight: 500,
     letterSpacing: 2,
     padding: 5,
   },
-  DisplayHandle: {
-    color: "white",
+  displayHandle: {
+    color: "#FFFAFA",
     fontSize: 16,
     fontWeight: 400,
     textAlign: "center",
     letterSpacing: 2,
     padding: 5,
   },
-  ProfileStatsContainer: {
-    flex: 1,
+  profileDetailContainer: {},
+  profileStatsContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
@@ -44,27 +43,60 @@ export const frames = StyleSheet.create({
     paddingTop: 0,
     padding: 10,
   },
-  DisplayStats: {
-    color: "#fff",
+  statTextStyle: { color: "#8dac83" },
+  displayStats: {
+    color: "#FFFAFA",
     fontSize: 12,
     fontWeight: 400,
     textAlign: "center",
     letterSpacing: 1,
   },
-  BtnEditProfile: {
+  btnEditProfile: {
+    letterSpacing: 1,
+    fontWeight: "400",
     paddingLeft: 30,
     paddingRight: 30,
     padding: 5,
     fontSize: 12,
     marginTop: 5,
     borderWidth: 1,
-    borderColor: "#fff",
+    borderColor: "#FFFAFA",
     borderRadius: 50,
   },
-  ProfileBioContainer: {
+  btnEditProfileText: {
+    color: "white",
+  },
+  profileBioContainer: {
     // backgroundColor: "red",
     paddingLeft: 15,
     paddingRight: 15,
   },
-  BioText: { color: "#777", textAlign: "center" },
+  bioText: { color: "#777", textAlign: "center" },
+});
+
+export const profileTabNavs = StyleSheet.create({
+  profileTabNavs: {
+    height: 42,
+    flexDirection: "row",
+  },
+  TabTextContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "space-around",
+    borderBottomWidth: 2, // Always have a border but make it transparent by default
+    borderColor: "transparent", // Transparent border for inactive tabs
+  },
+  TabText: {
+    color: "#FFFAFA",
+    fontSize: 16,
+    fontWeight: 500,
+    letterSpacing: 2,
+  },
+  active: {
+    borderColor: "#8dac83", // Only change the color for active tabs
+  },
+});
+
+export const profileTabContents = StyleSheet.create({
+  container: {},
 });
