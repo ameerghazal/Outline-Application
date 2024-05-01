@@ -65,7 +65,7 @@ function BottomNav() {
         />
       </Pressable>
 
-      <Pressable onPress={() => router.navigate("Settings")}>
+      <Pressable onPress={() => router.navigate("Notifications")}>
         <Feather
           name="bell"
           size={24}
