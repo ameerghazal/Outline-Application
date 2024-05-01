@@ -7,8 +7,8 @@ import SettingsInputBox from "../components/SettingsInputBox";
 function ProfileSettingsPage() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [campus, setCampus] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   // console.log(phone);
   // console.log(email);
@@ -27,12 +27,12 @@ function ProfileSettingsPage() {
         placeholder="Email Address"
       ></SettingsInputBox>
       <SettingsInputBox
-        onChangeText={setAddress}
-        placeholder="Address"
+        onChangeText={setFirstName}
+        placeholder="First Name"
       ></SettingsInputBox>
       <SettingsInputBox
-        onChangeText={setCampus}
-        placeholder="Campus"
+        onChangeText={setLastName}
+        placeholder="Last Name"
       ></SettingsInputBox>
     </ScrollView>
   );
