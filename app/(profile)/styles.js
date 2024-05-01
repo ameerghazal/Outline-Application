@@ -1,8 +1,9 @@
 import React from "react";
 import { StyleSheet } from "react-native-web";
+import { ProfileTabContents } from "./Components/ProfileTabContents";
 
-export const profileContents = StyleSheet.create({
-  profileContents: {
+export const profileInfo = StyleSheet.create({
+  profileInfo: {
     // flex: 1,
   },
   profileMainContainer: {},
@@ -94,4 +95,8 @@ export const profileTabNavs = StyleSheet.create({
   active: {
     borderColor: "#8dac83", // Only change the color for active tabs
   },
+});
+
+export const profileTabContents = StyleSheet.create({
+  container: {},
 });

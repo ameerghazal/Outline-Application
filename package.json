@@ -38,6 +38,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "^0.73.6",
+    "react-native-gifted-chat": "^2.4.0",
     "react-native-elements": "^3.4.3",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-gifted-chat": "^2.4.0",
@@ -55,6 +56,5 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true,
-  "proxy": "http://localhost:80"
+  "private": true
 }

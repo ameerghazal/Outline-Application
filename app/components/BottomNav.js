@@ -53,7 +53,7 @@ function BottomNav() {
         <Feather
           name="plus-square"
           size={24}
-          color={currentPage === "/Create" ? "#8dac83" : "#FFFAFA"}
+          color={currentPage === "/NewPosts" ? "#8dac83" : "#FFFAFA"}
         />
       </Pressable>
 

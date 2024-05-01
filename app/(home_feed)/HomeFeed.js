@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, ScrollView, StyleSheet } from "react-native";
+import { Text, View, ScrollView, StyleSheet, FlatList } from "react-native";
 import OutlinePost from "../components/OutlinePost.js";
 import OutlinePostEditable from "../components/OutlinePostEditable.js";
 import BottomNav from "../components/BottomNav.js";
@@ -9,27 +9,42 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 
-const list = ["Item 1", "poop", "pOOP"];
-curr_user_id = 1;
+currUserID = 1;
 
 const App = () => {
-  const insets = useSafeAreaInsets();
   const [postData, setPostData] = useState([]);
-  const [userData, setUserData] = useState([]);
-  useEffect(() => {
-    fetch(`http://localhost:80/pullPostsFollowing`)
-      .then((response) => response.json())
-      .then((data) => setPostData(data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
-  console.log(postData);
-
   // useEffect(() => {
-  //   fetch(`http://localhost:5000/pullUserData?curr_user_id=${curr_user_id}`)
+  //   fetch(`http://localhost:80/pullPostsFollowing?userID=${currUserID}`)
   //     .then((response) => response.json())
-  //     .then((data) => setUserData(data))
+  //     .then((data) => setPostData(data))
   //     .catch((error) => console.error("Error fetching data:", error));
   // }, []);
+  // console.log(postData);
+
+  const jsonData = {
+    2: {
+      created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
+      id: 2,
+      is_liked: true,
+      post_status_id: 2,
+      post_tasks_bodies: [{ body: "Task 1 for post 2", is_checked: false }],
+      user_id: 2,
+    },
+    3: {
+      created_at: "Mon, 22 Apr 2024 11:00:00 GMT",
+      id: 3,
+      is_liked: false,
+      post_status_id: 1,
+      post_tasks_bodies: [
+        { body: "Task 1 for post 3", is_checked: true },
+        { body: "Task 2 for post 3", is_checked: false },
+      ],
+      user_id: 3,
+    },
+  };
+
+  if (postData.length === 0) setPostData(() => jsonData);
+
   return (
     <SafeAreaProvider style={styles.outer_frame}>
       <GeneralHeader></GeneralHeader>
@@ -38,13 +53,13 @@ const App = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        {Object.values(postData).map((post) => (
+        {Object.values(jsonData).map((post) => (
           <OutlinePost
             key={post.id}
             itemList={post.post_tasks_bodies}
-            username={`User ${post.user_id}`}
             createdTime={post.created_at}
-            userHandle={`@user${post.user_id}`}
+            userID={post.user_id}
+            isLiked={post.is_liked}
           ></OutlinePost>
         ))}
       </ScrollView>

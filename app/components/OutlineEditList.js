@@ -1,23 +1,23 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  Image,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const MaxItems = 5;
 TouchableOpacity.defaultProps = { activeOpacity: 0.8 };
 
-const OutlineEditList = () => {
+const OutlineEditList = ({ onChange }) => {
   const [items, setItems] = useState(["Item 1"]);
 
   const addItem = (text) => {
     if (items.length < MaxItems) {
       setItems([...items, text]);
+      onChange([...items, text]); // Notify parent component about the change
     }
   };
 
@@ -25,12 +25,14 @@ const OutlineEditList = () => {
     const updatedItems = [...items];
     updatedItems[index] = newText;
     setItems(updatedItems);
+    onChange(updatedItems); // Notify parent component about the change
   };
 
   const deleteItem = (index) => {
     const updatedItems = [...items];
     updatedItems.splice(index, 1);
     setItems(updatedItems);
+    onChange(updatedItems); // Notify parent component about the change
   };
 
   const handleKeyPress = (index, event) => {

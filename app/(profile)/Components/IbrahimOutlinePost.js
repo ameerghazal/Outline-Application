@@ -1,88 +1,45 @@
-import { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  Button,
-  Touchable,
-} from "react-native";
-import { Entypo } from "@expo/vector-icons";
+import { useState } from "react";
+import { View, StyleSheet, Text, TouchableOpacity, Image } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import ToggleSVG from "./ToggleSVG";
-import getTimeDifference from "./GetTimeDifference";
+import ToggleSVG from "../../components/ToggleSVG";
 
-const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
+const IbrahimOutlinePost = ({ itemList, userData }) => {
   const [items, setItems] = useState(itemList);
-  const [userData, setUserData] = useState([]);
-
-  // useEffect(() => {
-  //   fetch(`http://localhost:81/pullUserData?userID=${userID}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setUserData(data))
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, []);
-  const jsonData = {
-    bio: "Bio for user2",
-    picture: "user2.jpg",
-    user_handle: "@utwo",
-    username: "loop",
-  };
-  if (userData.length === 0) setUserData(() => jsonData);
+  const [isLiked] = useState(false);
+  const [isChecked] = useState(false);
 
   return (
     <View style={styles.postContainer}>
       <View style={styles.postHeader}>
         <View style={styles.profileContainer}>
           <View style={styles.postPicture}>
-            <Image
-              style={{ height: 45, width: 45 }}
-              source={require("../../assets/goku-icon.png")}
-            />
+            <Image style={styles.postPfp} source={userData.imageURL} />
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginLeft: 10,
-            }}
-          >
-            <Text style={{ color: "#FFFAFA" }}>{userData.username}</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>
-              {userData.user_handle}
-            </Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>
-              {getTimeDifference(createdTime)} ago
-            </Text>
+          <View style={styles.postUserNameContainer}>
+            <Text style={styles.postDisplayName}>{userData.displayName}</Text>
+            <Text style={styles.postNameTime}>@{userData.displayHandle}</Text>
+            <Text style={styles.postNameTime}>•</Text>
+            <Text style={styles.postNameTime}>{userData.postTime}</Text>
           </View>
         </View>
       </View>
+
       <View style={styles.listContainer}>
-        {items.slice(0, 2).map((task, index) => (
+        {items.slice(0, 2).map((item, index) => (
           <View style={styles.itemContainer} key={index}>
-            {task.is_checked ? (
-              <MaterialCommunityIcons
-                name="checkbox-marked-outline"
-                size={24}
-                color="#8DAC83"
-              />
-            ) : (
-              <MaterialCommunityIcons
-                name="checkbox-blank-outline"
-                size={24}
-                color="#fffafa"
-              />
-            )}
-            <Text style={styles.input}>{task.body}</Text>
+            <MaterialCommunityIcons
+              name={"checkbox-blank-outline"}
+              size={24}
+              color="#fffafa"
+            />
+            <Text style={styles.input}>{item}</Text>
           </View>
         ))}
+
         {items.length > 2 && (
           <TouchableOpacity
             style={{
@@ -95,6 +52,7 @@ const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
           </TouchableOpacity>
         )}
       </View>
+
       <View style={styles.postFooter}>
         <TouchableOpacity activeOpacity={0.7}>
           <ToggleSVG
@@ -119,9 +77,23 @@ const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
   );
 };
 
+const PostItem = (key, item) => {
+  return (
+    <View style={styles.itemContainer} key={key}>
+      <MaterialCommunityIcons
+        name={"checkbox-blank-outline"}
+        size={24}
+        color="#fffafa"
+      />
+      <Text style={styles.input}>{item}</Text>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   postContainer: {
     padding: 10,
+    height: "35%",
     backgroundColor: "#1B1B1B",
     alignItems: "left",
     borderBottomColor: "#4B4B4B",
@@ -152,15 +124,22 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
   },
+  postPfp: { height: 45, width: 45 },
   listContainer: {
     alignItems: "left",
     padding: 10,
   },
+  postUserNameContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: 10,
+  },
+  postDisplayName: { color: "#FFFAFA" },
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
   },
+  postNameTime: { color: "#606060", marginLeft: 5 },
   input: {
     flex: 1,
     padding: 10,
@@ -175,4 +154,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OutlinePost;
+export default IbrahimOutlinePost;

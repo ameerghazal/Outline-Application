@@ -12,11 +12,15 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true,
+          "NSAllowsLocalNetworking": true
+        }
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -33,10 +37,7 @@
       [
         "expo-font",
         {
-          "fonts": [
-            "./assets/fonts/Montserrat.otf"
-
-          ]
+          "fonts": ["./assets/fonts/Montserrat.otf"]
         }
       ],
       "expo-router"
