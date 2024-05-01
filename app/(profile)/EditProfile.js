@@ -5,6 +5,7 @@ import { BackBar } from "../(user_auth)/Components";
 import BottomNav from "../components/BottomNav";
 import images from "../../assets/images";
 import SettingsInputBox from "../components/SettingsInputBox";
+import { useLocalSearchParams } from "expo-router";
 
 const userInfo = {
   displayName: "phang (7.0 gpa)",
@@ -23,9 +24,13 @@ const userInfo = {
  * // TODO figure out how to write to JSON - talk to nerdwaan
  */
 const EditProfileScreen = () => {
-  const [displayName, setDisplayName] = useState(userInfo.displayName);
-  const [displayHandle, setDisplayHandle] = useState(userInfo.displayHandle);
-  const [bio, setBio] = useState(userInfo.bio);
+  const params = useLocalSearchParams();
+  console.log(params);
+  const { bio, displayHandle, displayName } = params;
+
+  const [displayNameState, setDisplayName] = useState(displayName);
+  const [displayHandleState, setDisplayHandle] = useState(displayHandle);
+  const [bioState, setBio] = useState(bio);
 
   return (
     <>
