@@ -7,12 +7,21 @@ import SwitchOption from "../components/SwitchOption";
 import { usePushNotifications } from "../usePushNotifications";
 
 function NotificationsPage() {
-  const { expoPushToken, notification } = usePushNotifications();
+  const { expoPushToken, notification, registerForPushNotificationsAsync } =
+    usePushNotifications();
 
   const data = JSON.stringify(notification, undefined, 2);
 
   // State declarations
-  const [isPushNotisEnabled, setIsPushNotisEnabled] = useState(true);
+  const [isPushNotisEnabled, setIsPushNotisEnabled] = useState(false);
+
+  const handlePushNotificationToggle = async (isEnabled) => {
+    setIsPushNotisEnabled(isEnabled);
+    if (isEnabled) {
+      await registerForPushNotificationsAsync();
+    }
+  };
+
   const [isPrivateMessage, setIsPrivateMessage] = useState(true);
   const [isChatRequests, setIsChatRequests] = useState(true);
   const [isMentions, setIsMentions] = useState(true);
@@ -32,7 +41,7 @@ function NotificationsPage() {
         <SwitchOption
           label="Push Notifications"
           value={isPushNotisEnabled}
-          onValueChange={setIsPushNotisEnabled}
+          onValueChange={handlePushNotificationToggle}
           style={[styles.bottomCorners, styles.topCorners]} // style props for border radius
         />
       </View>
@@ -46,12 +55,14 @@ function NotificationsPage() {
           value={isPrivateMessage}
           onValueChange={setIsPrivateMessage}
           style={styles.topCorners}
+          disabled={!isPushNotisEnabled}
         />
         <SwitchOption
           label="Chat Requests"
           value={isChatRequests}
           onValueChange={setIsChatRequests}
           style={styles.bottomCorners}
+          disabled={!isPushNotisEnabled}
         />
       </View>
 
@@ -64,27 +75,32 @@ function NotificationsPage() {
           value={isMentions}
           onValueChange={setIsMentions}
           style={styles.topCorners}
+          disabled={!isPushNotisEnabled}
         />
         <SwitchOption
           label="Comments on your posts"
           value={isCommentsOnYourPosts}
           onValueChange={setIsCommentsOnYourPosts}
+          disabled={!isPushNotisEnabled}
         />
         <SwitchOption
           label="Likes on your posts"
           value={isLikesOnYourPosts}
           onValueChange={setIsLikesOnYourPosts}
+          disabled={!isPushNotisEnabled}
         />
         <SwitchOption
           label="Likes on your comments"
           value={isLikesOnYourComments}
           onValueChange={setIsLikesOnYourComments}
+          disabled={!isPushNotisEnabled}
         />
         <SwitchOption
           label="Replies to your comments"
           value={isRepliesToYourComments}
           onValueChange={setIsRepliesToYourComments}
           style={styles.bottomCorners}
+          disabled={!isPushNotisEnabled}
         />
       </View>
     </ScrollView>
