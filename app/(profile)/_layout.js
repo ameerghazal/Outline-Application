@@ -7,6 +7,10 @@ const Profile = () => {
   return (
     <Stack>
       <Stack.Screen name="Profile" options={header} />
+      <Stack.Screen
+        name="EditProfile"
+        options={{ ...header, title: "Edit Profile" }}
+      />
     </Stack>
   );
 };
