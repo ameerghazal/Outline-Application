@@ -9,37 +9,142 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useState, useCallback, useEffect } from "react";
-
-import { useRoute } from "expo-router";
-import { GiftedChat } from "react-native-gifted-chat";
-import { FIREBASE_AUTH } from "../../firebase";
-import { StreamChat } from "stream-chat";
-
-const API_KEY = "g4b87ea9prkh";
-const client = StreamChat.getInstance(API_KEY);
-const currentUser = FIREBASE_AUTH?.currentUser?.uid;
+import {
+  GiftedChat,
+  Bubble,
+  InputToolbar,
+  Composer,
+} from "react-native-gifted-chat";
 
 const DMChat = () => {
-  useEffect(() => {
-    const connectUser = async () => {
-      await client.connectUser(
-        {
-          id: "Rajie",
-          name: "Ahmed Raja",
-          image: "../../assets/zekePfp.png",
-        },
-        client.devToken(currentUser)
-      );
-      console.log("User Connected");
-    };
+  const [messages, setMessages] = useState([]);
 
-    connectUser();
+  useEffect(() => {
+    setMessages([
+      {
+        _id: 1,
+        text: "Hello developer",
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: "React Native",
+          avatar: "https://placeimg.com/140/140/any",
+        },
+      },
+    ]);
   }, []);
 
-  return <Text>Placeholder</Text>;
+  const onSend = useCallback((newMessages = []) => {
+    setMessages((previousMessages) =>
+      GiftedChat.append(previousMessages, newMessages)
+    );
+  }, []);
+
+  const renderBubble = (props) => {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          left: {
+            backgroundColor: "#4b4b4b", // Style for incoming text bubble
+          },
+          right: {
+            backgroundColor: "#8dac83", // Style for outgoing text bubble
+          },
+        }}
+        textStyle={{
+          left: {
+            color: "#fffafa", // Text color for incoming messages
+          },
+          right: {
+            color: "#fffafa", // Text color for outgoing messages
+          },
+        }}
+      />
+    );
+  };
+
+  const renderInputToolbar = (props) => {
+    // Apply additional styles to InputToolbar if needed
+    return (
+      <InputToolbar
+        {...props}
+        containerStyle={{
+          borderTopWidth: 0, // Removes the border at the top
+          borderRadius: 25,
+          // paddingVertical: 5, // Adjust vertical padding if needed
+          paddingHorizontal: 10, // Adjust horizontal padding if needed
+          backgroundColor: "#1b1b1b", // Adjust background color
+        }}
+      />
+    );
+  };
+
+  const renderComposer = (props) => {
+    return (
+      <Composer
+        {...props}
+        textInputStyle={{
+          color: "#fff", // Text color
+          backgroundColor: "#1b1b1b", // Background color of the text input
+          borderRadius: 20, // Rounded corners
+          borderColor: "rgba(255, 255, 255, 0.5)",
+          borderWidth: 1, // Set the thickness of the border
+          paddingTop: 8.5, // Adjust the top padding
+          paddingHorizontal: 12, // Padding on sides
+        }}
+      />
+    );
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#1b1b1b" }}>
+      <GiftedChat
+        messages={messages}
+        onSend={(messages) => onSend(messages)}
+        user={{
+          _id: 1, // Assuming the user's ID is 1
+        }}
+        renderBubble={renderBubble}
+        renderInputToolbar={renderInputToolbar}
+        renderComposer={renderComposer}
+      />
+    </SafeAreaView>
+  );
 };
 
 export default DMChat;
+
+// import { useRoute } from "expo-router";
+// import { GiftedChat } from "react-native-gifted-chat";
+// import { FIREBASE_AUTH } from "../../firebase";
+// import { StreamChat } from "stream-chat";
+
+// const API_KEY = "g4b87ea9prkh";
+// const client = StreamChat.getInstance(API_KEY);
+// const currentUser = FIREBASE_AUTH?.currentUser?.uid;
+
+// const DMChat = () => {
+//   useEffect(() => {
+//     const connectUser = async () => {
+//       await client.connectUser(
+//         {
+//           id: "Rajie",
+//           name: "Ahmed Raja",
+//           image: "../../assets/zekePfp.png",
+//         },
+//         client.devToken(`{currentUser}`)
+//       );
+//       console.log("User Connected");
+//     };
+
+//     connectUser();
+//   }, []);
+
+//   return <Text>Placeholder</Text>;
+// };
+
+// export default DMChat;
 
 // Gifted Chat
 //const DMChat = (route) => {

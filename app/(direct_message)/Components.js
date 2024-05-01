@@ -17,6 +17,10 @@ const navigateToUserProfile = () => {
   router.push("Profile");
 };
 
+const onNewMessagePress = () => {
+  router.push("NewMessage");
+};
+
 export const DMHeader = ({ onChangeText }) => {
   const [isFocused, setIsFocused] = useState(false); // State to track focus
 
@@ -37,7 +41,9 @@ export const DMHeader = ({ onChangeText }) => {
           />
         </TouchableOpacity>
         <Text style={headerStyles.text}>Messages</Text>
-        <FontAwesome6 name="pen-to-square" size={20} color="#FFFFFF" />
+        <TouchableOpacity onPress={onNewMessagePress}>
+          <FontAwesome6 name="pen-to-square" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
       </View>
       <TextInput
         style={headerStyles.searchBar}

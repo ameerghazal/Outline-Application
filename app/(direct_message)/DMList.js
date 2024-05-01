@@ -101,6 +101,11 @@ const styles = StyleSheet.create({
     color: "white",
     paddingLeft: 10,
   },
+  noResultsText: {
+    color: "#fffafa",
+    textAlign: "center",
+    paddingTop: 10,
+  },
 });
 
 export default DMListScreen;
