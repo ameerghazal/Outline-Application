@@ -18,7 +18,8 @@ const NotificationItem = ({ image, primaryText, secondaryText }) => {
 // Mock data for all notifications
 const mockNotifications = [
   {
-    image: "https://gravatar.com/avatar/9893f1ffceee8138df12b2447b805ed9?s=200&d=robohash&r=x",
+    image:
+      "https://gravatar.com/avatar/9893f1ffceee8138df12b2447b805ed9?s=200&d=robohash&r=x",
     primaryText: "Your contact MoTren is now on Outline.",
     secondaryText: "Check his page out.",
   },
@@ -137,6 +138,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 20,
     alignItems: "center",
+    justifyContent: "center",
 
     // Border bottom
     borderBottomWidth: 1,
@@ -151,8 +153,10 @@ const styles = StyleSheet.create({
   primaryText: {
     color: "white",
     fontWeight: "regular",
+    fontFamily: "MontserratMedium",
   },
   secondaryText: {
     color: "grey",
+    fontFamily: "MontserratMedium",
   },
 });
