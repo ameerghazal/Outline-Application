@@ -8,6 +8,7 @@ import {
   Image,
   Button,
   Touchable,
+  Pressable,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -17,84 +18,129 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
 import getTimeDifference from "./GetTimeDifference";
+import { Link, router } from "expo-router";
+// Function to format the date and time.
 
-const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
-  const [items, setItems] = useState(itemList);
+function formatDate(inputDateStr) {
+  const moment = require("moment-timezone");
+
+  // Parse the input date string in GMT timezone
+  var inputDate = moment.tz(inputDateStr, "GMT");
+
+  // Format the time part
+  var timeStr = inputDate.format("h:mma");
+
+  // Format the date part
+  var dateStr = inputDate.format("M/D/YYYY");
+
+  return timeStr + " - " + dateStr;
+}
+
+const OutlinePost = ({ post, expanded = false }) => {
+  // Store the database items and determine if the page is expanded page or not.
+  const [items, setItems] = useState(post.post_tasks_bodies);
   const [userData, setUserData] = useState([]);
+  let renderedItems, date;
 
+  // If expanded, don't slice and format the date.
+  if (!expanded) {
+    renderedItems = items.slice(0, 2);
+  } else {
+    renderedItems = items;
+    date = formatDate(post.created_at);
+  }
+
+  // Database data.
   // useEffect(() => {
-  //   fetch(`http://localhost:81/pullUserData?userID=${userID}`)
+  //   fetch(`http://localhost:81/pullUserData?userID=${post.user_id}`)
   //     .then((response) => response.json())
   //     .then((data) => setUserData(data))
   //     .catch((error) => console.error("Error fetching data:", error));
   // }, []);
+
+  // More fake data.
   const jsonData = {
     bio: "Bio for user2",
     picture: "user2.jpg",
     user_handle: "@utwo",
     username: "loop",
   };
+
+  // Check if we use the fixed data or the database data.
   if (userData.length === 0) setUserData(() => jsonData);
+
+  // Format the date.
 
   return (
     <View style={styles.postContainer}>
-      <View style={styles.postHeader}>
-        <View style={styles.profileContainer}>
-          <View style={styles.postPicture}>
-            <Image
-              style={{ height: 45, width: 45 }}
-              source={require("../../assets/goku-icon.png")}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginLeft: 10,
-            }}
-          >
-            <Text style={{ color: "#FFFAFA" }}>{userData.username}</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>
-              {userData.user_handle}
-            </Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>
-              {getTimeDifference(createdTime)} ago
-            </Text>
+      <Pressable onPress={() => router.push(`${post.id}`)}>
+        <View style={styles.postHeader}>
+          <View style={styles.profileContainer}>
+            <View style={styles.postPicture}>
+              <Image
+                style={{ height: 45, width: 45 }}
+                source={require("../../assets/goku-icon.png")}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginLeft: 10,
+              }}
+            >
+              <Text style={{ color: "#FFFAFA" }}>{userData.username}</Text>
+              <Text style={{ color: "#606060", marginLeft: 5 }}>
+                {userData.user_handle}
+              </Text>
+              <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
+              <Text style={{ color: "#606060", marginLeft: 5 }}>
+                {getTimeDifference(post.created_at)} ago
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.listContainer}>
-        {items.slice(0, 2).map((task, index) => (
-          <View style={styles.itemContainer} key={index}>
-            {task.is_checked ? (
-              <MaterialCommunityIcons
-                name="checkbox-marked-outline"
-                size={24}
-                color="#8DAC83"
-              />
-            ) : (
-              <MaterialCommunityIcons
-                name="checkbox-blank-outline"
-                size={24}
-                color="#fffafa"
-              />
-            )}
-            <Text style={styles.input}>{task.body}</Text>
+        <View style={styles.listContainer}>
+          {renderedItems.map((task, index) => (
+            <View style={styles.itemContainer} key={index}>
+              {task.is_checked ? (
+                <MaterialCommunityIcons
+                  name="checkbox-marked-outline"
+                  size={24}
+                  color="#8DAC83"
+                />
+              ) : (
+                <MaterialCommunityIcons
+                  name="checkbox-blank-outline"
+                  size={24}
+                  color="#fffafa"
+                />
+              )}
+              <Text style={styles.input}>{task.body}</Text>
+            </View>
+          ))}
+        </View>
+      </Pressable>
+      {/* TODO: ADD DATABASE FIELDS FOR # OF LIKES, COMMENTS. */}
+      {expanded ? (
+        <View style={styles.postExpanded}>
+          <View style={styles.postExpandedInner}>
+            <Text style={styles.postExpandedText}>
+              4,123
+              <Text style={{ color: "#4b4b4b" }}> motivations</Text>
+            </Text>
+            <Text style={styles.postExpandedText}>
+              2983
+              <Text style={{ color: "#4b4b4b" }}> feedbacks</Text>
+            </Text>
           </View>
-        ))}
-        {items.length > 2 && (
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              width: 46,
-              flexDirection: "row",
-            }}
-          >
-            <Text style={styles.showMoreButton}>Show all</Text>
-          </TouchableOpacity>
-        )}
-      </View>
+          <View style={styles.postExpandedDate}>
+            <Text style={styles.postExpandedText}>{date}</Text>
+          </View>
+        </View>
+      ) : (
+        ""
+      )}
       <View style={styles.postFooter}>
         <TouchableOpacity activeOpacity={0.7}>
           <ToggleSVG
@@ -102,7 +148,7 @@ const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
             el2={
               <FontAwesome name="heart" size={18} color="#8DAC83" bordercolor />
             }
-            toggled={isLiked}
+            toggled={post.is_liked}
           ></ToggleSVG>
         </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.7}>
@@ -132,6 +178,25 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    width: "100%",
+  },
+  postExpanded: {
+    padding: 10,
+    width: "100%",
+  },
+  postExpandedInner: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 10,
+  },
+  postExpandedText: {
+    color: "#FFFFFF",
+    fontFamily: "Montserrat",
+    fontSize: 12,
+    textAlign: "right",
+  },
+  postExpandedDate: {
+    display: "flex",
     width: "100%",
   },
   postFooter: {
