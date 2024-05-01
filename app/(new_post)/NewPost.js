@@ -5,16 +5,46 @@ import Constants from "expo-constants";
 import AppButton from "../components/AppButton";
 import OutlineEditList from "../components/OutlineEditList";
 import { traverseBack } from "./Functions";
+import { FIREBASE_AUTH } from "../../firebase";
+import { router } from "expo-router";
 
 export default function NewPost() {
   const [outlineState, setOutlineState] = useState([]);
+  const [currUserID, setCurrUserID] = useState(null);
 
   const handleOutlineChange = (newOutlineState) => {
     setOutlineState(newOutlineState);
   };
 
-  const handlePost = () => {
+  const handlePost = async () => {
+    const currentUser = await FIREBASE_AUTH.currentUser.uid;
+    setCurrUserID(currentUser);
+
+    const jsonPostData = {
+      user_id: currentUser,
+      post_tasks: outlineState,
+    };
     // Do something with outlineState when Post button is pressed
+    fetch(`http://localhost:85/pushPosts`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonPostData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data pushed successfully:", data);
+        router.navigate("/HomeFeed");
+      })
+      .catch((error) => {
+        console.error("Error pushing data:", error);
+      });
   };
 
   return (

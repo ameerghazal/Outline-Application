@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -92,7 +92,40 @@ const SignUpScreenExt = () => {
     setPhoneNumber(phoneNumber);
     setIncorrectForm(false);
 
-    // Store the data in the database.
+    // Grab current user.
+    const user = FIREBASE_AUTH.currentUser;
+
+    // Create the JSON object of the user data and push it to the database.
+    const jsonUser = {
+      first_name: firstName,
+      last_name: lastName,
+      username: username,
+      birthdate: birthdate,
+      phoneNumber: phoneNumber,
+      id: user.uid,
+      email: user.email,
+    };
+
+    fetch(`http://localhost:83/pushUser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonUser),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data pushed successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error pushing data:", error);
+      });
+
     try {
       //TODO: Database call.
       const auth = FIREBASE_AUTH;

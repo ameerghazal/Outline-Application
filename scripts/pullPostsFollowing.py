@@ -79,7 +79,7 @@ def get_posts_with_tasks():
     # Close cursor and connection
     cursor.close()
     conn.close()
-
+    print(posts_with_tasks)
     # Return JSON response using jsonify
     return jsonify(posts_with_tasks)
 

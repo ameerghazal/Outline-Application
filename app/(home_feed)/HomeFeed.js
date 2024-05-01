@@ -8,18 +8,32 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
-
-currUserID = 1;
+import { FIREBASE_AUTH } from "../../firebase.js";
 
 const App = () => {
+  const [currUserID, setCurrUserID] = useState(null);
   const [postData, setPostData] = useState([]);
-  // useEffect(() => {
-  //   fetch(`http://localhost:80/pullPostsFollowing?userID=${currUserID}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setPostData(data))
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, []);
-  // console.log(postData);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const currentUser = await FIREBASE_AUTH.currentUser.uid;
+        setCurrUserID(currentUser);
+
+        const response = await fetch(
+          `http://localhost:80/pullPostsFollowing?userID=${currentUser}`
+        );
+        const data = await response.json();
+        setPostData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(currUserID);
+  console.log(postData);
 
   const jsonData = {
     2: {
