@@ -37,9 +37,10 @@ const NotificationsPage = () => {
         <BackBar></BackBar>
         <Text style={[styles.title, styles.whiteText]}>Notifications</Text>
         <TouchableOpacity>
-          <MaterialCommunityIcons
-            name="cog"
+          <Feather
+            name="settings"
             style={[styles.icon, styles.whiteText]}
+            onPress={() => router.push("Settings")}
           />
         </TouchableOpacity>
       </View>
@@ -108,13 +109,14 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontFamily: "Montserrat", // Assuming you've loaded the Monsterrat font
+    fontFamily: "MontserratMedium",
   },
   icon: {
     fontSize: 24,
   },
   whiteText: {
     color: "#ffffff",
+    fontFamily: "MontserratMedium",
   },
   tabs: {
     flexDirection: "row",
@@ -136,6 +138,7 @@ const styles = StyleSheet.create({
   selectedTabText: {
     color: "#8dac83",
     fontWeight: "bold",
+    fontFamily: "MontserratMedium",
 
     display: "flex",
     flexDirection: "row",
