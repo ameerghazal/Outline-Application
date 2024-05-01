@@ -4,8 +4,13 @@ import { useState } from "react";
 
 import globalStyles from "./globalStyles";
 import SwitchOption from "../components/SwitchOption";
+import { usePushNotifications } from "../usePushNotifications";
 
 function NotificationsPage() {
+  const { expoPushToken, notification } = usePushNotifications();
+
+  const data = JSON.stringify(notification, undefined, 2);
+
   // State declarations
   const [isPushNotisEnabled, setIsPushNotisEnabled] = useState(true);
   const [isPrivateMessage, setIsPrivateMessage] = useState(true);
@@ -19,6 +24,9 @@ function NotificationsPage() {
   return (
     <ScrollView style={globalStyles.container}>
       <BackBar />
+
+      <Text style={globalStyles.text}>{expoPushToken?.data ?? ""}</Text>
+      <Text style={globalStyles.text}>{data}</Text>
 
       <View style={globalStyles.section}>
         <SwitchOption
