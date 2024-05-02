@@ -16,21 +16,21 @@ export const ProfileInfo = ({ userData, isCurrentUser }) => {
     <View style={profileInfo.profileInfo}>
       {/* Username and image */}
       <View style={profileInfo.profileMainContainer}>
-        <ProfileImage imageURL={userData.imageURL}></ProfileImage>
+        <ProfileImage imageURL={userData.picture}></ProfileImage>
         <ProfileName
-          displayName={userData.displayName}
-          displayHandle={userData.displayHandle}
+          displayName={userData.full_name}
+          displayHandle={userData.username}
         ></ProfileName>
       </View>
 
       {/* Following and Edit Btn */}
       <View style={profileInfo.profileDetailContainer}>
         <ProfileStatsBar
-          outlineCt={userData.outlineCt}
-          followerCt={userData.followerCt}
-          followingCt={userData.followingCt}
-          userData={userData}
+          outlineCt={userData.outline_count}
+          followerCt={userData.follower_count}
+          followingCt={userData.following_count}
           isCurrentUser={isCurrentUser}
+          userData={userData}
         ></ProfileStatsBar>
         <ProfileBio>{userData.bio}</ProfileBio>
       </View>
@@ -68,13 +68,13 @@ const ProfileStatsBar = ({
   return (
     <View style={profileInfo.profileStatsContainer}>
       <ProfileStat label="outlines">
-        <Text>{`${outlineCt}k`}</Text>
+        <Text>{outlineCt}</Text>
       </ProfileStat>
       <ProfileStat label="followers">
-        <Text>{`${followerCt}k`}</Text>
+        <Text>{followerCt}</Text>
       </ProfileStat>
       <ProfileStat label="following">
-        <Text>{`${followingCt}k`}</Text>
+        <Text>{followingCt}</Text>
       </ProfileStat>
 
       {isCurrentUser ? (

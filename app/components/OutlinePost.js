@@ -3,11 +3,8 @@ import {
   View,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   Image,
-  Button,
-  Touchable,
   Pressable,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -19,8 +16,10 @@ import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
 import getTimeDifference from "./GetTimeDifference";
 import { Link, router } from "expo-router";
+import { FIREBASE_AUTH } from "../../firebase";
 // Function to format the date and time.
 
+const IP = "10.204.255.142";
 function formatDate(inputDateStr) {
   const moment = require("moment-timezone");
 
@@ -38,8 +37,10 @@ function formatDate(inputDateStr) {
 
 const OutlinePost = ({ post, expanded = false }) => {
   // Store the database items and determine if the page is expanded page or not.
+  console.log(post);
   const [items, setItems] = useState(post.post_tasks_bodies);
   const [userData, setUserData] = useState([]);
+  const [likeStatus, setLikeStatus] = useState(post.is_liked); // For like button state
   let renderedItems, date;
 
   // If expanded, don't slice and format the date.
@@ -49,29 +50,62 @@ const OutlinePost = ({ post, expanded = false }) => {
     renderedItems = items;
     date = formatDate(post.created_at);
   }
+  // Database data, pull the specific user.  const [likeStatus, setLikeStatus] = useState(isLiked); // For like button state
 
-  // Database data, pull the specific user.
-  // useEffect(() => {
-  //   fetch(`http://localhost:81/pullUserData?userID=${post.user_id}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setUserData(data))
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, []);
+  useEffect(() => {
+    fetch(`http://${IP}:500/pullUserData?userID=${post.user_id}`)
+      .then((response) => response.json())
+      .then((data) => setUserData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
-  // More fake data.
-  const jsonData = {
-    bio: null,
-    follower_count: 0,
-    following_count: 1,
-    full_name: "Nirwaan Azhar",
-    id: "TY9wzrcYJFTwJutARS7RXg1AeLB3",
-    outline_count: 3,
-    picture: null,
-    username: "@dddd",
+  // // More fake data.
+  // const jsonData = {
+  //   bio: null,
+  //   follower_count: 0,
+  //   following_count: 1,
+  //   full_name: "Nirwaan Azhar",
+  //   id: "TY9wzrcYJFTwJutARS7RXg1AeLB3",
+  //   outline_count: 3,
+  //   picture: null,
+  //   username: "@dddd",
+  // };
+
+  // // Check if we use the fixed data or the database data.
+  // if (userData.length === 0) setUserData(() => jsonData);
+
+  // Function to toggle like button state
+  const toggleLike = () => {
+    setLikeStatus(!likeStatus);
+    const currUserID = FIREBASE_AUTH.currentUser.uid;
+
+    // Combine post data and currUserID into an object
+    const postDataWithUserID = {
+      ...post, // Assuming post is already defined
+      curr_user_id: currUserID,
+    };
+
+    // Send a POST request to update the like status in the database
+    fetch(`http://${IP}:500/updatePostLike`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postDataWithUserID), // Stringify the combined object
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Post like updated successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error updating post like:", error);
+      });
   };
-
-  // Check if we use the fixed data or the database data.
-  if (userData.length === 0) setUserData(() => jsonData);
 
   // Return the view.
   return (
@@ -80,9 +114,8 @@ const OutlinePost = ({ post, expanded = false }) => {
         <Pressable
           onPress={() =>
             router.navigate({
-              pathname: `${post.id}`,
+              pathname: "Profile",
               params: {
-                type: "profile",
                 user_id: userData.id,
               },
             })
@@ -167,15 +200,13 @@ const OutlinePost = ({ post, expanded = false }) => {
         ""
       )}
       <View style={styles.postFooter}>
-        <TouchableOpacity activeOpacity={0.7}>
-          <ToggleSVG
-            el1={<Feather name="heart" size={18} color="#fffafa" />}
-            el2={
-              <FontAwesome name="heart" size={18} color="#8DAC83" bordercolor />
-            }
-            toggled={post.is_liked}
-          ></ToggleSVG>
-        </TouchableOpacity>
+        <Pressable activeOpacity={0.7} onPress={toggleLike}>
+          {likeStatus ? (
+            <FontAwesome name="heart" size={18} color="#8DAC83" />
+          ) : (
+            <Feather name="heart" size={18} color="#fffafa" />
+          )}
+        </Pressable>
         <TouchableOpacity activeOpacity={0.7}>
           <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
         </TouchableOpacity>
