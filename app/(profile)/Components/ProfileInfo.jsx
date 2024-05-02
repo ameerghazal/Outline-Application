@@ -11,7 +11,7 @@ import images from "../../../assets/images";
  * @author: Ibrahim Mohammad
  * @returns Top of page containing pfp, name, stats(num posts/following), bio
  */
-export const ProfileInfo = ({ userData, isCurrentUser }) => {
+
 export const ProfileInfo = ({ userData, isCurrentUser }) => {
   return (
     <View style={profileInfo.profileInfo}>
@@ -156,4 +156,4 @@ const ProfileBio = ({ children }) => {
       <Text style={profileInfo.bioText}>{children}</Text>
     </View>
   );
-};
+}

@@ -24,6 +24,8 @@ const userInfo = {
  * // TODO figure out how to write to JSON - talk to nerdwaan
  */
 const EditProfileScreen = () => {
+
+  // Grab the parameters.
   const params = useLocalSearchParams();
   console.log(params);
   const { bio, displayHandle, displayName } = params;
