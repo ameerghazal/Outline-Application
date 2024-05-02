@@ -13,7 +13,7 @@ def update_post_like():
     if request.method == 'POST':
         data = request.json
         # Extract user data from the JSON object
-        user_id = data.get('user_id')
+        user_id = data.get('curr_user_id')
         post_id = data.get('id')
         is_liked = data.get('is_liked')
         print(is_liked)

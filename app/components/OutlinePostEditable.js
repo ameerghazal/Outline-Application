@@ -17,6 +17,7 @@ import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import getTimeDifference from "./GetTimeDifference";
+import { FIREBASE_AUTH } from "../../firebase";
 
 const OutlinePostEditable = ({ userData, postData }) => {
   const [itemStates, setItemStates] = useState(postData.post_tasks_bodies);
@@ -62,13 +63,21 @@ const OutlinePostEditable = ({ userData, postData }) => {
   // Function to toggle like button state
   const toggleLike = () => {
     setLikeStatus(!likeStatus);
+    const currUserID = FIREBASE_AUTH.currentUser.uid;
+
+    // Combine post data and currUserID into an object
+    const postDataWithUserID = {
+      ...postData, // Assuming post is already defined
+      curr_user_id: currUserID,
+    };
+
     // Send a POST request to update the like status in the database
     fetch("http://localhost:90/updatePostLike", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(postData),
+      body: JSON.stringify(postDataWithUserID), // Stringify the combined object
     })
       .then((response) => {
         if (!response.ok) {

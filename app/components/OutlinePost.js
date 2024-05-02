@@ -16,6 +16,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
 import getTimeDifference from "./GetTimeDifference";
 import { Link, router } from "expo-router";
+import { FIREBASE_AUTH } from "../../firebase";
 // Function to format the date and time.
 
 function formatDate(inputDateStr) {
@@ -35,6 +36,7 @@ function formatDate(inputDateStr) {
 
 const OutlinePost = ({ post, expanded = false }) => {
   // Store the database items and determine if the page is expanded page or not.
+  console.log(post);
   const [items, setItems] = useState(post.post_tasks_bodies);
   const [userData, setUserData] = useState([]);
   const [likeStatus, setLikeStatus] = useState(post.is_liked); // For like button state
@@ -74,13 +76,21 @@ const OutlinePost = ({ post, expanded = false }) => {
   // Function to toggle like button state
   const toggleLike = () => {
     setLikeStatus(!likeStatus);
+    const currUserID = FIREBASE_AUTH.currentUser.uid;
+
+    // Combine post data and currUserID into an object
+    const postDataWithUserID = {
+      ...post, // Assuming post is already defined
+      curr_user_id: currUserID,
+    };
+
     // Send a POST request to update the like status in the database
     fetch("http://localhost:90/updatePostLike", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(post),
+      body: JSON.stringify(postDataWithUserID), // Stringify the combined object
     })
       .then((response) => {
         if (!response.ok) {
