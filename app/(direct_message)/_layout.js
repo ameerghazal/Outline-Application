@@ -11,13 +11,13 @@ const DMListLayout = () => {
         }}
       />
       <Stack.Screen
-        name="NewMessage"
+        name="DMChat"
         options={{
           headerShown: false,
         }}
       />
       <Stack.Screen
-        name="DMChat"
+        name="NewMessage"
         options={{
           headerShown: false,
         }}
