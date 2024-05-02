@@ -1,97 +1,106 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { ScrollView, View, StyleSheet, Button } from "react-native";
+import { ScrollView, View, StyleSheet, Button, Text } from "react-native";
 import { ProfileInfo } from "./Components/ProfileInfo";
 import { ProfileContents } from "./Components/ProfileContents";
 import { BackBar } from "../(user_auth)/Components";
 import BottomNav from "../components/BottomNav";
 import images from "../../assets/images";
-import { firebase } from "@react-native-firebase/auth";
+import { useGlobalSearchParams } from "expo-router";
+import { traverseBack } from "../(new_post)/Functions";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { FIREBASE_AUTH } from "../../firebase";
 
-const mockUserData = [
-  {
-    userInfo: {
-      displayName: "phang 7.0 gpa",
-      displayHandle: "mollywhoppa",
-      outlineCt: 42,
-      followerCt: 987,
-      followingCt: 150,
-      imageURL: images.ichigoIcon,
-      bio: "one week she love me, one week she hate me, both weeks i got paid. Follow me on linkedin: linkedin.com/brahimt2",
-    },
-    posts: [
-      {
-        content: ["First post of phang"],
-        timePosted: new Date().toISOString(),
-        // Add additional post information here
-      },
-    ],
-  },
-  {
-    userInfo: {
-      displayName: "Moaz Asim",
-      displayHandle: "brown_boy_999",
-      outlineCt: 25,
-      followerCt: 456,
-      followingCt: 212,
-      imageURL: images.chadIcon,
-      bio: "Guys help im trapped in outline ",
-    },
-    posts: [
-      {
-        content: ["First post of Moaz"],
-        timePosted: new Date().toISOString(),
-        // Add additional post information here
-      },
-      {
-        content: ["Second post of Moaz"],
-        timePosted: new Date().toISOString(),
-        // Add additional post information here
-      },
-    ],
-  },
-  {
-    userInfo: {
-      displayName: "Hassaan Basit",
-      displayHandle: "cactus5pf",
-      outlineCt: 75,
-      followerCt: 12000,
-      followingCt: 3,
-      imageURL: images.renjiIcon,
-      bio: "michigan squirrels got to me. amos: hassanbasit",
-    },
-    posts: [
-      {
-        content: ["First post of Hassaan"],
-        timePosted: new Date().toISOString(),
-        // Add additional post information here
-      },
-      {
-        content: ["Second post of Hassaan"],
-        timePosted: new Date().toISOString(),
-        // Add additional post information here
-      },
-      {
-        content: ["Third post of Hassaan"],
-        timePosted: new Date().toISOString(),
-        // Add additional post information here
-      },
-    ],
-  },
-];
-
+// const mockUserData = [
+//   {
+//     userInfo: {
+//       displayName: "phang (7.0 gpa)",
+//       displayHandle: "mollywhoppa",
+//       outlineCt: 42,
+//       followerCt: 987,
+//       followingCt: 150,
+//       imageURL: images.ichigoIcon,
+//       bio: "one week she love me, one week she hate me, both weeks i got paid. Follow me on linkedin: linkedin.com/brahimt2",
+//     },
+//     posts: [
+//       {
+//         content: ["First post of phang"],
+//         timePosted: new Date().toISOString(),
+//         // Add additional post information here
+//       },
+//     ],
+//   },
+//   {
+//     userInfo: {
+//       displayName: "Moaz Asim",
+//       displayHandle: "brown_boy_999",
+//       outlineCt: 25,
+//       followerCt: 456,
+//       followingCt: 212,
+//       imageURL: images.chadIcon,
+//       bio: "Guys help im trapped in outline ",
+//     },
+//     posts: [
+//       {
+//         content: ["First post of Moaz"],
+//         timePosted: new Date().toISOString(),
+//         // Add additional post information here
+//       },
+//       {
+//         content: ["Second post of Moaz"],
+//         timePosted: new Date().toISOString(),
+//         // Add additional post information here
+//       },
+//     ],
+//   },
+//   {
+//     userInfo: {
+//       displayName: "Hassaan Basit",
+//       displayHandle: "cactus5pf",
+//       outlineCt: 75,
+//       followerCt: 12000,
+//       followingCt: 3,
+//       imageURL: images.renjiIcon,
+//       bio: "michigan squirrels got to me. amos: hassanbasit",
+//     },
+//     posts: [
+//       {
+//         content: ["First post of Hassaan"],
+//         timePosted: new Date().toISOString(),
+//         // Add additional post information here
+//       },
+//       {
+//         content: ["Second post of Hassaan"],
+//         timePosted: new Date().toISOString(),
+//         // Add additional post information here
+//       },
+//       {
+//         content: ["Third post of Hassaan"],
+//         timePosted: new Date().toISOString(),
+//         // Add additional post information here
+//       },
+//     ],
+//   },
+// ];
+const IP = "10.204.255.142";
 /**
  * Highest Level of Component tree, calls backend for data and passes throughout the page
  * @author: Ibrahim Mohammad
  * @returns Default Page to be displayed
  */
-const ProfileScreen = ({ user_id }) => {
+const ProfileScreen = () => {
+  // Grab the parameters.
+  const { user_id } = useGlobalSearchParams();
   const [userData, setUserData] = useState([]); // Initialize with the first user
   const [postsData, setPostsData] = useState([]);
 
-  // checking if current renddred user is equal to user being rendered
-  const isCurrentUser = FIREBASE_AUTH.currentUser.uid == user_id;
+  // Grab the current user.
+  const user = FIREBASE_AUTH.currentUser
+  
+  // Compare the current user with the user id.
+  const isCurrentUser = user.uid == user_id ? true : false
+  console.log("wrok" + isCurrentUser)
 
   // Random Number for the page swap
   const handleUserChange = (index) => {
@@ -101,7 +110,7 @@ const ProfileScreen = ({ user_id }) => {
 
   // Pull the user data based on the specific user_id passed in.
   useEffect(() => {
-    fetch(`http://localhost:81/pullUserData?userID=${user_id}`)
+    fetch(`http://${IP}:500/pullUserData?userID=${user_id}`)
       .then((response) => response.json())
       .then((data) => setUserData(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -110,7 +119,7 @@ const ProfileScreen = ({ user_id }) => {
 
   // Pull the post data based on the specific user_id passed in.
   useEffect(() => {
-    fetch(`http://localhost:86/pullPostsUser?userID=${user_id}`)
+    fetch(`http://${IP}:500/pullPostsUser?userID=${user_id}`)
       .then((response) => response.json())
       .then((data) => setPostsData(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -118,19 +127,24 @@ const ProfileScreen = ({ user_id }) => {
   console.log(postsData);
 
   return (
-    <View style={frames.outerFrame}>
-      <BackBar />
-      <View style={frames.buttonCase}>
-        <Button title="phang" onPress={() => handleUserChange(0)} />
-        <Button title="moaz" onPress={() => handleUserChange(1)} />
-        <Button title="cactus" onPress={() => handleUserChange(2)} />
-      </View>
+    <SafeAreaView style={frames.outerFrame}>
+      <View style={frames.header}>
+        <Ionicons
+            name="chevron-back"
+                  size={24}
+                  color={"#ffffff"}
+                  onPress={traverseBack}
+                  style={aesthetics.icon}
+                ></Ionicons>
+          <Text style={aesthetics.middleHeader}>Profile</Text>
+          <View></View>
+      </View>      
       <ScrollView style={frames.innerFrame}>
         <ProfileInfo userData={userData} isCurrentUser={isCurrentUser} />
         <ProfileContents userData={userData} postsData={postsData} />
       </ScrollView>
       <BottomNav></BottomNav>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -146,7 +160,30 @@ const frames = StyleSheet.create({
   innerFrame: {
     flex: 1,
   },
+
+  header: {
+    padding: 10,
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#1b1b1b",
+  },
+
 });
+
+
+const aesthetics = StyleSheet.create({
+  middleHeader: {
+    color: "#FFFFFF",
+    textAlign: "center",
+    alignSelf: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    fontFamily: "Montserrat",
+    color: "#FFFFFF",
+    flex: 1,
+  },
+});
+
 
 // Export the sign-up-screen to other pages.
 export default ProfileScreen;

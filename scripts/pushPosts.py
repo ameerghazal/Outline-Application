@@ -4,6 +4,7 @@ import psycopg2
 from psycopg2.extras import RealDictCursor
 import datetime
 import json
+import uuid
 
 app = Flask(__name__)
 CORS(app)
@@ -14,24 +15,50 @@ def serialize_datetime(obj):
         return obj.isoformat() 
     raise TypeError("Type not serializable") 
 
-@app.route('/pushPosts')
+@app.route('/pushPosts', methods=['POST'])
 def push_posts():
-    # Establish a database connection
-    conn = psycopg2.connect(database="postgres",
-                            host="localhost",
-                            user="postgres",
-                            password="Noornoor21",
-                            port="5432")
+    if request.method == 'POST':
+        data = request.json
+        print(data)
+        # Extract user data from the JSON object
+        user_id = data.get('user_id')
+        post_tasks = data.get('post_tasks')
+        
+        print(user_id)
+        # Establish a database connection
+        conn = psycopg2.connect(database="postgres",
+                                host="localhost",
+                                user="postgres",
+                                password="Noornoor21",
+                                port="5432")
+        # Create a cursor
+        cursor = conn.cursor()
 
-    # Create a cursor with dictionary cursor factory
-    cursor = conn.cursor(cursor_factory=RealDictCursor)
+        # # Write the SQL query to insert post data into the database (88a0d522-d2db-41ae-ace1-cfeac4a1a195)
+        query1 = """
+        INSERT INTO posts (user_id, post_status_id, created_at) 
+        VALUES (%s,%s,CURRENT_TIMESTAMP)
+        RETURNING id
+        """
+        cursor.execute(query1, (user_id,'88a0d522-d2db-41ae-ace1-cfeac4a1a195'))
 
-    # Close cursor and connection
-    cursor.close()
-    conn.close()
+        # Get the ID of the newly created post
+        new_post_id = cursor.fetchone()[0]
 
-    # Return JSON response using jsonify
-    # return jsonify(posts_with_tasks)
+        # # Write the SQL query to insert post tasks into the database
+        for task in post_tasks:
+            cursor.execute("INSERT INTO post_tasks (body, is_checked, post_id) VALUES (%s,false,%s)", (task,new_post_id))
+
+
+        # # Commit the transaction
+        conn.commit()
+
+        # Close cursor and connection
+        cursor.close()
+        conn.close()
+
+        # Return JSON response using jsonify
+        return jsonify({'message': 'User added successfully'}), 200
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port = 82, debug=True)
+    app.run(host="0.0.0.0", port = 85, debug=True)

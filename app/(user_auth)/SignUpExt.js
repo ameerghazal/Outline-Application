@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -109,25 +109,25 @@ const SignUpScreenExt = () => {
       email: user.email,
     };
 
-    // Post the data.
-    useEffect(() => {
-      fetch(`http://localhost:80/pushUser?userID=${currUserID}`, {
-        method: "POST",
-        body: JSON.stringify(jsonUser),
+    fetch(`http://localhost:83/pushUser`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(jsonUser),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log("Data pushed successfully:", data);
-        })
-        .catch((error) => {
-          console.error("Error pushing data:", error);
-        });
-    }, []);
+      .then((data) => {
+        console.log("Data pushed successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error pushing data:", error);
+      });
 
     try {
       //TODO: Database call.

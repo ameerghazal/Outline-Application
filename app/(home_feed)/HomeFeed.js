@@ -10,8 +10,6 @@ import {
 } from "react-native-safe-area-context";
 import { FIREBASE_AUTH } from "../../firebase.js";
 
-currUserID = 1;
-
 export const outlines = {
   1: {
     created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
@@ -93,18 +91,19 @@ export const outlines = {
     user_id: 3,
   },
 };
-
+export const IP = "10.204.255.142"
 const App = () => {
+  const [currUserID, setCurrUserID] = useState(null);
   const [postData, setPostData] = useState([]);
-  // useEffect(() => {
-  //   fetch(`http://localhost:80/pullPostsFollowing?userID=${currUserID}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setPostData(data))
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, []);
-  // console.log(postData);
-
-  if (postData.length === 0) setPostData(() => outlines);
+  // TODO RERENDER
+  useEffect(() => {
+    fetch(
+      `http://${IP}:500/pullPostsFollowing?userID=${FIREBASE_AUTH.currentUser.uid}`
+    )
+      .then((response) => response.json())
+      .then((pData) => setPostData(pData))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
 
   return (
     <SafeAreaProvider style={styles.outer_frame}>

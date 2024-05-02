@@ -8,13 +8,21 @@ import {
 } from "react-native";
 import { traverseBack } from "../(home_feed)/Functions";
 import { router } from "expo-router";
+import { FIREBASE_AUTH } from "../../firebase";
 
 const GeneralHeader = () => {
   return (
     <View style={styles.header_container}>
       <TouchableOpacity
         accessibilityLabel="Go back."
-        onPress={() => router.navigate("Profile")}
+        onPress={() =>
+          router.navigate({
+            pathname: "Profile",
+            params: {
+              user_id: FIREBASE_AUTH.currentUser.uid,
+            },
+          })
+        }
       >
         <Ionicons name="person" size={24} color={"#ffffff"}></Ionicons>
       </TouchableOpacity>

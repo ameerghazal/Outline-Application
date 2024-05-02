@@ -4,6 +4,7 @@ import { profileTabNavs } from "../styles";
 import { profileTabContents } from "../styles";
 import IbrahimOutlinePost from "./IbrahimOutlinePost";
 import { StyleSheet } from "react-native";
+import OutlinePost from "../../components/OutlinePost";
 
 const list = [
   ["Item 1", "poop", "pOOP"],
@@ -89,18 +90,12 @@ const ProfileTab = ({ tab, isActive, handleSetActive }) => {
 export const ProfileTabContents = ({ userData, postsData }) => {
   return (
     <View style={profileTabContents.container}>
-      <IbrahimOutlinePost
-        itemList={list[0]}
-        userData={userData}
-      ></IbrahimOutlinePost>
-      <IbrahimOutlinePost
-        itemList={list[1]}
-        userData={userData}
-      ></IbrahimOutlinePost>
-      <IbrahimOutlinePost
-        itemList={list[2]}
-        userData={userData}
-      ></IbrahimOutlinePost>
+      {Object.values(postsData).map((post) => (
+        <OutlinePost
+          key={post.id}
+          post={post}
+        ></OutlinePost>
+      ))}
     </View>
   );
 };

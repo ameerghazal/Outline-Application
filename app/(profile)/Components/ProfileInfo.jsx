@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { profileInfo } from "../styles";
 import { handleEditProfile } from "../Functions";
 import { Link, router } from "expo-router";
-import { Alert } from "react-native";
+import images from "../../../assets/images";
 
 /**
  * Component for the top page of the Profile Page.
@@ -11,25 +11,25 @@ import { Alert } from "react-native";
  * @author: Ibrahim Mohammad
  * @returns Top of page containing pfp, name, stats(num posts/following), bio
  */
+
 export const ProfileInfo = ({ userData, isCurrentUser }) => {
   return (
     <View style={profileInfo.profileInfo}>
       {/* Username and image */}
       <View style={profileInfo.profileMainContainer}>
-        <ProfileImage imageURL={userData.imageURL}></ProfileImage>
+        <ProfileImage imageURL={userData.picture}></ProfileImage>
         <ProfileName
-          displayName={userData.displayName}
-          displayHandle={userData.displayHandle}
+          displayName={userData.full_name}
+          displayHandle={userData.username}
         ></ProfileName>
       </View>
 
       {/* Following and Edit Btn */}
       <View style={profileInfo.profileDetailContainer}>
         <ProfileStatsBar
-          outlineCt={userData.outlineCt}
-          followerCt={userData.followerCt}
-          followingCt={userData.followingCt}
-          userData={userData}
+          outlineCt={userData.outline_count}
+          followerCt={userData.follower_count}
+          followingCt={userData.following_count}
           isCurrentUser={isCurrentUser}
         ></ProfileStatsBar>
         <ProfileBio>{userData.bio}</ProfileBio>
@@ -44,7 +44,7 @@ export const ProfileImage = ({ imageURL }) => {
 
   return (
     <TouchableOpacity style={profileInfo.iconContainer}>
-      <Image source={imageURL} style={profileInfo.profileIcon}></Image>
+      <Image source={images.generic} style={profileInfo.profileIcon}></Image>
     </TouchableOpacity>
   );
 };
@@ -58,30 +58,21 @@ const ProfileName = ({ displayName, displayHandle }) => {
   );
 };
 
-const ProfileStatsBar = ({
-  outlineCt,
-  followerCt,
-  followingCt,
-  userData,
-  isCurrentUser,
-}) => {
+const ProfileStatsBar = ({ outlineCt, followerCt, followingCt, userData, isCurrentUser }) => {
   return (
     <View style={profileInfo.profileStatsContainer}>
       <ProfileStat label="outlines">
-        <Text>{`${outlineCt}k`}</Text>
+        <Text>{outlineCt}</Text>
       </ProfileStat>
       <ProfileStat label="followers">
-        <Text>{`${followerCt}k`}</Text>
+        <Text>{followerCt}</Text>
       </ProfileStat>
       <ProfileStat label="following">
-        <Text>{`${followingCt}k`}</Text>
+        <Text>{followingCt}</Text>
       </ProfileStat>
-
-      {isCurrentUser ? (
-        <EditProfileBtn userData={userData} />
-      ) : (
-        <FollowProfileBtn userData={userData} />
-      )}
+      {isCurrentUser ? (<EditProfileBtn userData={userData}/>)
+       : (<FollowProfileBtn userData={userData}/>)
+      }
     </View>
   );
 };
@@ -98,12 +89,12 @@ const EditProfileBtn = ({ userData }) => {
     <Pressable
       style={profileInfo.btnEditProfile}
       onPress={() => {
-        router.push({
+        router.navigate({
           pathname: "/EditProfile",
           params: {
-            displayName: userData.displayName,
+            displayName: userData.full_name,
             bio: userData.bio,
-            displayHandle: userData.displayHandle,
+            displayHandle: userData.username,
           },
         });
       }}
@@ -113,18 +104,19 @@ const EditProfileBtn = ({ userData }) => {
   );
 };
 
-const FollowProfileBtn = ({ userData }) => {
+const FollowProfileBtn = ({userData}) => {
   const [isFollowing, setIsFollowing] = useState(false);
+  
 
   const handleFollow = () => {
     if (!isFollowing) {
       // Increment follower count only if not already following
-      userData.followerCt++;
+      userData.follower_count++;
       setIsFollowing(true); // Update the following status
-      console.log("Follower count after follow:", userData.followerCt);
+      console.log("Follower count after follow:", userData.follower_count);
     } else {
       // Prompt the user to confirm unfollowing
-      Alert.alert(
+      alert(
         "Unfollow User",
         "Are you sure you want to unfollow this user?",
         [
@@ -136,11 +128,11 @@ const FollowProfileBtn = ({ userData }) => {
           {
             text: "Unfollow",
             onPress: () => {
-              userData.followerCt--; // Decrement the follower count
+              userData.follower_count--; // Decrement the follower count
               setIsFollowing(false); // Update the following status to false
               console.log(
                 "Follower count after unfollow:",
-                userData.followerCt
+                userData.follower_count
               );
             },
           },
@@ -149,7 +141,6 @@ const FollowProfileBtn = ({ userData }) => {
       );
     }
   };
-
   return (
     <Pressable onPress={handleFollow} style={profileInfo.btnEditProfile}>
       <Text style={profileInfo.btnEditProfileText}>
@@ -165,4 +156,4 @@ const ProfileBio = ({ children }) => {
       <Text style={profileInfo.bioText}>{children}</Text>
     </View>
   );
-};
+}

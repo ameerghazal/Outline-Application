@@ -14,14 +14,16 @@ import { outlines } from "../HomeFeed";
 import { traverseBack } from "../../functions/generalFunctions";
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   SafeAreaProvider,
   SafeAreaView,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import Comment from "../../components/Comment";
+import { FIREBASE_AUTH } from "../../../firebase";
 
+const IP = "10.204.255.142"
 export const commentTester = {
   1: {
     id: 1000,
@@ -93,25 +95,30 @@ export default function Screen() {
  * @author Ameer Ghazal
  */
 const OutlineScreen = (id) => {
-  // Get the outline based on the specific id [REPLACE OUTLINES W/ DATABASE CALL FOR THE OUTLINES].
-  const data = findByID(id, outlines);
-  console.log(data);
+  // Destructure id from props
+  const [data, setData] = useState(null);
+  const [commentData, setCommentData] = useState([]); // Move useState here
+  console.log(id);
+  useEffect(() => {
+    fetch(`http://${IP}:500/pullPost2?postID=${id}`)
+      .then((response) => response.json())
+      .then((pData) => {
+        setData(pData);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []); // Add id as a dependency
+
+  // Move the commentData initialization logic here
+  useEffect(() => {
+    if (commentData.length === 0) {
+      setCommentData(() => commentTester);
+    }
+  }, [commentData]);
 
   // If undefined, render an error.
   if (!data) {
     return <Text>An error has occured!</Text>;
   }
-
-  // Grab the comments [REPLACE COMMENTTESTER W/ DATABASE CALL FOR COMMENTS].
-  const [commentData, setCommentData] = useState([]);
-  // useEffect(() => {
-  //   fetch(`http://localhost:80/pullPostsFollowing?userID=${currUserID}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setPostData(data))
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, []);
-  // console.log(postData);
-  if (commentData.length === 0) setCommentData(() => commentTester);
 
   // Return the page featuring the specific outline.
   return (
@@ -136,7 +143,7 @@ const OutlineScreen = (id) => {
           <OutlinePost post={data} expanded={true}></OutlinePost>
           <View style={frames.comments}>
             {Object.values(commentData).map((comment) => (
-              <Comment comment={comment}></Comment>
+              <Comment comment={comment} key={comment.id}></Comment> // Add key prop
             ))}
           </View>
         </ScrollView>

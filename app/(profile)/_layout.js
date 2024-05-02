@@ -6,7 +6,9 @@ import { Feather } from "@expo/vector-icons";
 const Profile = () => {
   return (
     <Stack>
-      <Stack.Screen name="Profile" options={header} />
+      <Stack.Screen name="Profile" options={{
+          headerShown: false,
+        }} />
       <Stack.Screen
         name="EditProfile"
         options={{ ...header, title: "Edit Profile" }}
