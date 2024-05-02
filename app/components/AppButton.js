@@ -25,7 +25,7 @@ const AppButton = ({ onPress, title, size, backgroundColor, color }) => (
 const styles = StyleSheet.create({
   appButtonContainer: {
     elevation: 8,
-    borderRadius: "50%",
+    borderRadius: 50,
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
