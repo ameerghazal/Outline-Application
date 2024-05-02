@@ -8,6 +8,8 @@ import { traverseBack } from "./Functions";
 import { FIREBASE_AUTH } from "../../firebase";
 import { router } from "expo-router";
 
+const IP = "10.204.173.240";
+
 export default function NewPost() {
   const [outlineState, setOutlineState] = useState([]);
   const [currUserID, setCurrUserID] = useState(null);
@@ -25,7 +27,7 @@ export default function NewPost() {
       post_tasks: outlineState,
     };
     // Do something with outlineState when Post button is pressed
-    fetch(`http://localhost:85/pushPosts`, {
+    fetch(`http://${IP}:500/pushPosts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

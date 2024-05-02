@@ -81,7 +81,7 @@ import { useGlobalSearchParams } from "expo-router";
 //     ],
 //   },
 // ];
-const IP = "10.204.255.142";
+const IP = "10.204.173.240";
 /**
  * Highest Level of Component tree, calls backend for data and passes throughout the page
  * @author: Ibrahim Mohammad

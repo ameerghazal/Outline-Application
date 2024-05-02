@@ -25,6 +25,7 @@ import { FIREBASE_AUTH, FIREBASE_DB } from "../../firebase.js";
 import { doc, updateDoc } from "firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+const IP = "10.204.173.240";
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -109,7 +110,7 @@ const SignUpScreenExt = () => {
       email: user.email,
     };
 
-    fetch(`http://localhost:83/pushUser`, {
+    fetch(`http://${IP}:500/pushUser`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -146,7 +147,7 @@ const SignUpScreenExt = () => {
         birthdate,
         phoneNumber,
       });
-      
+
       router.push("HomeFeed");
     } catch (error) {
       console.log(error.message);

@@ -9,7 +9,7 @@ function SettingsInputBox({ placeholder, hidden, ...props }) {
         secureTextEntry={hidden} // make input hidden based on hidden prop
         style={styles.input}
         placeholder={placeholder}
-        {...props}
+        // {...props}
       />
     </View>
   );

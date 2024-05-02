@@ -94,6 +94,7 @@ const ProfileStat = ({ children, label }) => (
 );
 
 const EditProfileBtn = ({ userData }) => {
+  // console.log(userData);
   return (
     <Pressable
       style={profileInfo.btnEditProfile}
@@ -101,9 +102,9 @@ const EditProfileBtn = ({ userData }) => {
         router.push({
           pathname: "/EditProfile",
           params: {
-            displayName: userData.displayName,
             bio: userData.bio,
-            displayHandle: userData.displayHandle,
+            displayName: userData.full_name,
+            displayHandle: userData.username,
           },
         });
       }}

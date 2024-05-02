@@ -25,8 +25,9 @@ const userInfo = {
  */
 const EditProfileScreen = () => {
   const params = useLocalSearchParams();
-  console.log(params);
+  // console.log(params);
   const { bio, displayHandle, displayName } = params;
+  console.log(bio, displayHandle, displayName);
 
   const [displayNameState, setDisplayName] = useState(displayName);
   const [displayHandleState, setDisplayHandle] = useState(displayHandle);
