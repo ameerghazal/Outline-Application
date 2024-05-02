@@ -13,6 +13,7 @@ import { FIREBASE_AUTH } from "../../firebase.js";
 const App = () => {
   const [currUserID, setCurrUserID] = useState(null);
   const [postData, setPostData] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -67,9 +68,10 @@ const App = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        {Object.values(jsonData).map((post) => (
+        {Object.values(postData).map((post) => (
           <OutlinePost
             key={post.id}
+            postID={post.id}
             itemList={post.post_tasks_bodies}
             createdTime={post.created_at}
             userID={post.user_id}

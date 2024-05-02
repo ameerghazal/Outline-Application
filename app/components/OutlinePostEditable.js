@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -7,19 +7,82 @@ import {
   TouchableOpacity,
   Image,
   Button,
-  TouchableHighlight,
+  Touchable,
+  Pressable,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
-import { FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import ToggleSVG from "./ToggleSVG";
+import { FontAwesome } from "@expo/vector-icons";
+import getTimeDifference from "./GetTimeDifference";
 
-const OutlinePost = ({ itemList }) => {
-  const [items, setItems] = useState(itemList);
-  const [isLiked] = useState(false);
-  const [isChecked] = useState(false);
+const OutlinePostEditable = ({ userData, postData }) => {
+  const [itemStates, setItemStates] = useState(postData.post_tasks_bodies);
+  const [likeStatus, setLikeStatus] = useState(postData.is_liked); // For like button state
+
+  const toggleCheckbox = (index) => {
+    setItemStates((prevState) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        is_checked: !newState[index].is_checked,
+      }; // Invert the is_checked state
+      return newState;
+    });
+
+    // Make a POST request to the Flask endpoint
+    fetch("http://localhost:88/updateCheckbox", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...itemStates[index],
+        is_checked: !itemStates[index].is_checked,
+      }), // Send only the updated item
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Checkbox state updated successfully:", data);
+        // Handle successful response
+      })
+      .catch((error) => {
+        console.error("Error updating checkbox state:", error);
+        // Handle error
+      });
+  };
+
+  // Function to toggle like button state
+  const toggleLike = () => {
+    setLikeStatus(!likeStatus);
+    // Send a POST request to update the like status in the database
+    fetch("http://localhost:90/updatePostLike", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Post like updated successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error updating post like:", error);
+      });
+  };
 
   return (
     <View style={styles.postContainer}>
@@ -28,7 +91,7 @@ const OutlinePost = ({ itemList }) => {
           <View style={styles.postPicture}>
             <Image
               style={{ height: 45, width: 45 }}
-              source={require("../../assets/rintwit.jpg")}
+              source={require("../../assets/goku-icon.png")}
             />
           </View>
           <View
@@ -38,40 +101,36 @@ const OutlinePost = ({ itemList }) => {
               marginLeft: 10,
             }}
           >
-            <Text style={{ color: "#FFFAFA" }}>Nerd-Waan</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>@NerdWaan</Text>
+            <Text style={{ color: "#FFFAFA" }}>{userData.full_name}</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>
+              {userData.username}
+            </Text>
             <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
-            <Text style={{ color: "#606060", marginLeft: 5 }}>2h</Text>
+            <Text style={{ color: "#606060", marginLeft: 5 }}>
+              {getTimeDifference(postData.created_at)} ago
+            </Text>
           </View>
         </View>
-        <TouchableOpacity activeOpacity={0.7}>
-          <Entypo name="dots-three-horizontal" size={18} color="#fffafa" />
-        </TouchableOpacity>
       </View>
       <View style={styles.listContainer}>
-        {items.slice(0, 2).map((item, index) => (
+        {postData.post_tasks_bodies.slice(0, 2).map((item, index) => (
           <View style={styles.itemContainer} key={index}>
-            <ToggleSVG
-              el1={
-                <MaterialCommunityIcons
-                  name={"checkbox-blank-outline"}
-                  size={24}
-                  color="#fffafa"
-                />
-              }
-              el2={
-                <MaterialCommunityIcons
-                  name={"checkbox-marked-outline"}
-                  size={24}
-                  color="#8DAC83"
-                />
-              }
-              toggled={isChecked}
-            ></ToggleSVG>
-            <Text style={styles.input}>{item}</Text>
+            <Pressable onPress={() => toggleCheckbox(index)}>
+              {/* Render checkbox based on isChecked state */}
+              <MaterialCommunityIcons
+                name={
+                  itemStates[index].is_checked
+                    ? "checkbox-marked-outline"
+                    : "checkbox-blank-outline"
+                }
+                size={24}
+                color={itemStates[index].is_checked ? "#8DAC83" : "#fffafa"}
+              />
+            </Pressable>
+            <Text style={styles.input}>{item.body}</Text>
           </View>
         ))}
-        {items.length > 2 && (
+        {postData.post_tasks_bodies.length > 2 && (
           <TouchableOpacity
             style={{
               flex: 1,
@@ -84,24 +143,23 @@ const OutlinePost = ({ itemList }) => {
         )}
       </View>
       <View style={styles.postFooter}>
-        <TouchableOpacity activeOpacity={0.7}>
-          <ToggleSVG
-            el1={<Feather name="heart" size={18} color="#fffafa" />}
-            el2={
-              <FontAwesome name="heart" size={18} color="#8DAC83" bordercolor />
-            }
-            toggled={isLiked}
-          ></ToggleSVG>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7}>
+        <Pressable onPress={toggleLike}>
+          {/* Render like button based on likeStatus state */}
+          {likeStatus ? (
+            <FontAwesome name="heart" size={18} color="#8DAC83" />
+          ) : (
+            <Feather name="heart" size={18} color="#fffafa" />
+          )}
+        </Pressable>
+        <Pressable activeOpacity={0.7}>
           <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7}>
+        </Pressable>
+        <Pressable activeOpacity={0.7}>
           <EvilIcons name="share-google" size={30} color="#fffafa" />
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7}>
+        </Pressable>
+        <Pressable activeOpacity={0.7}>
           <Feather name="bookmark" size={18} color="#fffafa" />
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );
@@ -110,7 +168,6 @@ const OutlinePost = ({ itemList }) => {
 const styles = StyleSheet.create({
   postContainer: {
     padding: 10,
-    height: "35%",
     backgroundColor: "#1B1B1B",
     alignItems: "left",
     borderBottomColor: "#4B4B4B",
@@ -135,10 +192,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   postPicture: {
-    borderRadius: "50%",
+    borderRadius: 50,
     alignItems: "center",
     overflow: "hidden",
-    display: "flex",
     justifyContent: "center",
   },
   listContainer: {
@@ -164,4 +220,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OutlinePost;
+export default OutlinePostEditable;

@@ -20,10 +20,10 @@ const IbrahimOutlinePost = ({ itemList, userData }) => {
             <Image style={styles.postPfp} source={userData.imageURL} />
           </View>
           <View style={styles.postUserNameContainer}>
-            <Text style={styles.postDisplayName}>{userData.displayName}</Text>
-            <Text style={styles.postNameTime}>@{userData.displayHandle}</Text>
+            <Text style={styles.postDisplayName}>{userData.full_name}</Text>
+            <Text style={styles.postNameTime}>@{userData.username}</Text>
             <Text style={styles.postNameTime}>•</Text>
-            <Text style={styles.postNameTime}>{userData.postTime}</Text>
+            <Text style={styles.postNameTime}>{userData.created_at}</Text>
           </View>
         </View>
       </View>

@@ -8,6 +8,7 @@ import {
   Image,
   Button,
   Touchable,
+  Pressable,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
@@ -18,16 +19,17 @@ import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
 import getTimeDifference from "./GetTimeDifference";
 
-const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
+const OutlinePost = ({ post }) => {
   const [items, setItems] = useState(itemList);
   const [userData, setUserData] = useState([]);
+  const [likeStatus, setLikeStatus] = useState(isLiked); // For like button state
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:81/pullUserData?userID=${userID}`)
-  //     .then((response) => response.json())
-  //     .then((data) => setUserData(data))
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, []);
+  useEffect(() => {
+    fetch(`http://localhost:81/pullUserData?userID=${userID}`)
+      .then((response) => response.json())
+      .then((data) => setUserData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
   const jsonData = {
     bio: "Bio for user2",
     picture: "user2.jpg",
@@ -35,6 +37,31 @@ const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
     username: "loop",
   };
   if (userData.length === 0) setUserData(() => jsonData);
+
+  // Function to toggle like button state
+  const toggleLike = () => {
+    setLikeStatus(!likeStatus);
+    // Send a POST request to update the like status in the database
+    fetch("http://localhost:90/updatePostLike", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(post),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Post like updated successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error updating post like:", error);
+      });
+  };
 
   return (
     <View style={styles.postContainer}>
@@ -96,15 +123,13 @@ const OutlinePost = ({ itemList, createdTime, userID, isLiked }) => {
         )}
       </View>
       <View style={styles.postFooter}>
-        <TouchableOpacity activeOpacity={0.7}>
-          <ToggleSVG
-            el1={<Feather name="heart" size={18} color="#fffafa" />}
-            el2={
-              <FontAwesome name="heart" size={18} color="#8DAC83" bordercolor />
-            }
-            toggled={isLiked}
-          ></ToggleSVG>
-        </TouchableOpacity>
+        <Pressable activeOpacity={0.7} onPress={toggleLike}>
+          {likeStatus ? (
+            <FontAwesome name="heart" size={18} color="#8DAC83" />
+          ) : (
+            <Feather name="heart" size={18} color="#fffafa" />
+          )}
+        </Pressable>
         <TouchableOpacity activeOpacity={0.7}>
           <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
         </TouchableOpacity>

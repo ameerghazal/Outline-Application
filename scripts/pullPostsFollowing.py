@@ -6,7 +6,7 @@ import datetime
 import json
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}}) 
 
 # Define a custom function to serialize datetime objects 
 def serialize_datetime(obj): 
@@ -53,14 +53,13 @@ def get_posts_with_tasks():
     for user_id, user_posts in posts.items():
         for post in user_posts:
             # Fetch tasks associated with the current post
-            cursor.execute("SELECT body, is_checked FROM post_tasks WHERE post_id = %s", (post["id"],))
+            cursor.execute("SELECT * FROM post_tasks WHERE post_id = %s", (post["id"],))
             post_tasks = cursor.fetchall()
 
             # Extract the "body" property values into an array of strings
-            post_bodies = [{"body": task["body"], "is_checked": task["is_checked"]} for task in post_tasks]
+            post_bodies = [{"task_id": task["id"], "body": task["body"], "is_checked": task["is_checked"]} for task in post_tasks]
 
             # Fetch if liked associated with the current post
-            print(user_id)
             cursor.execute("SELECT COUNT(id) FROM post_likes WHERE (post_id = %s) AND (user_id = %s)", (post["id"],curr_user_id))
             post_like = cursor.fetchone()
             is_liked = False
