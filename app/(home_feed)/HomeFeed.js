@@ -91,14 +91,14 @@ export const outlines = {
     user_id: 3,
   },
 };
-
+const IP = "10.204.255.142"
 const App = () => {
   const [currUserID, setCurrUserID] = useState(null);
   const [postData, setPostData] = useState([]);
   // TODO RERENDER
   useEffect(() => {
     fetch(
-      `http://localhost:80/pullPostsFollowing?userID=${FIREBASE_AUTH.currentUser.uid}`
+      `http://${IP}:500/pullPostsFollowing?userID=${FIREBASE_AUTH.currentUser.uid}`
     )
       .then((response) => response.json())
       .then((pData) => setPostData(pData))

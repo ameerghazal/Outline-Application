@@ -79,7 +79,7 @@ import { useGlobalSearchParams } from "expo-router";
 //     ],
 //   },
 // ];
-
+const IP = "10.204.255.142";
 /**
  * Highest Level of Component tree, calls backend for data and passes throughout the page
  * @author: Ibrahim Mohammad
@@ -99,7 +99,7 @@ const ProfileScreen = () => {
 
   // Pull the user data based on the specific user_id passed in.
   useEffect(() => {
-    fetch(`http://localhost:81/pullUserData?userID=${user_id}`)
+    fetch(`http://${IP}:500/pullUserData?userID=${user_id}`)
       .then((response) => response.json())
       .then((data) => setUserData(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -108,7 +108,7 @@ const ProfileScreen = () => {
 
   // Pull the post data based on the specific user_id passed in.
   useEffect(() => {
-    fetch(`http://localhost:86/pullPostsUser?userID=${user_id}`)
+    fetch(`http://${IP}:500/pullPostsUser?userID=${user_id}`)
       .then((response) => response.json())
       .then((data) => setPostsData(data))
       .catch((error) => console.error("Error fetching data:", error));

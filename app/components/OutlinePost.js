@@ -19,6 +19,7 @@ import { Link, router } from "expo-router";
 import { FIREBASE_AUTH } from "../../firebase";
 // Function to format the date and time.
 
+const IP = "10.204.255.142";
 function formatDate(inputDateStr) {
   const moment = require("moment-timezone");
 
@@ -52,7 +53,7 @@ const OutlinePost = ({ post, expanded = false }) => {
   // Database data, pull the specific user.  const [likeStatus, setLikeStatus] = useState(isLiked); // For like button state
 
   useEffect(() => {
-    fetch(`http://localhost:81/pullUserData?userID=${post.user_id}`)
+    fetch(`http://${IP}:500/pullUserData?userID=${post.user_id}`)
       .then((response) => response.json())
       .then((data) => setUserData(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -85,7 +86,7 @@ const OutlinePost = ({ post, expanded = false }) => {
     };
 
     // Send a POST request to update the like status in the database
-    fetch("http://localhost:90/updatePostLike", {
+    fetch(`http://${IP}:500/updatePostLike`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

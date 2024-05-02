@@ -19,6 +19,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import getTimeDifference from "./GetTimeDifference";
 import { FIREBASE_AUTH } from "../../firebase";
 
+const IP = "10.204.255.142"
+
 const OutlinePostEditable = ({ userData, postData }) => {
   const [itemStates, setItemStates] = useState(postData.post_tasks_bodies);
   const [likeStatus, setLikeStatus] = useState(postData.is_liked); // For like button state
@@ -34,7 +36,7 @@ const OutlinePostEditable = ({ userData, postData }) => {
     });
 
     // Make a POST request to the Flask endpoint
-    fetch("http://localhost:88/updateCheckbox", {
+    fetch(`http://${IP}:500/updateCheckbox`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +74,7 @@ const OutlinePostEditable = ({ userData, postData }) => {
     };
 
     // Send a POST request to update the like status in the database
-    fetch("http://localhost:90/updatePostLike", {
+    fetch(`http://${IP}:500/updatePostLike`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
