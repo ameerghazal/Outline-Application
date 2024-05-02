@@ -19,6 +19,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import ToggleSVG from "./ToggleSVG";
 import getTimeDifference from "./GetTimeDifference";
 import { Link, router } from "expo-router";
+import { FIREBASE_AUTH } from "../../firebase";
 // Function to format the date and time.
 
 function formatDate(inputDateStr) {
@@ -38,17 +39,89 @@ function formatDate(inputDateStr) {
 
 const OutlinePost = ({ post, expanded = false }) => {
   // Store the database items and determine if the page is expanded page or not.
-  const [items, setItems] = useState(post.post_tasks_bodies);
   const [userData, setUserData] = useState([]);
-  let renderedItems, date;
+  const [itemStates, setItemStates] = useState(post.post_tasks_bodies);
+  const [likeStatus, setLikeStatus] = useState(post.is_liked); // For like button state
+  let renderedItems, date, userPost;
 
   // If expanded, don't slice and format the date.
   if (!expanded) {
-    renderedItems = items.slice(0, 2);
+    renderedItems = itemStates.slice(0, 2);
   } else {
-    renderedItems = items;
+    renderedItems = itemStates;
     date = formatDate(post.created_at);
   }
+
+  // Toggle the checkbox for outline.
+  const toggleCheckbox = (index) => {
+    setItemStates((prevState) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        is_checked: !newState[index].is_checked,
+      }; // Invert the is_checked state
+      return newState;
+    });
+
+    // Make a POST request to the Flask endpoint
+    fetch("http://localhost:500/updateCheckbox", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...itemStates[index],
+        is_checked: !itemStates[index].is_checked,
+      }), // Send only the updated item
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Checkbox state updated successfully:", data);
+        // Handle successful response
+      })
+      .catch((error) => {
+        console.error("Error updating checkbox state:", error);
+        // Handle error
+      });
+  };
+
+  // Function to toggle like button state.
+  const toggleLike = () => {
+    setLikeStatus(!likeStatus);
+    const currUserID = FIREBASE_AUTH.currentUser.uid;
+
+    // Combine post data and currUserID into an object
+    const postDataWithUserID = {
+      ...postData, // Assuming post is already defined
+      curr_user_id: currUserID,
+    };
+
+    // Send a POST request to update the like status in the database
+    fetch("http://localhost:500/updatePostLike", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(postDataWithUserID), // Stringify the combined object
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Post like updated successfully:", data);
+      })
+      .catch((error) => {
+        console.error("Error updating post like:", error);
+      });
+  };
 
   // Database data, pull the specific user.
   // useEffect(() => {
@@ -73,6 +146,13 @@ const OutlinePost = ({ post, expanded = false }) => {
   // Check if we use the fixed data or the database data.
   if (userData.length === 0) setUserData(() => jsonData);
 
+  // Determine if the post passed in is the current user's post.
+  if (FIREBASE_AUTH.currentUser.uid == post.user_id) {
+    userPost = true;
+  } else {
+    userPost = false;
+  }
+
   // Return the view.
   return (
     <View style={styles.postContainer}>
@@ -80,9 +160,8 @@ const OutlinePost = ({ post, expanded = false }) => {
         <Pressable
           onPress={() =>
             router.navigate({
-              pathname: `${post.id}`,
+              pathname: "Profile",
               params: {
-                type: "profile",
                 user_id: userData.id,
               },
             })
@@ -128,7 +207,19 @@ const OutlinePost = ({ post, expanded = false }) => {
         <View style={styles.listContainer}>
           {renderedItems.map((task, index) => (
             <View style={styles.itemContainer} key={index}>
-              {task.is_checked ? (
+              {userPost ? (
+                <Pressable onPress={() => toggleCheckbox(index)}>
+                  <MaterialCommunityIcons
+                    name={
+                      itemStates[index].is_checked
+                        ? "checkbox-marked-outline"
+                        : "checkbox-blank-outline"
+                    }
+                    size={24}
+                    color={itemStates[index].is_checked ? "#8DAC83" : "#fffafa"}
+                  />
+                </Pressable>
+              ) : task.is_checked ? (
                 <MaterialCommunityIcons
                   name="checkbox-marked-outline"
                   size={24}
@@ -146,6 +237,7 @@ const OutlinePost = ({ post, expanded = false }) => {
           ))}
         </View>
       </Pressable>
+
       {/* TODO: ADD DATABASE FIELDS FOR # OF LIKES, COMMENTS. */}
       {expanded ? (
         <View style={styles.postExpanded}>
@@ -167,29 +259,26 @@ const OutlinePost = ({ post, expanded = false }) => {
         ""
       )}
       <View style={styles.postFooter}>
-        <TouchableOpacity activeOpacity={0.7}>
-          <ToggleSVG
-            el1={<Feather name="heart" size={18} color="#fffafa" />}
-            el2={
-              <FontAwesome name="heart" size={18} color="#8DAC83" bordercolor />
-            }
-            toggled={post.is_liked}
-          ></ToggleSVG>
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7}>
+        <Pressable activeOpacity={0.7} onPress={toggleLike}>
+          {likeStatus ? (
+            <FontAwesome name="heart" size={18} color="#8DAC83" />
+          ) : (
+            <Feather name="heart" size={18} color="#fffafa" />
+          )}
+        </Pressable>
+        <Pressable activeOpacity={0.7}>
           <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7}>
+        </Pressable>
+        <Pressable activeOpacity={0.7}>
           <EvilIcons name="share-google" size={30} color="#fffafa" />
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7}>
+        </Pressable>
+        <Pressable activeOpacity={0.7}>
           <Feather name="bookmark" size={18} color="#fffafa" />
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   postContainer: {
     padding: 10,
