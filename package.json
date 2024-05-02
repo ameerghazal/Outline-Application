@@ -38,6 +38,7 @@
     "expo-status-bar": "~1.11.1",
     "firebase": "^10.11.0",
     "jsdom": "^24.0.0",
+    "moment-timezone": "^0.5.45",
     "papaparse": "^5.4.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

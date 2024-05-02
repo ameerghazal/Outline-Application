@@ -8,8 +8,91 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
+import { FIREBASE_AUTH } from "../../firebase.js";
 
 currUserID = 1;
+
+export const outlines = {
+  1: {
+    created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
+    id: 2,
+    is_liked: true,
+    post_status_id: 2,
+    post_tasks_bodies: [{ body: "Task 1 for post 2", is_checked: false }],
+    user_id: 2,
+  },
+  2: {
+    created_at: "Mon, 22 Apr 2024 11:00:00 GMT",
+    id: 3,
+    is_liked: false,
+    post_status_id: 1,
+    post_tasks_bodies: [
+      { body: "Task 1 for post 3", is_checked: true },
+      { body: "Task 2 for post 3", is_checked: false },
+    ],
+    user_id: 3,
+  },
+  3: {
+    created_at: "Mon, 22 Apr 2024 20:00:00 GMT",
+    id: 400,
+    is_liked: false,
+    post_status_id: 1,
+    post_tasks_bodies: [
+      { body: "Task 11 for post 3", is_checked: true },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+    ],
+    user_id: 3,
+  },
+  3: {
+    created_at: "Mon, 22 Apr 2024 11:00:00 GMT",
+    id: 400,
+    is_liked: false,
+    post_status_id: 1,
+    post_tasks_bodies: [
+      { body: "Task 11 for post 3", is_checked: true },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+    ],
+    user_id: 3,
+  },
+  32: {
+    created_at: "Mon, 22 Apr 2024 11:00:00 GMT",
+    id: 22,
+    is_liked: false,
+    post_status_id: 1,
+    post_tasks_bodies: [
+      { body: "Task 11 for post 3", is_checked: true },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+    ],
+    user_id: 3,
+  },
+  5: {
+    created_at: "Mon, 22 Apr 2024 11:00:00 GMT",
+    id: 23,
+    is_liked: false,
+    post_status_id: 1,
+    post_tasks_bodies: [
+      { body: "Task 11 for post 3", is_checked: true },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+      { body: "Task 2 for post 3", is_checked: false },
+    ],
+    user_id: 3,
+  },
+};
 
 const App = () => {
   const [postData, setPostData] = useState([]);
@@ -21,29 +104,7 @@ const App = () => {
   // }, []);
   // console.log(postData);
 
-  const jsonData = {
-    2: {
-      created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
-      id: 2,
-      is_liked: true,
-      post_status_id: 2,
-      post_tasks_bodies: [{ body: "Task 1 for post 2", is_checked: false }],
-      user_id: 2,
-    },
-    3: {
-      created_at: "Mon, 22 Apr 2024 11:00:00 GMT",
-      id: 3,
-      is_liked: false,
-      post_status_id: 1,
-      post_tasks_bodies: [
-        { body: "Task 1 for post 3", is_checked: true },
-        { body: "Task 2 for post 3", is_checked: false },
-      ],
-      user_id: 3,
-    },
-  };
-
-  if (postData.length === 0) setPostData(() => jsonData);
+  if (postData.length === 0) setPostData(() => outlines);
 
   return (
     <SafeAreaProvider style={styles.outer_frame}>
@@ -53,20 +114,36 @@ const App = () => {
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
       >
-        {Object.values(jsonData).map((post) => (
-          <OutlinePost
-            key={post.id}
-            itemList={post.post_tasks_bodies}
-            createdTime={post.created_at}
-            userID={post.user_id}
-            isLiked={post.is_liked}
-          ></OutlinePost>
+        {Object.values(postData).map((post) => (
+          <OutlinePost post={post}></OutlinePost>
         ))}
       </ScrollView>
       <BottomNav></BottomNav>
     </SafeAreaProvider>
   );
 };
+
+{
+  /* <OutlinePost
+key={post.id}
+itemList={post.post_tasks_bodies}
+createdTime={post.created_at}
+userID={post.user_id}
+isLiked={post.is_liked}
+          <OutlinePost post={post}></OutlinePost>
+
+></OutlinePost> */
+}
+
+{
+  /* <FlatList
+data={postData}
+renderItem={(post) => {
+  console.warn(post);
+  return <OutlinePost post={post} />;
+}}
+/> */
+}
 
 const styles = StyleSheet.create({
   outer_frame: {

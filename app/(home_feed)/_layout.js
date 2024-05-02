@@ -7,9 +7,14 @@ const ExampleLayout = () => {
       <Stack.Screen
         name="HomeFeed"
         options={{
-          // hella featuers, hit up ameerG
           headerShown: false,
           // headerStyle: {},
+        }}
+      />
+      <Stack.Screen
+        name="(outlines)"
+        options={{
+          headerShown: false,
         }}
       />
     </Stack>
