@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { MessageItem, DMHeader } from "./Components";
 import { openChat } from "./Functions";
+import { useState } from "react";
 import BottomNav from "../components/BottomNav";
 
 export const directMessages = [
@@ -20,19 +21,43 @@ export const directMessages = [
 ];
 
 const DMListScreen = () => {
+  const [searchText, setSearchText] = useState("");
+  const [filteredMessages, setFilteredMessages] = useState(directMessages);
+
+  const handleSearch = (text) => {
+    setSearchText(text);
+    if (text === "") {
+      setFilteredMessages(directMessages);
+    } else {
+      const filtered = directMessages.filter(
+        (msg) =>
+          msg.name.toLowerCase().includes(text.toLowerCase()) ||
+          msg.message.toLowerCase().includes(text.toLowerCase())
+      );
+      setFilteredMessages(filtered);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <DMHeader />
       <ScrollView style={styles.messagesContainer}>
-        {directMessages.map((msg) => (
-          <MessageItem
-            key={msg.id}
-            name={msg.name}
-            message={msg.message}
-            time={msg.time}
-            id={msg.id}
-          />
-        ))}
+        <DMHeader onChangeText={handleSearch} />
+        {filteredMessages.length > 0 ? (
+          filteredMessages.map((msg) => (
+            <MessageItem
+              key={msg.id}
+              name={msg.name}
+              message={msg.message}
+              time={msg.time}
+              id={msg.id}
+              onPress={() => openChat(msg.id, msg.name)}
+            />
+          ))
+        ) : (
+          <View style={styles.noResultsContainer}>
+            <Text style={styles.noResultsText}>No results found</Text>
+          </View>
+        )}
       </ScrollView>
       <BottomNav />
     </SafeAreaView>
@@ -42,11 +67,13 @@ const DMListScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1B1B1B", // Match the background color to your theme
+    backgroundColor: "#1B1B1B",
   },
   messagesContainer: {
+    flex: 1, // This ensures that ScrollView only takes available space after BottomNav
     padding: 10,
   },
+
   messageItem: {
     flexDirection: "row",
     padding: 10,
@@ -73,6 +100,11 @@ const styles = StyleSheet.create({
   messageTime: {
     color: "white",
     paddingLeft: 10,
+  },
+  noResultsText: {
+    color: "#fffafa",
+    textAlign: "center",
+    paddingTop: 10,
   },
 });
 

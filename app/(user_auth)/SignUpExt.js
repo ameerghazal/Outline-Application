@@ -22,6 +22,7 @@ import {
   handleUserCreate,
 } from "./Functions.js";
 import { FIREBASE_AUTH } from "../../firebase.js";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -129,7 +130,6 @@ const SignUpScreenExt = () => {
     try {
       //TODO: Database call.
       const auth = FIREBASE_AUTH;
-      console.log("Hello");
       router.push("HomeFeed");
     } catch (error) {
       console.log(error.message);
@@ -137,7 +137,7 @@ const SignUpScreenExt = () => {
   }
 
   return (
-    <View style={frames.outer_frame}>
+    <SafeAreaView style={frames.outer_frame}>
       <BackBar></BackBar>
       <View style={frames.outer_frame_login}>
         <View style={frames.logo_sign_in}>
@@ -201,7 +201,7 @@ const SignUpScreenExt = () => {
         buttonText={"Login."}
         onPress={handleLoginSmall}
       ></Redirection>
-    </View>
+    </SafeAreaView>
   );
 };
 

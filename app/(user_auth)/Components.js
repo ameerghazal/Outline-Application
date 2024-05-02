@@ -34,9 +34,13 @@ function handleInputFormat() {
 export function BackBar() {
   return (
     <View style={frames.traverse_back}>
-      <TouchableOpacity accessibilityLabel="Go back." onPress={traverseBack}>
-        <Ionicons name="chevron-back" size={24} color={"#ffffff"}></Ionicons>
-      </TouchableOpacity>
+      <Ionicons
+        name="chevron-back"
+        size={24}
+        color={"#ffffff"}
+        onPress={traverseBack}
+        style={{ alignSelf: "flex-start" }}
+      ></Ionicons>
     </View>
   );
 }

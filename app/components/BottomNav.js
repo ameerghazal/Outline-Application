@@ -65,11 +65,11 @@ function BottomNav() {
         />
       </Pressable>
 
-      <Pressable onPress={() => router.navigate("Settings")}>
+      <Pressable onPress={() => router.navigate("Notifications")}>
         <Feather
           name="bell"
           size={24}
-          color={currentPage === "/Settings" ? "#8dac83" : "#FFFAFA"}
+          color={currentPage === "/Notifications" ? "#8dac83" : "#FFFAFA"}
         />
       </Pressable>
     </View>

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { profileInfo } from "../styles";
 import { handleEditProfile } from "../Functions";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 
 /**
  * Component for the top page of the Profile Page.
@@ -55,7 +55,7 @@ const ProfileName = ({ displayName, displayHandle }) => {
   );
 };
 
-const ProfileStatsBar = ({ outlineCt, followerCt, followingCt }) => {
+const ProfileStatsBar = ({ outlineCt, followerCt, followingCt, userData }) => {
   return (
     <View style={profileInfo.profileStatsContainer}>
       <ProfileStat label="outlines">
@@ -67,7 +67,7 @@ const ProfileStatsBar = ({ outlineCt, followerCt, followingCt }) => {
       <ProfileStat label="following">
         <Text>{followingCt}</Text>
       </ProfileStat>
-      <EditProfileBtn></EditProfileBtn>
+      <EditProfileBtn userData={userData}></EditProfileBtn>
     </View>
   );
 };
@@ -79,12 +79,19 @@ const ProfileStat = ({ children, label }) => (
   </Text>
 );
 
-const EditProfileBtn = () => {
+const EditProfileBtn = ({ userData }) => {
   return (
     <Pressable
       style={profileInfo.btnEditProfile}
       onPress={() => {
-        router.push("./EditProfile");
+        router.push({
+          pathname: "/EditProfile",
+          params: {
+            displayName: userData.displayName,
+            bio: userData.bio,
+            displayHandle: userData.displayHandle,
+          },
+        });
       }}
     >
       <Text style={[profileInfo.btnEditProfileText]}>Edit Profile</Text>

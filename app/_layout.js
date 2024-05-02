@@ -34,7 +34,7 @@ const RootLayout = () => {
       />
       {/* Ahmed DMs page */}
       <Stack.Screen
-        name="(direct_message)"
+        name="(home_feed)"
         options={{
           headerShown: false,
         }}
@@ -46,13 +46,13 @@ const RootLayout = () => {
         }}
       />
       <Stack.Screen
-         name="(settings)"
-         options={{
-            headerShown: false,
-          }}
-       />
+        name="(settings)"
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
-        name="(home_feed)"
+        name="(notifications)"
         options={{
           headerShown: false,
         }}

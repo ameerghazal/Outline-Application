@@ -8,10 +8,20 @@ import {
   Image,
   TextInput,
 } from "react-native";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 import { openChat } from "./Functions";
+import { router } from "expo-router";
 
-export const DMHeader = (pfp) => {
+const navigateToUserProfile = () => {
+  router.push("Profile");
+};
+
+const onNewMessagePress = () => {
+  router.push("NewMessage");
+};
+
+export const DMHeader = ({ onChangeText }) => {
   const [isFocused, setIsFocused] = useState(false); // State to track focus
 
   const searchBarStyle = {
@@ -24,12 +34,16 @@ export const DMHeader = (pfp) => {
   return (
     <View style={headerStyles.mainContainer}>
       <View style={headerStyles.container}>
-        <Image
-          style={headerStyles.avatar}
-          source={require("../../assets/zekePfp.png")}
-        />
+        <TouchableOpacity onPress={navigateToUserProfile}>
+          <Image
+            style={headerStyles.avatar}
+            source={require("../../assets/zekePfp.png")}
+          />
+        </TouchableOpacity>
         <Text style={headerStyles.text}>Messages</Text>
-        <Text style={headerStyles.text}>placeholder</Text>
+        <TouchableOpacity onPress={onNewMessagePress}>
+          <FontAwesome6 name="pen-to-square" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
       </View>
       <TextInput
         style={headerStyles.searchBar}
@@ -37,17 +51,14 @@ export const DMHeader = (pfp) => {
         placeholderTextColor={isFocused ? "#606060" : "#606060"} // Light gray placeholder
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
-        // Include other props as necessary, like onChangeText for handling input
+        onChangeText={onChangeText}
       />
     </View>
   );
 };
 
-export const MessageItem = ({ name, message, time, id }) => (
-  <TouchableOpacity
-    onPress={() => openChat(name, id)}
-    style={styles.messageItem}
-  >
+export const MessageItem = ({ name, message, time, id, onPress }) => (
+  <TouchableOpacity onPress={onPress} style={styles.messageItem}>
     <Image
       style={styles.avatar}
       source={require("../../assets/goku-icon.png")}
@@ -74,10 +85,15 @@ const headerStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    margin: 10,
+    margin: 5,
+    paddingBottom: 9,
   },
   text: {
     color: "white",
+    marginRight: 20,
+    fontSize: 14,
+    fontWeight: "bold",
+    fontFamily: "montserrat",
   },
   searchBar: {
     alignItems: "center",
@@ -86,7 +102,7 @@ const headerStyles = StyleSheet.create({
     paddingVertical: 2,
     backgroundColor: "#252525",
     borderRadius: 10,
-    margin: 15,
+    margin: 5,
     marginTop: -5,
     textAlign: "center",
     borderColor: "#4B4B4B",

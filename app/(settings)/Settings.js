@@ -67,12 +67,12 @@ function Settings() {
   ];
   const securitySettings = [
     { name: "Password Reset", route: "./ResetConformation", icon: "lock" },
-    { name: "Face ID and PIN", route: "./FaceIdAndPinPage", icon: "eye" },
+    // { name: "Face ID and PIN", route: "./FaceIdAndPinPage", icon: "eye" },
   ];
   const appSettings = [
     { name: "Notifications", route: "./NotificationsPage", icon: "bell" },
-    { name: "Appearance", route: "./AppearancePage", icon: "image" },
-    { name: "Preferences", route: "./PreferencesPage", icon: "code" },
+    // { name: "Appearance", route: "./AppearancePage", icon: "image" },
+    // { name: "Preferences", route: "./PreferencesPage", icon: "code" },
   ];
 
   return (

@@ -84,7 +84,7 @@ import images from "../../assets/images";
  * @author: Ibrahim Mohammad
  * @returns Default Page to be displayed
  */
-const ProfileScreen = () => {
+const ProfileScreen = ({ user_id }) => {
   const [userData, setUserData] = useState([]); // Initialize with the first user
   const [postsData, setPostsData] = useState([]);
 
@@ -93,27 +93,25 @@ const ProfileScreen = () => {
     setUserData(mockUserData[index].userInfo);
     setPostsData(mockUserData[index].posts);
   };
-  // pull user data
+
+  // Pull the user data based on the specific user_id passed in.
   useEffect(() => {
-    fetch(
-      `http://localhost:81/pullUserData?userID=${"TY9wzrcYJFTwJutARS7RXg1AeLB3"}`
-    )
+    fetch(`http://localhost:81/pullUserData?userID=${user_id}`)
       .then((response) => response.json())
       .then((data) => setUserData(data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
   console.log(userData);
 
-  // pull post data
+  // Pull the post data based on the specific user_id passed in.
   useEffect(() => {
-    fetch(
-      `http://localhost:86/pullPostsUser?userID=${"TY9wzrcYJFTwJutARS7RXg1AeLB3"}`
-    )
+    fetch(`http://localhost:86/pullPostsUser?userID=${user_id}`)
       .then((response) => response.json())
       .then((data) => setPostsData(data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
   console.log(postsData);
+
   return (
     <View style={frames.outerFrame}>
       <BackBar />
