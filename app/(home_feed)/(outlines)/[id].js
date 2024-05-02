@@ -23,6 +23,7 @@ import {
 import Comment from "../../components/Comment";
 import { FIREBASE_AUTH } from "../../../firebase";
 
+const IP = "10.204.255.142"
 export const commentTester = {
   1: {
     id: 1000,
@@ -99,7 +100,7 @@ const OutlineScreen = (id) => {
   const [commentData, setCommentData] = useState([]); // Move useState here
   console.log(id);
   useEffect(() => {
-    fetch(`http://localhost:500/pullPost2?postID=${id}`)
+    fetch(`http://${IP}:500/pullPost2?postID=${id}`)
       .then((response) => response.json())
       .then((pData) => {
         setData(pData);

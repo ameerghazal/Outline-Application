@@ -18,6 +18,13 @@ const RootLayout = () => {
           headerShown: false,
         }}
       />
+      {/* Search Page */}
+      <Stack.Screen
+        name="(search)"
+        options={{
+          headerShown: false,
+        }}
+      />
       {/* Ibrahim Profile Page */}
       <Stack.Screen
         name="(profile)"

@@ -91,7 +91,7 @@ export const outlines = {
     user_id: 3,
   },
 };
-const IP = "10.204.255.142"
+export const IP = "10.204.255.142"
 const App = () => {
   const [currUserID, setCurrUserID] = useState(null);
   const [postData, setPostData] = useState([]);

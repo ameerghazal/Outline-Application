@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { profileInfo } from "../styles";
 import { handleEditProfile } from "../Functions";
 import { Link, router } from "expo-router";
+import images from "../../../assets/images";
 
 /**
  * Component for the top page of the Profile Page.
@@ -41,7 +42,7 @@ export const ProfileImage = ({ imageURL }) => {
 
   return (
     <TouchableOpacity style={profileInfo.iconContainer}>
-      <Image source={imageURL} style={profileInfo.profileIcon}></Image>
+      <Image source={images.generic} style={profileInfo.profileIcon}></Image>
     </TouchableOpacity>
   );
 };

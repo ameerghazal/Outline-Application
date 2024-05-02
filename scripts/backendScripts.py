@@ -399,5 +399,85 @@ def update_post_like():
         # Return JSON response using jsonify
         return jsonify({'message': 'Post like updated successfully'}), 200
     
+@app.route('/updateUser', methods=['POST'])    
+def update_user():
+    if request.method == 'POST':
+        data = request.json
+        print(data)
+        # Extract user data from the JSON object
+        id = data.get('id')
+        email = data.get('email')
+        username = data.get('username')
+        first_name = data.get('first_name')
+        last_name = data.get('last_name')
+        birthdate_str = data.get('birthdate')  # Assuming 'birthdate' is a string in 'MM/DD/YYYY' format
+        
+        # Parse the birthdate string into a datetime object
+        birthdate = datetime.datetime.strptime(birthdate_str, '%m/%d/%Y')
+        
+        # Format the birthdate as a string in 'YYYY-MM-DD' format for PostgreSQL
+        formatted_birthdate = birthdate.strftime('%Y-%m-%d')
+        
+        phone_number = data.get('phoneNumber')
+        
+        # Establish a database connection
+        conn = psycopg2.connect(database="postgres",
+                                host="localhost",
+                                user="postgres",
+                                password="Noornoor21",
+                                port="5432")
+        # Create a cursor
+        cursor = conn.cursor()
+
+        # Write the SQL query to update user data in the database
+        query = """
+        UPDATE users 
+        SET email = %s, phone = %s, username = %s, first_name = %s, last_name = %s, birthdate = %s 
+        WHERE id = %s
+        """
+
+        # Execute the query
+        cursor.execute(query, (email, phone_number, username, first_name, last_name, formatted_birthdate, id,))
+
+        # Commit the transaction
+        conn.commit()
+
+        # Close cursor and connection
+        cursor.close()
+        conn.close()
+
+        # Return a success message
+        return jsonify({'message': 'User updated successfully'}), 200
+
+@app.route('/pullUserSearch')    
+def search_user():
+    search = request.args.get('searchQuery')
+        
+    # Establish a database connection
+    conn = psycopg2.connect(database="postgres",
+                            host="localhost",
+                            user="postgres",
+                            password="Noornoor21",
+                            port="5432")
+    # Create a cursor
+    cursor = conn.cursor()
+
+    # Write the SQL query to update user data in the database
+    query = """
+    SELECT * FROM users 
+    WHERE first_name || ' ' || last_name LIKE %s OR username LIKE %s
+    """
+
+    # Execute the query
+    cursor.execute(query, ('%' + search + '%', '%' + search + '%'))
+    data = cursor.fetchall()
+
+    # Close cursor and connection
+    cursor.close()
+    conn.close()
+    print(data)
+    # Return the fetched data
+    return jsonify(data), 200
+    
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=500, debug=True)

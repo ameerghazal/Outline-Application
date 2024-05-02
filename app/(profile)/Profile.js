@@ -1,12 +1,15 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { ScrollView, View, StyleSheet, Button } from "react-native";
+import { ScrollView, View, StyleSheet, Button, Text } from "react-native";
 import { ProfileInfo } from "./Components/ProfileInfo";
 import { ProfileContents } from "./Components/ProfileContents";
 import { BackBar } from "../(user_auth)/Components";
 import BottomNav from "../components/BottomNav";
 import images from "../../assets/images";
 import { useGlobalSearchParams } from "expo-router";
+import { traverseBack } from "../(new_post)/Functions";
+import { Ionicons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // const mockUserData = [
 //   {
@@ -116,19 +119,24 @@ const ProfileScreen = () => {
   console.log(postsData);
 
   return (
-    <View style={frames.outerFrame}>
-      <BackBar />
-      <View style={frames.buttonCase}>
-        <Button title="phang" onPress={() => handleUserChange(0)} />
-        <Button title="moaz" onPress={() => handleUserChange(1)} />
-        <Button title="cactus" onPress={() => handleUserChange(2)} />
-      </View>
+    <SafeAreaView style={frames.outerFrame}>
+      <View style={frames.header}>
+        <Ionicons
+            name="chevron-back"
+                  size={24}
+                  color={"#ffffff"}
+                  onPress={traverseBack}
+                  style={aesthetics.icon}
+                ></Ionicons>
+          <Text style={aesthetics.middleHeader}>Profile</Text>
+          <View></View>
+      </View>      
       <ScrollView style={frames.innerFrame}>
         <ProfileInfo userData={userData} />
         <ProfileContents userData={userData} postsData={postsData} />
       </ScrollView>
       <BottomNav></BottomNav>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -144,7 +152,30 @@ const frames = StyleSheet.create({
   innerFrame: {
     flex: 1,
   },
+
+  header: {
+    padding: 10,
+    display: "flex",
+    flexDirection: "row",
+    backgroundColor: "#1b1b1b",
+  },
+
 });
+
+
+const aesthetics = StyleSheet.create({
+  middleHeader: {
+    color: "#FFFFFF",
+    textAlign: "center",
+    alignSelf: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    fontFamily: "Montserrat",
+    color: "#FFFFFF",
+    flex: 1,
+  },
+});
+
 
 // Export the sign-up-screen to other pages.
 export default ProfileScreen;

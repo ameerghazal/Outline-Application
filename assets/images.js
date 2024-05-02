@@ -15,6 +15,7 @@ const images = {
   searchIcon: require("./search-icon.png"),
   settingsIcon: require("./settings-icon.png"),
   splash: require("./splash.png"),
+  generic: require("./generic.png"),
 };
 
 export default images;

@@ -37,17 +37,17 @@ function formatDate(inputDateStr) {
 
 const OutlinePost = ({ post, expanded = false }) => {
   // Store the database items and determine if the page is expanded page or not.
-  console.log(post);
-  const [items, setItems] = useState(post.post_tasks_bodies);
+  console.log(post.picture);
+  const [itemsStates, setItemsStates] = useState(post.post_tasks_bodies);
   const [userData, setUserData] = useState([]);
   const [likeStatus, setLikeStatus] = useState(post.is_liked); // For like button state
-  let renderedItems, date;
+  let renderedItems, date, userPost;
 
   // If expanded, don't slice and format the date.
   if (!expanded) {
-    renderedItems = items.slice(0, 2);
+    renderedItems = itemsStates.slice(0, 2);
   } else {
-    renderedItems = items;
+    renderedItems = itemsStates;
     date = formatDate(post.created_at);
   }
   // Database data, pull the specific user.  const [likeStatus, setLikeStatus] = useState(isLiked); // For like button state
@@ -59,20 +59,12 @@ const OutlinePost = ({ post, expanded = false }) => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  // // More fake data.
-  // const jsonData = {
-  //   bio: null,
-  //   follower_count: 0,
-  //   following_count: 1,
-  //   full_name: "Nirwaan Azhar",
-  //   id: "TY9wzrcYJFTwJutARS7RXg1AeLB3",
-  //   outline_count: 3,
-  //   picture: null,
-  //   username: "@dddd",
-  // };
-
-  // // Check if we use the fixed data or the database data.
-  // if (userData.length === 0) setUserData(() => jsonData);
+  // Determine if the post passed in is the current user's post.
+  if (FIREBASE_AUTH.currentUser.uid == post.user_id) {
+    userPost = true;
+  } else {
+    userPost = false;
+  }
 
   // Function to toggle like button state
   const toggleLike = () => {
@@ -107,119 +99,171 @@ const OutlinePost = ({ post, expanded = false }) => {
       });
   };
 
-  // Return the view.
-  return (
-    <View style={styles.postContainer}>
-      <View style={styles.postHeader}>
+  // toggle checkbox in db
+  const toggleCheckbox = (index) => {
+    setItemsStates((prevState) => {
+      const newState = [...prevState];
+      newState[index] = {
+        ...newState[index],
+        is_checked: !newState[index].is_checked,
+      }; // Invert the is_checked state
+      return newState;
+    });
+
+    // Make a POST request to the Flask endpoint
+    fetch(`http://${IP}:500/updateCheckbox`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...itemsStates[index],
+        is_checked: !itemsStates[index].is_checked,
+      }), // Send only the updated item
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Checkbox state updated successfully:", data);
+        // Handle successful response
+      })
+      .catch((error) => {
+        console.error("Error updating checkbox state:", error);
+        // Handle error
+      });
+  };
+
+    // Return the view.
+    return (
+      <View style={styles.postContainer}>
+        <View style={styles.postHeader}>
+          <Pressable
+            onPress={() =>
+              router.navigate({
+                pathname: "Profile",
+                params: {
+                  user_id: userData.id,
+                },
+              })
+            }
+          >
+            <View style={styles.profileContainer}>
+              <View style={styles.postPicture}>
+                <Image
+                  style={{ height: 45, width: 45 }}
+                  source={require("../../assets/generic.png")}
+                />
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginLeft: 10,
+                }}
+              >
+                <Text style={{ color: "#FFFAFA" }}>{userData.full_name}</Text>
+                <Text style={{ color: "#606060", marginLeft: 5 }}>
+                  {userData.username}
+                </Text>
+                <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
+                <Text style={{ color: "#606060", marginLeft: 5 }}>
+                  {getTimeDifference(post.created_at)} ago
+                </Text>
+              </View>
+            </View>
+          </Pressable>
+        </View>
         <Pressable
           onPress={() =>
             router.navigate({
-              pathname: "Profile",
+              pathname: `${post.id}`,
               params: {
+                type: "outline",
                 user_id: userData.id,
               },
             })
           }
         >
-          <View style={styles.profileContainer}>
-            <View style={styles.postPicture}>
-              <Image
-                style={{ height: 45, width: 45 }}
-                source={require("../../assets/goku-icon.png")}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginLeft: 10,
-              }}
-            >
-              <Text style={{ color: "#FFFAFA" }}>{userData.full_name}</Text>
-              <Text style={{ color: "#606060", marginLeft: 5 }}>
-                {userData.username}
-              </Text>
-              <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
-              <Text style={{ color: "#606060", marginLeft: 5 }}>
-                {getTimeDifference(post.created_at)} ago
-              </Text>
-            </View>
+          <View style={styles.listContainer}>
+            {renderedItems.map((task, index) => (
+              <View style={styles.itemContainer
+            } key={index}>
+                {userPost ? (
+                  <Pressable onPress={() => toggleCheckbox(index)}>
+                    <MaterialCommunityIcons
+                      name={
+                        itemsStates[index].is_checked
+                          ? "checkbox-marked-outline"
+                          : "checkbox-blank-outline"
+                      }
+                      size={24}
+                      color={itemsStates[index].is_checked ? "#8DAC83" : "#fffafa"}
+                    />
+                  </Pressable>
+                ) : task.is_checked ? (
+                  <MaterialCommunityIcons
+                    name="checkbox-marked-outline"
+                    size={24}
+                    color="#8DAC83"
+                  />
+                ) : (
+                  <MaterialCommunityIcons
+                    name="checkbox-blank-outline"
+                    size={24}
+                    color="#fffafa"
+                  />
+                )}
+                <Text style={styles.input}>{task.body}</Text>
+              </View>
+            ))}
           </View>
         </Pressable>
-      </View>
-      <Pressable
-        onPress={() =>
-          router.navigate({
-            pathname: `${post.id}`,
-            params: {
-              type: "outline",
-              user_id: userData.id,
-            },
-          })
-        }
-      >
-        <View style={styles.listContainer}>
-          {renderedItems.map((task, index) => (
-            <View style={styles.itemContainer} key={index}>
-              {task.is_checked ? (
-                <MaterialCommunityIcons
-                  name="checkbox-marked-outline"
-                  size={24}
-                  color="#8DAC83"
-                />
-              ) : (
-                <MaterialCommunityIcons
-                  name="checkbox-blank-outline"
-                  size={24}
-                  color="#fffafa"
-                />
-              )}
-              <Text style={styles.input}>{task.body}</Text>
+  
+        {/* TODO: ADD DATABASE FIELDS FOR # OF LIKES, COMMENTS. */}
+        {expanded ? (
+          <View style={styles.postExpanded}>
+            <View style={styles.postExpandedInner}>
+              <Text style={styles.postExpandedText}>
+                4,123
+                <Text style={{ color: "#4b4b4b" }}> motivations</Text>
+              </Text>
+              <Text style={styles.postExpandedText}>
+                2983
+                <Text style={{ color: "#4b4b4b" }}> feedbacks</Text>
+              </Text>
             </View>
-          ))}
-        </View>
-      </Pressable>
-      {/* TODO: ADD DATABASE FIELDS FOR # OF LIKES, COMMENTS. */}
-      {expanded ? (
-        <View style={styles.postExpanded}>
-          <View style={styles.postExpandedInner}>
-            <Text style={styles.postExpandedText}>
-              4,123
-              <Text style={{ color: "#4b4b4b" }}> motivations</Text>
-            </Text>
-            <Text style={styles.postExpandedText}>
-              2983
-              <Text style={{ color: "#4b4b4b" }}> feedbacks</Text>
-            </Text>
+            <View style={styles.postExpandedDate}>
+              <Text style={styles.postExpandedText}>{date}</Text>
+            </View>
           </View>
-          <View style={styles.postExpandedDate}>
-            <Text style={styles.postExpandedText}>{date}</Text>
-          </View>
+        ) : (
+          ""
+        )}
+        <View style={styles.postFooter}>
+          <Pressable activeOpacity={0.7} onPress={toggleLike}>
+            {likeStatus ? (
+              <FontAwesome name="heart" size={18} color="#8DAC83" />
+            ) : (
+              <Feather name="heart" size={18} color="#fffafa" />
+            )}
+          </Pressable>
+          <Pressable activeOpacity={0.7}>
+            <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
+          </Pressable>
+          <Pressable activeOpacity={0.7}>
+            <EvilIcons name="share-google" size={30} color="#fffafa" />
+          </Pressable>
+          <Pressable activeOpacity={0.7}>
+            <Feather name="bookmark" size={18} color="#fffafa" />
+          </Pressable>
         </View>
-      ) : (
-        ""
-      )}
-      <View style={styles.postFooter}>
-        <Pressable activeOpacity={0.7} onPress={toggleLike}>
-          {likeStatus ? (
-            <FontAwesome name="heart" size={18} color="#8DAC83" />
-          ) : (
-            <Feather name="heart" size={18} color="#fffafa" />
-          )}
-        </Pressable>
-        <TouchableOpacity activeOpacity={0.7}>
-          <FontAwesome5 name="comment-alt" size={18} color="#fffafa" />
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7}>
-          <EvilIcons name="share-google" size={30} color="#fffafa" />
-        </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.7}>
-          <Feather name="bookmark" size={18} color="#fffafa" />
-        </TouchableOpacity>
       </View>
-    </View>
-  );
-};
+    );
+  };
 
 const styles = StyleSheet.create({
   postContainer: {
@@ -281,10 +325,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
+    alignSelf: "flex-end",
+    width: 400
   },
   input: {
     flex: 1,
     padding: 10,
+    width: "100%",
     fontSize: 16,
     color: "#FFFAFA",
   },

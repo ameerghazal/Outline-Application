@@ -5,8 +5,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Pressable,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { color } from "react-native-elements/dist/helpers";
 
 const MaxItems = 5;
 TouchableOpacity.defaultProps = { activeOpacity: 0.8 };
@@ -72,13 +74,13 @@ const OutlineEditList = ({ onChange }) => {
         </View>
       ))}
       {items.length < MaxItems && (
-        <View style={styles.addItemContainer}>
-          <TouchableOpacity
+        <View>
+          <Pressable
             onPress={handleAddButtonClick}
             style={styles.addButton}
           >
             <Text style={styles.newItemButton}>+</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       )}
     </View>
@@ -92,16 +94,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#1B1B1B",
     alignItems: "left",
   },
-  listTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#FFFAFA",
-    marginBottom: 10,
-  },
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 10,
+    width: 300,
   },
   newItemButton: {
     fontSize: 30,

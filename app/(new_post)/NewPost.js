@@ -8,6 +8,8 @@ import { traverseBack } from "./Functions";
 import { FIREBASE_AUTH } from "../../firebase";
 import { router } from "expo-router";
 
+const IP = "10.204.255.142";
+
 export default function NewPost() {
   const [outlineState, setOutlineState] = useState([]);
   const [currUserID, setCurrUserID] = useState(null);
@@ -17,7 +19,7 @@ export default function NewPost() {
   };
 
   const handlePost = async () => {
-    const currentUser = await FIREBASE_AUTH.currentUser.uid;
+    const currentUser = FIREBASE_AUTH.currentUser.uid;
     setCurrUserID(currentUser);
 
     const jsonPostData = {
@@ -25,7 +27,7 @@ export default function NewPost() {
       post_tasks: outlineState,
     };
     // Do something with outlineState when Post button is pressed
-    fetch(`http://localhost:85/pushPosts`, {
+    fetch(`http://${IP}:500/pushPosts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -66,9 +68,7 @@ export default function NewPost() {
           onPress={handlePost}
         ></AppButton>
       </View>
-      <View style={styles.post}>
         <OutlineEditList onChange={handleOutlineChange} />
-      </View>
       <StatusBar style="light" />
     </View>
   );
@@ -97,7 +97,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#8DAC83",
   },
-  post: {
-    alignItems: "left",
-  },
+
 });
