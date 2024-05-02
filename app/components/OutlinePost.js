@@ -3,12 +3,8 @@ import {
   View,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   Image,
-  Button,
-  Touchable,
-  Pressable,
   Pressable,
 } from "react-native";
 import { Entypo } from "@expo/vector-icons";
@@ -41,7 +37,7 @@ const OutlinePost = ({ post, expanded = false }) => {
   // Store the database items and determine if the page is expanded page or not.
   const [items, setItems] = useState(post.post_tasks_bodies);
   const [userData, setUserData] = useState([]);
-  const [likeStatus, setLikeStatus] = useState(isLiked); // For like button state
+  const [likeStatus, setLikeStatus] = useState(post.is_liked); // For like button state
   let renderedItems, date;
 
   // If expanded, don't slice and format the date.
@@ -51,7 +47,6 @@ const OutlinePost = ({ post, expanded = false }) => {
     renderedItems = items;
     date = formatDate(post.created_at);
   }
-
   // Database data, pull the specific user.  const [likeStatus, setLikeStatus] = useState(isLiked); // For like button state
 
   useEffect(() => {
@@ -61,20 +56,20 @@ const OutlinePost = ({ post, expanded = false }) => {
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
-  // More fake data.
-  const jsonData = {
-    bio: null,
-    follower_count: 0,
-    following_count: 1,
-    full_name: "Nirwaan Azhar",
-    id: "TY9wzrcYJFTwJutARS7RXg1AeLB3",
-    outline_count: 3,
-    picture: null,
-    username: "@dddd",
-  };
+  // // More fake data.
+  // const jsonData = {
+  //   bio: null,
+  //   follower_count: 0,
+  //   following_count: 1,
+  //   full_name: "Nirwaan Azhar",
+  //   id: "TY9wzrcYJFTwJutARS7RXg1AeLB3",
+  //   outline_count: 3,
+  //   picture: null,
+  //   username: "@dddd",
+  // };
 
-  // Check if we use the fixed data or the database data.
-  if (userData.length === 0) setUserData(() => jsonData);
+  // // Check if we use the fixed data or the database data.
+  // if (userData.length === 0) setUserData(() => jsonData);
 
   // Function to toggle like button state
   const toggleLike = () => {
@@ -108,9 +103,8 @@ const OutlinePost = ({ post, expanded = false }) => {
         <Pressable
           onPress={() =>
             router.navigate({
-              pathname: `${post.id}`,
+              pathname: "Profile",
               params: {
-                type: "profile",
                 user_id: userData.id,
               },
             })

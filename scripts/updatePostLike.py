@@ -25,7 +25,7 @@ def update_post_like():
                                 port="5432")
         # Create a cursor
         cursor = conn.cursor()
-
+        
         # Check if the user has already liked the post
         cursor.execute("""
             SELECT EXISTS (

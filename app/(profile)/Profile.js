@@ -6,6 +6,7 @@ import { ProfileContents } from "./Components/ProfileContents";
 import { BackBar } from "../(user_auth)/Components";
 import BottomNav from "../components/BottomNav";
 import images from "../../assets/images";
+import { useGlobalSearchParams } from "expo-router";
 
 // const mockUserData = [
 //   {
@@ -84,10 +85,12 @@ import images from "../../assets/images";
  * @author: Ibrahim Mohammad
  * @returns Default Page to be displayed
  */
-const ProfileScreen = ({ user_id }) => {
+const ProfileScreen = () => {
+  // Grab the parameters.
+  const { user_id } = useGlobalSearchParams();
   const [userData, setUserData] = useState([]); // Initialize with the first user
   const [postsData, setPostsData] = useState([]);
-
+  console.log("USER ID" + user_id);
   // Random Number for the page swap
   const handleUserChange = (index) => {
     setUserData(mockUserData[index].userInfo);
