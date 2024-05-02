@@ -17,7 +17,7 @@ const Profile = () => {
 
 // CSS FOR HEADER
 const header = {
-  headerShown: true,
+  headerShown: false,
   headerTitleAlign: "center", // Centers the header title
   headerStyle: {
     backgroundColor: "#1B1B1B", // Sets the background color of the header

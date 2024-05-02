@@ -9,6 +9,7 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context";
 import { FIREBASE_AUTH } from "../../firebase.js";
+import { databaseIP } from "../global_var.js";
 
 export const outlines = {
   1: {
@@ -91,7 +92,10 @@ export const outlines = {
     user_id: 3,
   },
 };
-const IP = "10.204.255.142"
+// const IP2 = "10.204.255.142";
+// Ibrahim IP
+const IP = databaseIP;
+
 const App = () => {
   const [currUserID, setCurrUserID] = useState(null);
   const [postData, setPostData] = useState([]);

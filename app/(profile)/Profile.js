@@ -7,6 +7,7 @@ import { BackBar } from "../(user_auth)/Components";
 import BottomNav from "../components/BottomNav";
 import images from "../../assets/images";
 import { useGlobalSearchParams } from "expo-router";
+import { databaseIP } from "../global_var";
 
 // const mockUserData = [
 //   {
@@ -79,7 +80,11 @@ import { useGlobalSearchParams } from "expo-router";
 //     ],
 //   },
 // ];
-const IP = "10.204.255.142";
+
+// const IP = "10.204.255.142";
+
+const IP = databaseIP;
+
 /**
  * Highest Level of Component tree, calls backend for data and passes throughout the page
  * @author: Ibrahim Mohammad
@@ -118,11 +123,11 @@ const ProfileScreen = () => {
   return (
     <View style={frames.outerFrame}>
       <BackBar />
-      <View style={frames.buttonCase}>
+      {/* <View style={frames.buttonCase}>
         <Button title="phang" onPress={() => handleUserChange(0)} />
         <Button title="moaz" onPress={() => handleUserChange(1)} />
         <Button title="cactus" onPress={() => handleUserChange(2)} />
-      </View>
+      </View> */}
       <ScrollView style={frames.innerFrame}>
         <ProfileInfo userData={userData} />
         <ProfileContents userData={userData} postsData={postsData} />
