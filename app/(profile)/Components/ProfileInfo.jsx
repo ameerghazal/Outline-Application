@@ -105,14 +105,7 @@ const EditProfileBtn = ({ userData }) => {
 
 const FollowProfileBtn = ({userData}) => {
   const [isFollowing, setIsFollowing] = useState(false);
-  const IP = "10.204.255.142";
-   // Pull the user data based on the specific user_id passed in.
-   useEffect(() => {
-    fetch(`http://${IP}:500/pullUserData?userID=${userData.id}`)
-      .then((response) => response.json())
-      .then((data) => userData = (data))
-      .catch((error) => console.error("Error fetching data:", error));
-  }, []);
+  
 
   const handleFollow = () => {
     if (!isFollowing) {
