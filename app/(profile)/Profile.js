@@ -6,6 +6,8 @@ import { ProfileContents } from "./Components/ProfileContents";
 import { BackBar } from "../(user_auth)/Components";
 import BottomNav from "../components/BottomNav";
 import images from "../../assets/images";
+import { firebase } from "@react-native-firebase/auth";
+import { FIREBASE_AUTH } from "../../firebase";
 
 const mockUserData = [
   {
@@ -88,6 +90,9 @@ const ProfileScreen = ({ user_id }) => {
   const [userData, setUserData] = useState([]); // Initialize with the first user
   const [postsData, setPostsData] = useState([]);
 
+  // checking if current renddred user is equal to user being rendered
+  const isCurrentUser = FIREBASE_AUTH.currentUser.uid == user_id;
+
   // Random Number for the page swap
   const handleUserChange = (index) => {
     setUserData(mockUserData[index].userInfo);
@@ -121,7 +126,7 @@ const ProfileScreen = ({ user_id }) => {
         <Button title="cactus" onPress={() => handleUserChange(2)} />
       </View>
       <ScrollView style={frames.innerFrame}>
-        <ProfileInfo userData={userData} />
+        <ProfileInfo userData={userData} isCurrentUser={isCurrentUser} />
         <ProfileContents userData={userData} postsData={postsData} />
       </ScrollView>
       <BottomNav></BottomNav>
