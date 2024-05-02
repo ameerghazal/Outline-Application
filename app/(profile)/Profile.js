@@ -84,15 +84,33 @@ const mockUserData = [
  * @author: Ibrahim Mohammad
  * @returns Default Page to be displayed
  */
-const ProfileScreen = () => {
-  const [userData, setUserData] = useState(mockUserData[0].userInfo); // Initialize with the first user
-  const [postsData, setPostsData] = useState(mockUserData[0].posts);
+const ProfileScreen = ({ user_id }) => {
+  const [userData, setUserData] = useState([]); // Initialize with the first user
+  const [postsData, setPostsData] = useState([]);
 
   // Random Number for the page swap
   const handleUserChange = (index) => {
     setUserData(mockUserData[index].userInfo);
     setPostsData(mockUserData[index].posts);
   };
+
+  // Pull the user data based on the specific user_id passed in.
+  useEffect(() => {
+    fetch(`http://localhost:81/pullUserData?userID=${user_id}`)
+      .then((response) => response.json())
+      .then((data) => setUserData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+  console.log(userData);
+
+  // Pull the post data based on the specific user_id passed in.
+  useEffect(() => {
+    fetch(`http://localhost:86/pullPostsUser?userID=${user_id}`)
+      .then((response) => response.json())
+      .then((data) => setPostsData(data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+  console.log(postsData);
 
   return (
     <View style={frames.outerFrame}>

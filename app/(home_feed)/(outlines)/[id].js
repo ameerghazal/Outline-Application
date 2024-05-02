@@ -24,21 +24,35 @@ import Comment from "../../components/Comment";
 
 export const commentTester = {
   1: {
-    comment_id: 1000,
+    id: 1000,
     body: "Lorem ienfoiwenio0wedoiwemndopim iodmokqmdopiqm",
     created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
     is_liked: true,
     user_id: 2,
   },
   2: {
-    comment_id: 223,
+    id: 223,
     body: "Facts bro.",
     created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
     is_liked: true,
     user_id: 1,
   },
   3: {
-    comment_id: 233223,
+    id: 24,
+    body: "Lebron Jams, Lakers in 7!",
+    created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
+    is_liked: true,
+    user_id: 3,
+  },
+  4: {
+    id: 12,
+    body: "Lebron Jams, Lakers in 7!",
+    created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
+    is_liked: true,
+    user_id: 3,
+  },
+  5: {
+    id: 3333,
     body: "Lebron Jams, Lakers in 7!",
     created_at: "Mon, 22 Apr 2024 10:30:00 GMT",
     is_liked: true,
@@ -47,32 +61,48 @@ export const commentTester = {
 };
 
 // Find the object index, given a specific id.
-function findOutlinebyID(id) {
-  for (const key in outlines) {
-    if (outlines[key].id == id) {
-      return outlines[key];
+function findByID(id, data) {
+  for (const key in data) {
+    if (data[key].id == id) {
+      return data[key];
     }
   }
   return null;
 }
 
 /**
- * Exports the specific outline when clicked by a user. (Expanded page).
+ * Navigation function, where it navigates to the function based on the type passed in.
+ * @author Ameer Ghazal
  */
-const OutlineScreen = () => {
-  // Get the specific id.
-  const { id } = useGlobalSearchParams();
-  console.warn(id);
+export default function Screen() {
+  // Grab the parameters.
+  const { id, type, user_id } = useGlobalSearchParams();
 
-  // Get the specific outline.
-  const outline = findOutlinebyID(id);
-  console.log(outline);
+  // Render the screen based on the type.
+  if (type == "outline") {
+    return OutlineScreen(id);
+  } else if (type == "comment") {
+    return CommentScreen(id);
+  }
 
-  if (!outline) {
+  return ProfileScreen(user_id);
+}
+
+/**
+ * Exports the specific outline when clicked by a user.
+ * @author Ameer Ghazal
+ */
+const OutlineScreen = (id) => {
+  // Get the outline based on the specific id [REPLACE OUTLINES W/ DATABASE CALL FOR THE OUTLINES].
+  const data = findByID(id, outlines);
+  console.log(data);
+
+  // If undefined, render an error.
+  if (!data) {
     return <Text>An error has occured!</Text>;
   }
 
-  // Grab the comments.
+  // Grab the comments [REPLACE COMMENTTESTER W/ DATABASE CALL FOR COMMENTS].
   const [commentData, setCommentData] = useState([]);
   // useEffect(() => {
   //   fetch(`http://localhost:80/pullPostsFollowing?userID=${currUserID}`)
@@ -103,7 +133,7 @@ const OutlineScreen = () => {
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         >
-          <OutlinePost post={outline} expanded={true}></OutlinePost>
+          <OutlinePost post={data} expanded={true}></OutlinePost>
           <View style={frames.comments}>
             {Object.values(commentData).map((comment) => (
               <Comment comment={comment}></Comment>
@@ -113,6 +143,80 @@ const OutlineScreen = () => {
       </SafeAreaView>
     </View>
   );
+};
+
+/**
+ * Exports the specific comment when clicked by a user.
+ * @author Ameer Ghazal
+ */
+const CommentScreen = (id) => {
+  // Get the specific comment by id [REPLACE OUTLINES W/ DATABASE CALL FOR THE COMMENTS].
+  const data = findByID(id, commentTester);
+
+  // If undefined, render an error.
+  if (!data) {
+    return <Text>An error has occured!</Text>;
+  }
+
+  // Grab the comments [REPLACE COMMENTTESTER W/ DATABASE CALL FOR COMMENTS].
+  const [commentData, setCommentData] = useState([]);
+  // useEffect(() => {
+  //   fetch(`http://localhost:80/pullPostsFollowing?userID=${currUserID}`)
+  //     .then((response) => response.json())
+  //     .then((data) => setPostData(data))
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, []);
+  // console.log(postData);
+  if (commentData.length === 0) setCommentData(() => commentTester);
+
+  // Return the page featuring the specific comment.
+  return (
+    <View style={{ flex: 1, backgroundColor: "#1b1b1b", padding: 10 }}>
+      <SafeAreaView style={frames.outer_frame}>
+        <View style={frames.header}>
+          <Ionicons
+            name="chevron-back"
+            size={24}
+            color={"#ffffff"}
+            onPress={traverseBack}
+            style={aesthetics.icon}
+          ></Ionicons>
+          <Text style={aesthetics.middleHeader}>Comment</Text>
+          <View></View>
+        </View>
+        <ScrollView
+          style={frames.scroll_view}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
+          <Comment comment={data} expanded={true}></Comment>
+          <View style={frames.comments}>
+            {Object.values(commentData).map((comment) => (
+              <Comment comment={comment}></Comment>
+            ))}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </View>
+  );
+};
+
+/**
+ * Exports the specific profile page when clicked.
+ * @author Ameer Ghazal
+ */
+const ProfileScreen = (user_id) => {
+  // Get the profile based on the specific id [REPLACE PROFILES W/ DATABASE CALL FOR THE PROFILES].
+  // const data = findByID(id, outlines);
+  // const userObj = JSON.parse(profile);
+  // console.log(userObj);
+
+  // If undefined, render an error.
+  if (!user_id) {
+    return <Text>An error has occured!</Text>;
+  }
+
+  return <ProfileScreen user_id={user_id}></ProfileScreen>;
 };
 
 /**
@@ -179,4 +283,4 @@ const aesthetics = StyleSheet.create({
   },
 });
 
-export default OutlineScreen;
+// export default OutlineScreen;

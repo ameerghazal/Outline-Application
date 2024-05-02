@@ -50,7 +50,7 @@ const OutlinePost = ({ post, expanded = false }) => {
     date = formatDate(post.created_at);
   }
 
-  // Database data.
+  // Database data, pull the specific user.
   // useEffect(() => {
   //   fetch(`http://localhost:81/pullUserData?userID=${post.user_id}`)
   //     .then((response) => response.json())
@@ -60,21 +60,34 @@ const OutlinePost = ({ post, expanded = false }) => {
 
   // More fake data.
   const jsonData = {
-    bio: "Bio for user2",
-    picture: "user2.jpg",
-    user_handle: "@utwo",
-    username: "loop",
+    bio: null,
+    follower_count: 0,
+    following_count: 1,
+    full_name: "Nirwaan Azhar",
+    id: "TY9wzrcYJFTwJutARS7RXg1AeLB3",
+    outline_count: 3,
+    picture: null,
+    username: "@dddd",
   };
 
   // Check if we use the fixed data or the database data.
   if (userData.length === 0) setUserData(() => jsonData);
 
-  // Format the date.
-
+  // Return the view.
   return (
     <View style={styles.postContainer}>
-      <Pressable onPress={() => router.push(`${post.id}`)}>
-        <View style={styles.postHeader}>
+      <View style={styles.postHeader}>
+        <Pressable
+          onPress={() =>
+            router.navigate({
+              pathname: `${post.id}`,
+              params: {
+                type: "profile",
+                user_id: userData.id,
+              },
+            })
+          }
+        >
           <View style={styles.profileContainer}>
             <View style={styles.postPicture}>
               <Image
@@ -89,9 +102,9 @@ const OutlinePost = ({ post, expanded = false }) => {
                 marginLeft: 10,
               }}
             >
-              <Text style={{ color: "#FFFAFA" }}>{userData.username}</Text>
+              <Text style={{ color: "#FFFAFA" }}>{userData.full_name}</Text>
               <Text style={{ color: "#606060", marginLeft: 5 }}>
-                {userData.user_handle}
+                {userData.username}
               </Text>
               <Text style={{ color: "#606060", marginLeft: 5 }}>•</Text>
               <Text style={{ color: "#606060", marginLeft: 5 }}>
@@ -99,7 +112,19 @@ const OutlinePost = ({ post, expanded = false }) => {
               </Text>
             </View>
           </View>
-        </View>
+        </Pressable>
+      </View>
+      <Pressable
+        onPress={() =>
+          router.navigate({
+            pathname: `${post.id}`,
+            params: {
+              type: "outline",
+              user_id: userData.id,
+            },
+          })
+        }
+      >
         <View style={styles.listContainer}>
           {renderedItems.map((task, index) => (
             <View style={styles.itemContainer} key={index}>
