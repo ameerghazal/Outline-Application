@@ -4,7 +4,7 @@ CS 3203 Project Documentation
 Social media mobile application where friends post outlines of their days. 
 
 ## Software
-Built using React Native (v0.73), PostgreSQL (v16.2), and Firebase
+Built using React Native (v0.73), PostgreSQL (v16.2), Firabase, Expo Go, and Expo Router
 
 ## Version
 0.1 (beta)
@@ -26,5 +26,5 @@ Code reviews will be done weekly discussing the features added. Review pull requ
 - **App.js** - Main script to run the app
 
 ## Next Steps
-- Main script folder
-- Feature files
+- ~~Main script folder~~
+- ~~Feature files~~
