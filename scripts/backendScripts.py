@@ -452,15 +452,19 @@ def update_user():
 @app.route('/pullUserSearch')    
 def search_user():
     search = request.args.get('searchQuery')
-        
+
     # Establish a database connection
     conn = psycopg2.connect(database="postgres",
                             host="localhost",
                             user="postgres",
                             password="Noornoor21",
                             port="5432")
+    
     # Create a cursor
     cursor = conn.cursor()
+
+    # Create a cursor with dictionary cursor factory
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
 
     # Write the SQL query to update user data in the database
     query = """
@@ -475,7 +479,7 @@ def search_user():
     # Close cursor and connection
     cursor.close()
     conn.close()
-    print(data)
+    
     # Return the fetched data
     return jsonify(data), 200
     

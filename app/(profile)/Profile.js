@@ -10,6 +10,7 @@ import { useGlobalSearchParams } from "expo-router";
 import { traverseBack } from "../(new_post)/Functions";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { FIREBASE_AUTH } from "../../firebase";
 
 // const mockUserData = [
 //   {
@@ -93,7 +94,14 @@ const ProfileScreen = () => {
   const { user_id } = useGlobalSearchParams();
   const [userData, setUserData] = useState([]); // Initialize with the first user
   const [postsData, setPostsData] = useState([]);
-  console.log("USER ID" + user_id);
+
+  // Grab the current user.
+  const user = FIREBASE_AUTH.currentUser
+  
+  // Compare the current user with the user id.
+  const isCurrentUser = user.uid == user_id ? true : false
+  console.log("wrok" + isCurrentUser)
+
   // Random Number for the page swap
   const handleUserChange = (index) => {
     setUserData(mockUserData[index].userInfo);
@@ -132,7 +140,7 @@ const ProfileScreen = () => {
           <View></View>
       </View>      
       <ScrollView style={frames.innerFrame}>
-        <ProfileInfo userData={userData} />
+        <ProfileInfo userData={userData} isCurrentUser={isCurrentUser} />
         <ProfileContents userData={userData} postsData={postsData} />
       </ScrollView>
       <BottomNav></BottomNav>

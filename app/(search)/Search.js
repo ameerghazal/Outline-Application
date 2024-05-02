@@ -14,6 +14,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { FIREBASE_DB } from "../../firebase"; // Adjust the path
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { IP } from "../(home_feed)/HomeFeed";
+import images from "../../assets/images";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,17 +23,17 @@ const Search = () => {
   const [isFocused, setIsFocused] = useState(false); // State to track focus
   const navigation = useNavigation(); // Corrected navigation usage
 
-
+  const IP = "10.204.255.142"
 
   const handleSearch = async () => {
-    useEffect(() => {
+    setLoading()
         fetch(
           `http://${IP}:500/pullUserSearch?searchQuery=${searchTerm}`
         )
           .then((response) => response.json())
           .then((pData) => setSearchResults(pData))
           .catch((error) => console.error("Error fetching data:", error));
-      }, []);
+  
   };
 
   useEffect(() => {
@@ -43,17 +44,7 @@ const Search = () => {
     }
   }, [searchTerm]);
 
-  const handlePushToUserProfile = (userId, firstName, lastName, username) => {
-    router.push({
-      pathname: "/userProfile",
-      query: {
-        uid: userId,
-        firstName: firstName,
-        lastName: lastName,
-        username: username,
-      },
-    });
-  };
+  
 
   const handleCancel = () => {
     router.back(); // Using the corrected navigation method
@@ -83,27 +74,27 @@ const Search = () => {
       ) : (
         <FlatList
           data={searchResults}
-          keyExtractor={(item) => item.id.toString()}
+          keyExtractor={(item, index) => item.id ? item.id.toString() : index.toString()}
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.resultItem}
               onPress={() =>
-                handleStartChat(
-                  item.id,
-                  item.firstName,
-                  item.lastName,
-                  item.username
-                )
+                router.navigate({
+                  pathname: "Profile",
+                  params: {
+                    user_id: item.id,
+                  },
+                })
               }
             >
               <View style={styles.userContainer}>
                 <Image
-                  source={{ uri: item.photoUrl || "null" }} // Provide a default image URL if photoUrl is null
+                  source={images.generic} // Provide a default image URL if photoUrl is null
                   style={styles.profileImage}
                 />
                 <View style={styles.userInfo}>
                   <Text style={styles.nameText}>
-                    {item.firstName} {item.lastName}
+                    {item.first_name} {item.last_name}
                   </Text>
                   <Text style={styles.usernameText}>@{item.username}</Text>
                 </View>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, TouchableOpacity, Pressable } from "react-native";
 import { profileInfo } from "../styles";
 import { handleEditProfile } from "../Functions";
@@ -11,7 +11,7 @@ import images from "../../../assets/images";
  * @author: Ibrahim Mohammad
  * @returns Top of page containing pfp, name, stats(num posts/following), bio
  */
-export const ProfileInfo = ({ userData }) => {
+export const ProfileInfo = ({ userData, isCurrentUser }) => {
   return (
     <View style={profileInfo.profileInfo}>
       {/* Username and image */}
@@ -29,6 +29,7 @@ export const ProfileInfo = ({ userData }) => {
           outlineCt={userData.outline_count}
           followerCt={userData.follower_count}
           followingCt={userData.following_count}
+          isCurrentUser={isCurrentUser}
         ></ProfileStatsBar>
         <ProfileBio>{userData.bio}</ProfileBio>
       </View>
@@ -56,7 +57,7 @@ const ProfileName = ({ displayName, displayHandle }) => {
   );
 };
 
-const ProfileStatsBar = ({ outlineCt, followerCt, followingCt, userData }) => {
+const ProfileStatsBar = ({ outlineCt, followerCt, followingCt, userData, isCurrentUser }) => {
   return (
     <View style={profileInfo.profileStatsContainer}>
       <ProfileStat label="outlines">
@@ -68,7 +69,9 @@ const ProfileStatsBar = ({ outlineCt, followerCt, followingCt, userData }) => {
       <ProfileStat label="following">
         <Text>{followingCt}</Text>
       </ProfileStat>
-      <EditProfileBtn userData={userData}></EditProfileBtn>
+      {isCurrentUser ? (<EditProfileBtn userData={userData}/>)
+       : (<FollowProfileBtn userData={userData}/>)
+      }
     </View>
   );
 };
@@ -85,17 +88,70 @@ const EditProfileBtn = ({ userData }) => {
     <Pressable
       style={profileInfo.btnEditProfile}
       onPress={() => {
-        router.push({
+        router.navigate({
           pathname: "/EditProfile",
           params: {
-            displayName: userData.displayName,
+            displayName: userData.full_name,
             bio: userData.bio,
-            displayHandle: userData.displayHandle,
+            displayHandle: userData.username,
           },
         });
       }}
     >
       <Text style={[profileInfo.btnEditProfileText]}>Edit Profile</Text>
+    </Pressable>
+  );
+};
+
+const FollowProfileBtn = ({userData}) => {
+  const [isFollowing, setIsFollowing] = useState(false);
+  const IP = "10.204.255.142";
+   // Pull the user data based on the specific user_id passed in.
+   useEffect(() => {
+    fetch(`http://${IP}:500/pullUserData?userID=${userData.id}`)
+      .then((response) => response.json())
+      .then((data) => userData = (data))
+      .catch((error) => console.error("Error fetching data:", error));
+  }, []);
+
+  const handleFollow = () => {
+    if (!isFollowing) {
+      // Increment follower count only if not already following
+      userData.follower_count++;
+      setIsFollowing(true); // Update the following status
+      console.log("Follower count after follow:", userData.follower_count);
+    } else {
+      // Prompt the user to confirm unfollowing
+      alert(
+        "Unfollow User",
+        "Are you sure you want to unfollow this user?",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          {
+            text: "Unfollow",
+            onPress: () => {
+              userData.follower_count--; // Decrement the follower count
+              setIsFollowing(false); // Update the following status to false
+              console.log(
+                "Follower count after unfollow:",
+                userData.follower_count
+              );
+            },
+          },
+        ],
+        { cancelable: false }
+      );
+    }
+  };
+  return (
+    <Pressable onPress={handleFollow} style={profileInfo.btnEditProfile}>
+      <Text style={profileInfo.btnEditProfileText}>
+        {isFollowing ? "Following" : "Follow"}
+      </Text>
     </Pressable>
   );
 };
