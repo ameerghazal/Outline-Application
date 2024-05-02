@@ -12,6 +12,7 @@ import images from "../../../assets/images";
  * @returns Top of page containing pfp, name, stats(num posts/following), bio
  */
 export const ProfileInfo = ({ userData, isCurrentUser }) => {
+export const ProfileInfo = ({ userData, isCurrentUser }) => {
   return (
     <View style={profileInfo.profileInfo}>
       {/* Username and image */}

@@ -23,7 +23,9 @@ import {
   onAuthStateChanged,
   signOut,
 } from "@firebase/auth";
-import { FIREBASE_AUTH } from "../../firebase.js";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../firebase.js";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -64,8 +66,21 @@ const SignUpScreen = () => {
     console.log("loe");
     // If we make it here, create the account.
     try {
-      const auth = FIREBASE_AUTH;
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredentials = await createUserWithEmailAndPassword(
+        FIREBASE_AUTH,
+        email,
+        password
+      );
+      // set the current user's UID
+      const userUID = userCredentials.user.uid;
+      // reference for firestore db
+      const userDocRef = doc(FIREBASE_DB, "users", userUID);
+      await setDoc(userDocRef, {
+        email,
+        userUID,
+      });
+
+      console.log("User registered successfully");
       router.push("SignUpExt");
     } catch (error) {
       console.log("here");

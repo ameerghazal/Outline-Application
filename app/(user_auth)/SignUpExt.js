@@ -21,8 +21,10 @@ import {
   handleTerms,
   handleUserCreate,
 } from "./Functions.js";
-import { FIREBASE_AUTH } from "../../firebase.js";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../firebase.js";
+import { doc, updateDoc } from "firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
+
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -130,6 +132,21 @@ const SignUpScreenExt = () => {
     try {
       //TODO: Database call.
       const auth = FIREBASE_AUTH;
+
+      console.log("Hello");
+
+      // store in firestore (ahmed)
+      const userUID = FIREBASE_AUTH.currentUser.uid;
+      const userDocRef = doc(FIREBASE_DB, "users", userUID);
+      await updateDoc(userDocRef, {
+        firstName,
+        lastName,
+        username,
+        usernameLower: username.toLowerCase(),
+        birthdate,
+        phoneNumber,
+      });
+      
       router.push("HomeFeed");
     } catch (error) {
       console.log(error.message);

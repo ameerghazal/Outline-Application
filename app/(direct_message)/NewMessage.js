@@ -7,9 +7,12 @@ import {
   StyleSheet,
   SafeAreaView,
   FlatList,
+  Image,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native"; // Corrected import for navigation
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import { FIREBASE_DB } from "../../firebase"; // Adjust the path
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const NewMessage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -21,11 +24,18 @@ const NewMessage = () => {
   const handleSearch = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://yourapi.com/search-users?username=${searchTerm}`
+      const usersRef = collection(FIREBASE_DB, "users");
+      const q = query(
+        usersRef,
+        where("usernameLower", ">=", searchTerm.toLowerCase()),
+        where("usernameLower", "<=", searchTerm.toLowerCase() + "\uf8ff")
       );
-      const data = await response.json();
-      setSearchResults(data);
+      const querySnapshot = await getDocs(q);
+      const users = [];
+      querySnapshot.forEach((doc) => {
+        users.push({ id: doc.id, ...doc.data() });
+      });
+      setSearchResults(users);
     } catch (error) {
       console.error("Failed to fetch users:", error);
     } finally {
@@ -36,12 +46,21 @@ const NewMessage = () => {
   useEffect(() => {
     if (searchTerm) {
       handleSearch();
+    } else {
+      setSearchResults([]); // Clear search results when search term is empty
     }
   }, [searchTerm]);
 
-  const handleStartChat = (userId) => {
-    console.log("Start chat with user:", userId);
-    // Add logic to initiate chat here
+  const handleStartChat = (userId, firstName, lastName, username) => {
+    router.push({
+      pathname: "/DMChat",
+      params: {
+        uid: userId,
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+      },
+    });
   };
 
   const handleCancel = () => {
@@ -76,9 +95,27 @@ const NewMessage = () => {
           renderItem={({ item }) => (
             <TouchableOpacity
               style={styles.resultItem}
-              onPress={() => handleStartChat(item.id)}
+              onPress={() =>
+                handleStartChat(
+                  item.id,
+                  item.firstName,
+                  item.lastName,
+                  item.username
+                )
+              }
             >
-              <Text style={styles.itemText}>{item.username}</Text>
+              <View style={styles.userContainer}>
+                <Image
+                  source={{ uri: item.photoUrl || "null" }} // Provide a default image URL if photoUrl is null
+                  style={styles.profileImage}
+                />
+                <View style={styles.userInfo}>
+                  <Text style={styles.nameText}>
+                    {item.firstName} {item.lastName}
+                  </Text>
+                  <Text style={styles.usernameText}>@{item.username}</Text>
+                </View>
+              </View>
             </TouchableOpacity>
           )}
         />
@@ -128,7 +165,9 @@ const styles = StyleSheet.create({
   },
   loading: {
     color: "#fff",
-    marginLeft: 10,
+    textAlign: "center",
+    marginTop: 20,
+    fontSize: 16,
   },
   noResults: {
     color: "#fff",
@@ -137,12 +176,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   resultItem: {
+    flexDirection: "row",
     padding: 10,
     borderBottomWidth: 1,
     borderBottomColor: "#ccc",
+    alignItems: "center",
   },
-  itemText: {
-    fontSize: 18,
+  userContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25, // Make the image round
+    marginRight: 10,
+  },
+  userInfo: {
+    flexDirection: "column",
+  },
+  nameText: {
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  usernameText: {
+    fontSize: 14,
+    color: "#aaa",
   },
 });
 

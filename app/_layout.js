@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import DMChat from "./(direct_message)/DMChat";
 import React from "react";
 
 const RootLayout = () => {
@@ -40,6 +39,12 @@ const RootLayout = () => {
         }}
       />
       {/* Ahmed DMs page */}
+      <Stack.Screen
+        name="(direct_message)"
+        options={{
+          headerShown: false,
+        }}
+      />
       <Stack.Screen
         name="(home_feed)"
         options={{

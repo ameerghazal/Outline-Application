@@ -141,6 +141,7 @@ const ProfileScreen = () => {
       </View>      
       <ScrollView style={frames.innerFrame}>
         <ProfileInfo userData={userData} isCurrentUser={isCurrentUser} />
+        <ProfileInfo userData={userData} isCurrentUser={isCurrentUser} />
         <ProfileContents userData={userData} postsData={postsData} />
       </ScrollView>
       <BottomNav></BottomNav>
