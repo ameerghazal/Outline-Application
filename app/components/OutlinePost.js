@@ -41,6 +41,7 @@ const OutlinePost = ({ post, expanded = false }) => {
   // Store the database items and determine if the page is expanded page or not.
   const [items, setItems] = useState(post.post_tasks_bodies);
   const [userData, setUserData] = useState([]);
+  const [likeStatus, setLikeStatus] = useState(isLiked); // For like button state
   let renderedItems, date;
 
   // If expanded, don't slice and format the date.
@@ -74,31 +75,6 @@ const OutlinePost = ({ post, expanded = false }) => {
 
   // Check if we use the fixed data or the database data.
   if (userData.length === 0) setUserData(() => jsonData);
-
-  // Function to toggle like button state
-  const toggleLike = () => {
-    setLikeStatus(!likeStatus);
-    // Send a POST request to update the like status in the database
-    fetch("http://localhost:90/updatePostLike", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(post),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Post like updated successfully:", data);
-      })
-      .catch((error) => {
-        console.error("Error updating post like:", error);
-      });
-  };
 
   // Function to toggle like button state
   const toggleLike = () => {
