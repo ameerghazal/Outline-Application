@@ -9,7 +9,7 @@ import {
 import { traverseBack } from "../(home_feed)/Functions";
 import { router } from "expo-router";
 
-const GeneralHeader = (is) => {
+const GeneralHeader = () => {
   return (
     <View style={styles.header_container}>
       <TouchableOpacity

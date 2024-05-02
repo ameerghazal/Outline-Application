@@ -1,16 +1,10 @@
 import React from "react";
-import { Stack, router } from "expo-router";
-import { Button } from "react-native-web";
-import { Feather } from "@expo/vector-icons";
+import { Stack } from "expo-router";
 
-const Profile = () => {
+const Notifications = () => {
   return (
     <Stack>
-      <Stack.Screen name="Profile" options={header} />
-      <Stack.Screen
-        name="EditProfile"
-        options={{ ...header, title: "Edit Profile" }}
-      />
+      <Stack.Screen name="Notifications" options={{ headerShown: false }} />
     </Stack>
   );
 };
@@ -28,4 +22,4 @@ const header = {
   headerTintColor: "#fff", // Sets the color of the back button and title
 };
 
-export default Profile;
+export default Notifications;

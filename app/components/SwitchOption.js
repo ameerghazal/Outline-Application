@@ -3,7 +3,14 @@ import globalStyles from "../(settings)/globalStyles";
 
 import { View, StyleSheet, Text, Switch } from "react-native";
 
-function SwitchOption({ label, value, onValueChange, isBottomMargin, style }) {
+function SwitchOption({
+  label,
+  value,
+  onValueChange,
+  isBottomMargin,
+  style,
+  disabled = false,
+}) {
   return (
     <View
       style={[
@@ -16,7 +23,8 @@ function SwitchOption({ label, value, onValueChange, isBottomMargin, style }) {
       <Switch
         trackColor={{ true: "#8dac83" }}
         value={value}
-        onValueChange={onValueChange}
+        onValueChange={disabled ? () => {} : onValueChange}
+        disabled={disabled}
       />
     </View>
   );
