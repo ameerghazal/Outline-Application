@@ -115,7 +115,7 @@ const App = () => {
         showsVerticalScrollIndicator={false}
       >
         {Object.values(postData).map((post) => (
-          <OutlinePost post={post}></OutlinePost>
+          <OutlinePost post={post} key={post.id}></OutlinePost>
         ))}
       </ScrollView>
       <BottomNav></BottomNav>

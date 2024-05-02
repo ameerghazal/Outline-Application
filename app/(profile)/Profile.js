@@ -90,7 +90,7 @@ const ProfileScreen = ({ user_id }) => {
   const [userData, setUserData] = useState([]); // Initialize with the first user
   const [postsData, setPostsData] = useState([]);
 
-  // checking if current renddred user is equal to user being rendered
+  // checking if current rendered user is equal to user being rendered
   const isCurrentUser = FIREBASE_AUTH.currentUser.uid == user_id;
 
   // Random Number for the page swap
