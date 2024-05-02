@@ -8,137 +8,168 @@ import {
   StyleSheet,
   SafeAreaView,
 } from "react-native";
-import { useRoute } from "expo-router";
-
 import { useState, useCallback, useEffect } from "react";
-import { GiftedChat } from "react-native-gifted-chat";
-import { FIREBASE_AUTH } from "../../firebase";
+import {
+  GiftedChat,
+  Bubble,
+  InputToolbar,
+  Composer,
+} from "react-native-gifted-chat";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../firebase";
+import { useGlobalSearchParams, useLocalSearchParams } from "expo-router";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  serverTimestamp,
+  orderBy,
+} from "firebase/firestore";
 
 const DMChat = () => {
+  const params = useLocalSearchParams();
+  const { uid } = params;
+  console.log(uid);
   const [messages, setMessages] = useState([]);
-  const currentUser = FIREBASE_AUTH.currentUser;
-  console.log(currentUser);
+  const currentUser = FIREBASE_AUTH?.currentUser?.uid;
+
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: 1,
+  //       text: "Hello developer",
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 2,
+  //         name: "React Native",
+  //         avatar: "https://placeimg.com/140/140/any",
+  //       },
+  //     },
+  //   ]);
+  // }, []);
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: "Hello developer",
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: "React Native",
-          avatar: "../../assets/rintwt.jpg",
-        },
-      },
-    ]);
+    const chatId =
+      uid > currentUser
+        ? `${uid + "-" + currentUser}`
+        : `${currentUser + "-" + uid}`;
+    const docRef = doc(FIREBASE_DB, "chatrooms", chatId);
+    const colRef = collection(docRef, "messages");
+    const q = query(colRef, orderBy("createdAt", "desc"));
+    const docSnap = onSnapshot(q, (onSnap) => {
+      const allMsg = onSnap.docs.map((mes) => {
+        if (mes.data().createdAt) {
+          return {
+            ...mes.data(),
+            createdAt: mes.data().createdAt.toDate(),
+          };
+        } else {
+          return {
+            ...mes.data(),
+            createdAt: new Date(),
+          };
+        }
+      });
+      setMessages(allMsg);
+    });
   }, []);
 
   const onSend = useCallback((messagesArray) => {
     const msg = messagesArray[0];
-    // console.log(myMsg);
     const myMsg = {
-      msg,
+      ...msg,
       sentBy: currentUser,
+      sentTo: uid,
     };
-    // setMessages((previousMessages) =>
-    //   GiftedChat.append(previousMessages, messages)
-    // );
+    console.log(myMsg);
+
+    setMessages((previousMessages) =>
+      GiftedChat.append(previousMessages, myMsg)
+    );
+    const chatId =
+      uid > currentUser
+        ? `${uid + "-" + currentUser}`
+        : `${currentUser + "-" + uid}`;
+    const docRef = doc(FIREBASE_DB, "chatrooms", chatId);
+    const colRef = collection(docRef, "messages");
+    const chatSnap = addDoc(colRef, {
+      ...myMsg,
+      createdAt: serverTimestamp(),
+    });
   }, []);
 
+  const renderBubble = (props) => {
+    return (
+      <Bubble
+        {...props}
+        wrapperStyle={{
+          left: {
+            backgroundColor: "#4b4b4b", // Style for incoming text bubble
+          },
+          right: {
+            backgroundColor: "#8dac83", // Style for outgoing text bubble
+          },
+        }}
+        textStyle={{
+          left: {
+            color: "#fffafa", // Text color for incoming messages
+          },
+          right: {
+            color: "#fffafa", // Text color for outgoing messages
+          },
+        }}
+      />
+    );
+  };
+
+  const renderInputToolbar = (props) => {
+    // Apply additional styles to InputToolbar if needed
+    return (
+      <InputToolbar
+        {...props}
+        containerStyle={{
+          borderTopWidth: 0, // Removes the border at the top
+          borderRadius: 25,
+          // paddingVertical: 5, // Adjust vertical padding if needed
+          paddingHorizontal: 10, // Adjust horizontal padding if needed
+          backgroundColor: "#1b1b1b", // Adjust background color
+        }}
+      />
+    );
+  };
+
+  const renderComposer = (props) => {
+    return (
+      <Composer
+        {...props}
+        textInputStyle={{
+          color: "#fff", // Text color
+          backgroundColor: "#1b1b1b", // Background color of the text input
+          borderRadius: 20, // Rounded corners
+          borderColor: "rgba(255, 255, 255, 0.5)",
+          borderWidth: 1, // Set the thickness of the border
+          paddingTop: 8.5, // Adjust the top padding
+          paddingHorizontal: 12, // Padding on sides
+        }}
+      />
+    );
+  };
+
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={(text) => onSend(text)}
-      user={{
-        _id: 1,
-      }}
-    />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#1b1b1b" }}>
+      <GiftedChat
+        messages={messages}
+        onSend={(text) => onSend(text)}
+        user={{
+          _id: currentUser,
+        }}
+        renderBubble={renderBubble}
+        renderInputToolbar={renderInputToolbar}
+        renderComposer={renderComposer}
+      />
+    </SafeAreaView>
   );
 };
 
 export default DMChat;
-
-// // dummy data
-// const messages = [
-//   {
-//     name: "Nerdwaan",
-//     id: 1,
-//     text: "Hello there!",
-//     senderId: 5,
-//     receiverId: "currentUser",
-//     timestamp: "10:00 AM",
-//   },
-//   {
-//     name: "AG",
-//     id: 2,
-//     text: "Hey! How are you?",
-//     senderId: "currentUser",
-//     receiverId: 4,
-//     timestamp: "10:02 AM",
-//   },
-// ];
-
-// const DMChat = (msg) => {
-//   return (
-//     <SafeAreaView style={styles.container}>
-//       <Text style={styles.header}>Chat with {}</Text>
-//       <ScrollView style={styles.messagesContainer}>
-//         {messages.map((message) => (
-//           <Text key={message.id} style={styles.message}>
-//             {message.text}
-//           </Text>
-//         ))}
-//       </ScrollView>
-//       <View style={styles.inputContainer}>
-//         <TextInput style={styles.input} placeholder="Type a message..." />
-//         <TouchableOpacity style={styles.sendButton}>
-//           <Text style={styles.sendButtonText}>Send</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </SafeAreaView>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 10,
-//     backgroundColor: "white",
-//   },
-//   header: {
-//     fontSize: 18,
-//     fontWeight: "bold",
-//     padding: 10,
-//   },
-//   messagesContainer: {
-//     flex: 1,
-//     padding: 10,
-//   },
-//   message: {
-//     fontSize: 16,
-//     marginVertical: 5,
-//   },
-//   inputContainer: {
-//     flexDirection: "row",
-//     padding: 10,
-//   },
-//   input: {
-//     flex: 1,
-//     borderWidth: 1,
-//     borderColor: "gray",
-//     marginRight: 10,
-//     borderRadius: 5,
-//     padding: 10,
-//   },
-//   sendButton: {
-//     padding: 10,
-//     backgroundColor: "#007BFF",
-//     borderRadius: 5,
-//   },
-//   sendButtonText: {
-//     color: "white",
-//   },
-// });
-
-// export default DMChat;

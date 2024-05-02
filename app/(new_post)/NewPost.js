@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { View, StyleSheet, Text, KeyboardAvoidingView } from "react-native";
 import Constants from "expo-constants";
@@ -6,8 +7,18 @@ import OutlineEditList from "../components/OutlineEditList";
 import { traverseBack } from "./Functions";
 
 export default function NewPost() {
+  const [outlineState, setOutlineState] = useState([]);
+
+  const handleOutlineChange = (newOutlineState) => {
+    setOutlineState(newOutlineState);
+  };
+
+  const handlePost = () => {
+    // Do something with outlineState when Post button is pressed
+  };
+
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <AppButton
           title="Cancel"
@@ -22,13 +33,14 @@ export default function NewPost() {
           size="sm"
           backgroundColor="#8DAC83"
           color="FFFAFA"
+          onPress={handlePost}
         ></AppButton>
       </View>
-      <KeyboardAvoidingView style={styles.post}>
-        <OutlineEditList />
-      </KeyboardAvoidingView>
+      <View style={styles.post}>
+        <OutlineEditList onChange={handleOutlineChange} />
+      </View>
       <StatusBar style="light" />
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
@@ -36,15 +48,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#1B1B1B",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
   header: {
     width: "100%",
     backgroundColor: "#1B1B1B",
     alignItems: "center",
     flexDirection: "row",
-    marginLeft: -10,
     marginTop: Constants.statusBarHeight,
     justifyContent: "space-between",
     padding: 15,

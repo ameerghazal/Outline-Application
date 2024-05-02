@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -21,7 +21,10 @@ import {
   handleTerms,
   handleUserCreate,
 } from "./Functions.js";
-import { FIREBASE_AUTH } from "../../firebase.js";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../firebase.js";
+import { doc, updateDoc } from "firebase/firestore";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 /**
  * Puts together the sign-up-screen based on the components we created below.
@@ -92,11 +95,58 @@ const SignUpScreenExt = () => {
     setPhoneNumber(phoneNumber);
     setIncorrectForm(false);
 
-    // Store the data in the database.
+    // Grab current user.
+    const user = FIREBASE_AUTH.currentUser;
+
+    // Create the JSON object of the user data and push it to the database.
+    const jsonUser = {
+      first_name: firstName,
+      last_name: lastName,
+      username: username,
+      birthdate: birthdate,
+      phoneNumber: phoneNumber,
+      id: user.uid,
+      email: user.email,
+    };
+
+    // Post the data.
+    useEffect(() => {
+      fetch(`http://localhost:80/pushUser?userID=${currUserID}`, {
+        method: "POST",
+        body: JSON.stringify(jsonUser),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Data pushed successfully:", data);
+        })
+        .catch((error) => {
+          console.error("Error pushing data:", error);
+        });
+    }, []);
+
     try {
       //TODO: Database call.
       const auth = FIREBASE_AUTH;
+
       console.log("Hello");
+
+      // store in firestore (ahmed)
+      const userUID = FIREBASE_AUTH.currentUser.uid;
+      const userDocRef = doc(FIREBASE_DB, "users", userUID);
+      await updateDoc(userDocRef, {
+        firstName,
+        lastName,
+        username,
+        usernameLower: username.toLowerCase(),
+        birthdate,
+        phoneNumber,
+      });
+      
       router.push("HomeFeed");
     } catch (error) {
       console.log(error.message);
@@ -104,7 +154,7 @@ const SignUpScreenExt = () => {
   }
 
   return (
-    <View style={frames.outer_frame}>
+    <SafeAreaView style={frames.outer_frame}>
       <BackBar></BackBar>
       <View style={frames.outer_frame_login}>
         <View style={frames.logo_sign_in}>
@@ -168,7 +218,7 @@ const SignUpScreenExt = () => {
         buttonText={"Login."}
         onPress={handleLoginSmall}
       ></Redirection>
-    </View>
+    </SafeAreaView>
   );
 };
 

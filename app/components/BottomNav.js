@@ -49,12 +49,11 @@ function BottomNav() {
           color={currentPage === "/SignUp" ? "#8dac83" : "#FFFAFA"}
         />
       </Pressable>
-
       <Pressable onPress={() => router.navigate("NewPost")}>
         <Feather
           name="plus-square"
           size={24}
-          color={currentPage === "/Create" ? "#8dac83" : "#FFFAFA"}
+          color={currentPage === "/NewPosts" ? "#8dac83" : "#FFFAFA"}
         />
       </Pressable>
 
@@ -62,15 +61,15 @@ function BottomNav() {
         <Feather
           name="message-square"
           size={24}
-          color={currentPage === "/Messages" ? "#8dac83" : "#FFFAFA"}
+          color={currentPage === "/DMList" ? "#8dac83" : "#FFFAFA"}
         />
       </Pressable>
 
-      <Pressable onPress={() => router.navigate("Settings")}>
+      <Pressable onPress={() => router.navigate("Notifications")}>
         <Feather
           name="bell"
           size={24}
-          color={currentPage === "/Settings" ? "#8dac83" : "#FFFAFA"}
+          color={currentPage === "/Notifications" ? "#8dac83" : "#FFFAFA"}
         />
       </Pressable>
     </View>
