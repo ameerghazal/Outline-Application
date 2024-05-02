@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet } from "react-native-web";
-import { ProfileTabContents } from "./Components/ProfileTabContents";
 
 export const profileInfo = StyleSheet.create({
   profileInfo: {
