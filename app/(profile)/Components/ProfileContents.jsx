@@ -109,13 +109,16 @@ export const ProfileTabContents = ({
 
   return (
     <View style={profileTabContents.container}>
-      {filteredPosts.map((post) => (
-        <OutlinePostEditable
-          key={post.id}
-          userData={userData}
-          postData={post}
-        ></OutlinePostEditable>
+      {Object.values(filteredPosts).map((post) => (
+        <OutlinePost key={post.id} post={post}></OutlinePost>
       ))}
     </View>
+
+    // {filteredPosts.map((post) => (
+    //   <OutlinePostEditable
+    //     key={post.id}
+    //     userData={userData}
+    //     postData={post}
+    //   ></OutlinePostEditable>
   );
 };
