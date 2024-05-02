@@ -5,7 +5,7 @@ import { BackBar } from "../(user_auth)/Components";
 import BottomNav from "../components/BottomNav";
 import images from "../../assets/images";
 import SettingsInputBox from "../components/SettingsInputBox";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useGlobalSearchParams } from "expo-router";
 
 const userInfo = {
   displayName: "phang (7.0 gpa)",

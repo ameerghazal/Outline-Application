@@ -10,7 +10,7 @@ import images from "../../assets/images";
 const mockUserData = [
   {
     userInfo: {
-      displayName: "phang (7.0 gpa)",
+      displayName: "phang 7.0 gpa",
       displayHandle: "mollywhoppa",
       outlineCt: 42,
       followerCt: 987,
