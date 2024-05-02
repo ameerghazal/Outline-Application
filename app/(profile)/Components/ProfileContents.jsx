@@ -2,95 +2,114 @@ import React, { useState } from "react";
 import { View, Text, Pressable } from "react-native";
 import { profileTabNavs } from "../styles";
 import { profileTabContents } from "../styles";
-import IbrahimOutlinePost from "./IbrahimOutlinePost";
-import { StyleSheet } from "react-native";
 import OutlinePostEditable from "../../components/OutlinePostEditable";
-
-const list = [
-  ["Item 1", "poop", "pOOP"],
-  ["wake up", "create post time", "delete android folder"],
-  [
-    "delete ios folder",
-    "create a better method for getting outline content",
-    "too much text",
-  ],
-];
 
 /**
  * just a combined version of the 2 functions below. Previously was in 2 separate files, is now together so the tabbed functionality actually works.
  * @param {userData} param0, userData is passed in and accepted by ProfileTabContents, which uses the data to display the account name and information.
  * @returns Navigation Bar and Tabbed Component under it
  */
-export const ProfileContents = ({ userData, postsData }) => {
+export const ProfileContents = ({
+  userData,
+  outlinePostsData,
+  likedPostsData,
+}) => {
+  const [activeTab, setActiveTab] = useState("Outlines"); // Default active tab
+
+  const handleSetActive = (tab) => {
+    setActiveTab(tab);
+  };
+
   return (
     <View>
-      <ProfileTabNavs />
-      <ProfileTabContents userData={userData} postsData={postsData} />
+      <ProfileTabNavs activeTab={activeTab} handleSetActive={handleSetActive} />
+      <ProfileTabContents
+        activeTab={activeTab}
+        userData={userData}
+        outlinePostsData={outlinePostsData}
+        likedPostsData={likedPostsData}
+      />
     </View>
   );
 };
 
 /**
- * This is the middle part of the page, containing the navigation between content.
- * Functionality: Clicking between the tabs will change what content is displayed.
+ * Navigation bar that moves between contents of the profile page.
+ * Clicking between the tabs will change what content is displayed.
  * @author: Ibrahim Mohammad
- * @returns Navigation bar that moves between contents of the profile page
+ * @param {string} activeTab - The currently active tab.
+ * @param {function} handleSetActive - Function to set the active tab.
+ * @returns Navigation bar component for profile page tabs.
  */
-export const ProfileTabNavs = () => {
-  const [activeTab, setActiveTab] = useState("Outlines"); // Default active tab
-
+export const ProfileTabNavs = ({ activeTab, handleSetActive }) => {
   return (
     <View style={profileTabNavs.profileTabNavs}>
       <ProfileTab
-        tab={"Outlines"}
+        tab="Outlines"
         isActive={activeTab === "Outlines"}
-        handleSetActive={() => setActiveTab("Outlines")}
+        onSetActive={() => handleSetActive("Outlines")}
       />
       <ProfileTab
-        tab={"Replies"}
+        tab="Replies"
         isActive={activeTab === "Replies"}
-        handleSetActive={() => setActiveTab("Replies")}
+        onSetActive={() => handleSetActive("Replies")}
       />
       <ProfileTab
-        tab={"Tagged"}
+        tab="Tagged"
         isActive={activeTab === "Tagged"}
-        handleSetActive={() => setActiveTab("Tagged")}
+        onSetActive={() => handleSetActive("Tagged")}
       />
       <ProfileTab
-        tab={"Likes"}
+        tab="Likes"
         isActive={activeTab === "Likes"}
-        handleSetActive={() => setActiveTab("Likes")}
+        onSetActive={() => handleSetActive("Likes")}
       />
     </View>
   );
 };
 
-const ProfileTab = ({ tab, isActive, handleSetActive }) => {
+const ProfileTab = ({ tab, isActive, onSetActive }) => {
   const tabStyle = isActive
     ? [profileTabNavs.TabTextContainer, profileTabNavs.active]
     : profileTabNavs.TabTextContainer;
 
   return (
-    <Pressable onPress={handleSetActive} style={tabStyle}>
+    <Pressable onPress={onSetActive} style={tabStyle}>
       <Text style={profileTabNavs.TabText}>{tab}</Text>
     </Pressable>
   );
 };
 
 /**
- * MockData needs:
- * Current Time + Time of Post
- * list containing outline bullets
- */
-
-/**
  * //TODO: fix nirwaan's fraudlent component.
  * @returns Content displayed (ie. user outlines, replies, tagged, likes)
  */
-export const ProfileTabContents = ({ userData, postsData }) => {
+
+/// THIS SHOULD WORK. ONLY ISSUE IS THAT FILTEREDPOSTS NEEDS TO HAVE SOME OBJECT.VALUES or BE CHANGED TO AN ARRAY OR SOMETHING LIKE THAT/
+// ASK BROTHER GPT
+
+export const ProfileTabContents = ({
+  userData,
+  activeTab,
+  outlinePostsData,
+  likedPostsData,
+}) => {
+  // Filter posts based on the active tab
+  let filteredPosts = outlinePostsData;
+  console.log("HERE IS FILTERED POSTS");
+  console.log(filteredPosts);
+  if (activeTab === "Outlines") {
+    filteredPosts = outlinePostsData;
+    console.log("HERE IS FILTERED POSTS");
+    console.log(filteredPosts);
+  }
+  if (activeTab === "Likes") {
+    filteredPosts = likedPostsData;
+  }
+
   return (
     <View style={profileTabContents.container}>
-      {Object.values(postsData).map((post) => (
+      {filteredPosts.map((post) => (
         <OutlinePostEditable
           key={post.id}
           userData={userData}

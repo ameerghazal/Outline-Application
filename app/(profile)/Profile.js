@@ -94,13 +94,9 @@ const ProfileScreen = () => {
   // Grab the parameters.
   const { user_id } = useGlobalSearchParams();
   const [userData, setUserData] = useState([]); // Initialize with the first user
-  const [postsData, setPostsData] = useState([]);
+  const [outlinePostsData, setOutlinePostsData] = useState([]);
+  const [likedPostsData, setLikedPostsData] = useState([]);
   console.log("USER ID" + user_id);
-  // Random Number for the page swap
-  const handleUserChange = (index) => {
-    setUserData(mockUserData[index].userInfo);
-    setPostsData(mockUserData[index].posts);
-  };
 
   // Pull the user data based on the specific user_id passed in.
   useEffect(() => {
@@ -115,22 +111,30 @@ const ProfileScreen = () => {
   useEffect(() => {
     fetch(`http://${IP}:500/pullPostsUser?userID=${user_id}`)
       .then((response) => response.json())
-      .then((data) => setPostsData(data))
+      .then((data) => setOutlinePostsData(data))
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
-  console.log(postsData);
+  console.log(outlinePostsData);
+
+  // // Pull the post data based on the specific user_id passed in.
+  // useEffect(() => {
+  //   fetch(`http://${IP}:500/pullPostsUser?userID=${user_id}`)
+  //     .then((response) => response.json())
+  //     .then((data) => setLikedPostsData(data))
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, []);
+  // console.log(likedPostsData);
 
   return (
     <View style={frames.outerFrame}>
       <BackBar />
-      {/* <View style={frames.buttonCase}>
-        <Button title="phang" onPress={() => handleUserChange(0)} />
-        <Button title="moaz" onPress={() => handleUserChange(1)} />
-        <Button title="cactus" onPress={() => handleUserChange(2)} />
-      </View> */}
       <ScrollView style={frames.innerFrame}>
         <ProfileInfo userData={userData} />
-        <ProfileContents userData={userData} postsData={postsData} />
+        <ProfileContents
+          userData={userData}
+          outlinePostsData={outlinePostsData}
+          likedPostsData={likedPostsData}
+        />
       </ScrollView>
       <BottomNav></BottomNav>
     </View>
@@ -141,10 +145,6 @@ const frames = StyleSheet.create({
   outerFrame: {
     backgroundColor: "#1B1B1B",
     flex: 1,
-  },
-  buttonCase: {
-    flexDirection: "row",
-    justifyContent: "space-around",
   },
   innerFrame: {
     flex: 1,
